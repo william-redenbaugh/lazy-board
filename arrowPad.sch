@@ -20,7 +20,7 @@ U 1 1 5C46CD90
 P 7800 3100
 F 0 "U1" H 7800 4137 60  0000 C CNN
 F 1 "ProMicro" H 7800 4031 60  0000 C CNN
-F 2 "promicro:promicroreversetest2" H 7900 2050 60  0001 C CNN
+F 2 "promicro:proMicrov3" H 7900 2050 60  0001 C CNN
 F 3 "" H 7900 2050 60  0000 C CNN
 	1    7800 3100
 	1    0    0    -1  
