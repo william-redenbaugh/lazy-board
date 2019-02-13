@@ -394,7 +394,7 @@ U 1 1 5C628C44
 P 7550 1450
 F 0 "D10" V 7495 1529 50  0000 L CNN
 F 1 "LED" V 7586 1529 50  0000 L CNN
-F 2 "Connector_PinHeader_1.00mm:PinHeader_1x02_P1.00mm_Vertical" H 7550 1450 50  0001 C CNN
+F 2 "Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical" H 7550 1450 50  0001 C CNN
 F 3 "~" H 7550 1450 50  0001 C CNN
 	1    7550 1450
 	0    1    1    0   
