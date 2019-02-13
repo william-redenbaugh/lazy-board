@@ -1,34 +1,11 @@
 EESchema-LIBRARY Version 2.4
 #encoding utf-8
 #
-# Connector_AudioJack3_Ground
+# Battery_Cell-Device
 #
-DEF Connector_AudioJack3_Ground J 0 20 Y Y 1 F N
-F0 "J" 0 350 50 H V C CNN
-F1 "Connector_AudioJack3_Ground" 0 250 50 H V C CNN
-F2 "" 0 0 50 H I C CNN
-F3 "" 0 0 50 H I C CNN
-$FPLIST
- Jack*
-$ENDFPLIST
-DRAW
-S -200 -100 -250 -200 0 1 10 F
-S 100 150 -200 -200 0 1 10 f
-P 4 0 1 10 0 -100 25 -125 50 -100 100 -100 N
-P 5 0 1 10 -75 -100 -50 -125 -25 -100 -25 0 100 0 N
-P 5 0 1 10 100 100 -100 100 -100 -100 -125 -125 -150 -100 N
-X ~ G 0 -300 100 U 50 50 1 1 P
-X ~ R 200 0 100 L 50 50 1 1 P
-X ~ S 200 100 100 L 50 50 1 1 P
-X ~ T 200 -100 100 L 50 50 1 1 P
-ENDDRAW
-ENDDEF
-#
-# arrowPad-rescue_Battery_Cell-Device
-#
-DEF arrowPad-rescue_Battery_Cell-Device BT 0 0 N N 1 F N
+DEF Battery_Cell-Device BT 0 0 N N 1 F N
 F0 "BT" 100 100 50 H V L CNN
-F1 "arrowPad-rescue_Battery_Cell-Device" 100 0 50 H V L CNN
+F1 "Battery_Cell-Device" 100 0 50 H V L CNN
 F2 "" 0 60 50 V I C CNN
 F3 "" 0 60 50 V I C CNN
 DRAW
@@ -43,11 +20,11 @@ X - 2 0 -100 100 U 50 50 1 1 P
 ENDDRAW
 ENDDEF
 #
-# arrowPad-rescue_D-Device
+# D-Device
 #
-DEF arrowPad-rescue_D-Device D 0 40 N N 1 F N
+DEF D-Device D 0 40 N N 1 F N
 F0 "D" 0 100 50 H V C CNN
-F1 "arrowPad-rescue_D-Device" 0 -100 50 H V C CNN
+F1 "D-Device" 0 -100 50 H V C CNN
 F2 "" 0 0 50 H I C CNN
 F3 "" 0 0 50 H I C CNN
 $FPLIST
@@ -65,11 +42,11 @@ X A 2 150 0 100 L 50 50 1 1 P
 ENDDRAW
 ENDDEF
 #
-# arrowPad-rescue_KEYSW-keyboard_parts
+# KEYSW-keyboard_parts
 #
-DEF ~arrowPad-rescue_KEYSW-keyboard_parts K? 0 40 Y Y 1 F N
+DEF ~KEYSW-keyboard_parts K? 0 40 Y Y 1 F N
 F0 "K?" -50 0 60 H V C CNN
-F1 "arrowPad-rescue_KEYSW-keyboard_parts" 0 -100 60 H I C CNN
+F1 "KEYSW-keyboard_parts" 0 -100 60 H I C CNN
 F2 "" 0 0 60 H V C CNN
 F3 "" 0 0 60 H V C CNN
 DRAW
@@ -81,11 +58,11 @@ X ~ 2 -300 0 50 R 60 60 1 1 P
 ENDDRAW
 ENDDEF
 #
-# arrowPad-rescue_NRF24L01_Breakout-RF
+# NRF24L01_Breakout-RF
 #
-DEF arrowPad-rescue_NRF24L01_Breakout-RF U 0 40 Y Y 1 F N
+DEF NRF24L01_Breakout-RF U 0 40 Y Y 1 F N
 F0 "U" -350 500 50 H V L CNN
-F1 "arrowPad-rescue_NRF24L01_Breakout-RF" 150 500 50 H V L CNN
+F1 "NRF24L01_Breakout-RF" 150 500 50 H V L CNN
 F2 "RF_Module:nRF24L01_Breakout" 150 600 50 H I L CIN
 F3 "" 0 -100 50 H I C CNN
 $FPLIST
@@ -110,11 +87,11 @@ X IRQ 8 -500 -300 150 R 50 50 1 1 O
 ENDDRAW
 ENDDEF
 #
-# arrowPad-rescue_ProMicro-promicro
+# ProMicro-promicro
 #
-DEF arrowPad-rescue_ProMicro-promicro U 0 40 Y Y 1 F N
+DEF ProMicro-promicro U 0 40 Y Y 1 F N
 F0 "U" 0 950 60 H V C CNN
-F1 "arrowPad-rescue_ProMicro-promicro" 0 -550 60 H V C CNN
+F1 "ProMicro-promicro" 0 -550 60 H V C CNN
 F2 "" 100 -1050 60 H V C CNN
 F3 "" 100 -1050 60 H V C CNN
 DRAW
@@ -146,11 +123,11 @@ X D7 9 -700 -50 200 R 50 50 1 1 B
 ENDDRAW
 ENDDEF
 #
-# arrowPad-rescue_SW_DIP_x01-Switch
+# SW_DIP_x01-Switch
 #
-DEF arrowPad-rescue_SW_DIP_x01-Switch SW 0 0 Y N 1 F N
+DEF SW_DIP_x01-Switch SW 0 0 Y N 1 F N
 F0 "SW" 0 150 50 H V C CNN
-F1 "arrowPad-rescue_SW_DIP_x01-Switch" 0 -150 50 H V C CNN
+F1 "SW_DIP_x01-Switch" 0 -150 50 H V C CNN
 F2 "" 0 0 50 H I C CNN
 F3 "" 0 0 50 H I C CNN
 $FPLIST

@@ -1,2 +1,3 @@
 (sym_lib_table
+  (lib (name arrowPad-rescue)(type Legacy)(uri ${KIPRJMOD}/arrowPad-rescue.lib)(options "")(descr ""))
 )
