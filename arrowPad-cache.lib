@@ -1,11 +1,88 @@
 EESchema-LIBRARY Version 2.4
 #encoding utf-8
 #
-# Connector_AudioJack3_Ground
+# Analog_Switch:ADG417BN
 #
-DEF Connector_AudioJack3_Ground J 0 20 Y Y 1 F N
+DEF Analog_Switch:ADG417BN U 0 10 Y Y 2 F N
+F0 "U" -125 210 50 H V L CNN
+F1 "Analog_Switch:ADG417BN" -125 140 50 H V L CNN
+F2 "Package_DIP:DIP-8_W7.62mm" 0 -100 50 H I C CNN
+F3 "" 0 0 50 H I C CNN
+ALIAS MAX318xPA ADG417BN
+$FPLIST
+ DIP*W7.62mm*
+$ENDFPLIST
+DRAW
+C -85 0 20 1 1 10 N
+C 85 0 20 1 1 10 N
+S -150 100 150 -100 1 1 10 f
+S -150 400 250 -400 2 1 10 f
+P 2 1 1 0 -200 0 -110 0 N
+P 2 1 1 10 -100 30 100 70 N
+P 2 1 1 0 0 -100 0 -80 N
+P 2 1 1 0 0 -70 0 -60 N
+P 2 1 1 0 0 -50 0 -40 N
+P 2 1 1 0 0 -30 0 -20 N
+P 2 1 1 0 0 -10 0 0 N
+P 2 1 1 0 0 10 0 20 N
+P 2 1 1 0 0 30 0 40 N
+P 2 1 1 0 200 0 110 0 N
+X NC 2 -100 400 100 D 50 50 2 0 N N
+X GND 3 0 -500 100 U 50 50 2 0 W
+X V+ 4 0 500 100 D 50 50 2 0 W
+X VL 5 100 500 100 D 50 50 2 0 W
+X V- 7 100 -500 100 U 50 50 2 0 W
+X ~ 1 -300 0 100 R 50 50 1 1 P
+X ~ 2 0 -200 100 U 50 50 1 1 I
+X ~ 3 300 0 100 L 50 50 1 1 P
+ENDDRAW
+ENDDEF
+#
+# Device:LED
+#
+DEF Device:LED D 0 40 N N 1 F N
+F0 "D" 0 100 50 H V C CNN
+F1 "Device:LED" 0 -100 50 H V C CNN
+F2 "" 0 0 50 H I C CNN
+F3 "" 0 0 50 H I C CNN
+$FPLIST
+ LED*
+ LED_SMD:*
+ LED_THT:*
+$ENDFPLIST
+DRAW
+P 2 0 1 8 -50 -50 -50 50 N
+P 2 0 1 0 -50 0 50 0 N
+P 4 0 1 8 50 -50 50 50 -50 0 50 -50 N
+P 5 0 1 0 -120 -30 -180 -90 -150 -90 -180 -90 -180 -60 N
+P 5 0 1 0 -70 -30 -130 -90 -100 -90 -130 -90 -130 -60 N
+X K 1 -150 0 100 R 50 50 1 1 P
+X A 2 150 0 100 L 50 50 1 1 P
+ENDDRAW
+ENDDEF
+#
+# Device:R
+#
+DEF Device:R R 0 0 N Y 1 F N
+F0 "R" 80 0 50 V V C CNN
+F1 "Device:R" 0 0 50 V V C CNN
+F2 "" -70 0 50 V I C CNN
+F3 "" 0 0 50 H I C CNN
+$FPLIST
+ R_*
+$ENDFPLIST
+DRAW
+S -40 -100 40 100 0 1 10 N
+X ~ 1 0 150 50 D 50 50 1 1 P
+X ~ 2 0 -150 50 U 50 50 1 1 P
+ENDDRAW
+ENDDEF
+#
+# arrowPad-rescue:AudioJack3_Ground-Connector
+#
+DEF arrowPad-rescue:AudioJack3_Ground-Connector J 0 20 Y Y 1 F N
 F0 "J" 0 350 50 H V C CNN
-F1 "Connector_AudioJack3_Ground" 0 250 50 H V C CNN
+F1 "arrowPad-rescue:AudioJack3_Ground-Connector" 0 250 50 H V C CNN
 F2 "" 0 0 50 H I C CNN
 F3 "" 0 0 50 H I C CNN
 $FPLIST
@@ -17,18 +94,18 @@ S 100 150 -200 -200 0 1 10 f
 P 4 0 1 10 0 -100 25 -125 50 -100 100 -100 N
 P 5 0 1 10 -75 -100 -50 -125 -25 -100 -25 0 100 0 N
 P 5 0 1 10 100 100 -100 100 -100 -100 -125 -125 -150 -100 N
-X ~ G 0 -300 100 U 50 50 1 1 P
-X ~ R 200 0 100 L 50 50 1 1 P
-X ~ S 200 100 100 L 50 50 1 1 P
-X ~ T 200 -100 100 L 50 50 1 1 P
+X ~ 1 200 100 100 L 50 50 1 1 P
+X ~ 2 200 0 100 L 50 50 1 1 P
+X ~ 3 200 -100 100 L 50 50 1 1 P
+X ~ 4 0 -300 100 U 50 50 1 1 P
 ENDDRAW
 ENDDEF
 #
-# arrowPad-rescue_Battery_Cell-Device
+# arrowPad-rescue:Battery_Cell-Device
 #
-DEF arrowPad-rescue_Battery_Cell-Device BT 0 0 N N 1 F N
+DEF arrowPad-rescue:Battery_Cell-Device BT 0 0 N N 1 F N
 F0 "BT" 100 100 50 H V L CNN
-F1 "arrowPad-rescue_Battery_Cell-Device" 100 0 50 H V L CNN
+F1 "arrowPad-rescue:Battery_Cell-Device" 100 0 50 H V L CNN
 F2 "" 0 60 50 V I C CNN
 F3 "" 0 60 50 V I C CNN
 DRAW
@@ -43,11 +120,11 @@ X - 2 0 -100 100 U 50 50 1 1 P
 ENDDRAW
 ENDDEF
 #
-# arrowPad-rescue_D-Device
+# arrowPad-rescue:D-Device
 #
-DEF arrowPad-rescue_D-Device D 0 40 N N 1 F N
+DEF arrowPad-rescue:D-Device D 0 40 N N 1 F N
 F0 "D" 0 100 50 H V C CNN
-F1 "arrowPad-rescue_D-Device" 0 -100 50 H V C CNN
+F1 "arrowPad-rescue:D-Device" 0 -100 50 H V C CNN
 F2 "" 0 0 50 H I C CNN
 F3 "" 0 0 50 H I C CNN
 $FPLIST
@@ -65,11 +142,11 @@ X A 2 150 0 100 L 50 50 1 1 P
 ENDDRAW
 ENDDEF
 #
-# arrowPad-rescue_KEYSW-keyboard_parts
+# arrowPad-rescue:KEYSW-keyboard_parts
 #
-DEF ~arrowPad-rescue_KEYSW-keyboard_parts K? 0 40 Y Y 1 F N
+DEF ~arrowPad-rescue:KEYSW-keyboard_parts K? 0 40 Y Y 1 F N
 F0 "K?" -50 0 60 H V C CNN
-F1 "arrowPad-rescue_KEYSW-keyboard_parts" 0 -100 60 H I C CNN
+F1 "arrowPad-rescue:KEYSW-keyboard_parts" 0 -100 60 H I C CNN
 F2 "" 0 0 60 H V C CNN
 F3 "" 0 0 60 H V C CNN
 DRAW
@@ -81,11 +158,11 @@ X ~ 2 -300 0 50 R 60 60 1 1 P
 ENDDRAW
 ENDDEF
 #
-# arrowPad-rescue_NRF24L01_Breakout-RF
+# arrowPad-rescue:NRF24L01_Breakout-RF
 #
-DEF arrowPad-rescue_NRF24L01_Breakout-RF U 0 40 Y Y 1 F N
+DEF arrowPad-rescue:NRF24L01_Breakout-RF U 0 40 Y Y 1 F N
 F0 "U" -350 500 50 H V L CNN
-F1 "arrowPad-rescue_NRF24L01_Breakout-RF" 150 500 50 H V L CNN
+F1 "arrowPad-rescue:NRF24L01_Breakout-RF" 150 500 50 H V L CNN
 F2 "RF_Module:nRF24L01_Breakout" 150 600 50 H I L CIN
 F3 "" 0 -100 50 H I C CNN
 $FPLIST
@@ -110,11 +187,11 @@ X IRQ 8 -500 -300 150 R 50 50 1 1 O
 ENDDRAW
 ENDDEF
 #
-# arrowPad-rescue_ProMicro-promicro
+# arrowPad-rescue:ProMicro-promicro
 #
-DEF arrowPad-rescue_ProMicro-promicro U 0 40 Y Y 1 F N
+DEF arrowPad-rescue:ProMicro-promicro U 0 40 Y Y 1 F N
 F0 "U" 0 950 60 H V C CNN
-F1 "arrowPad-rescue_ProMicro-promicro" 0 -550 60 H V C CNN
+F1 "arrowPad-rescue:ProMicro-promicro" 0 -550 60 H V C CNN
 F2 "" 100 -1050 60 H V C CNN
 F3 "" 100 -1050 60 H V C CNN
 DRAW
@@ -143,26 +220,6 @@ X SDA 6 -700 250 200 R 50 50 1 1 B
 X D4 7 -700 150 200 R 50 50 1 1 B
 X C6 8 -700 50 200 R 50 50 1 1 B
 X D7 9 -700 -50 200 R 50 50 1 1 B
-ENDDRAW
-ENDDEF
-#
-# arrowPad-rescue_SW_DIP_x01-Switch
-#
-DEF arrowPad-rescue_SW_DIP_x01-Switch SW 0 0 Y N 1 F N
-F0 "SW" 0 150 50 H V C CNN
-F1 "arrowPad-rescue_SW_DIP_x01-Switch" 0 -150 50 H V C CNN
-F2 "" 0 0 50 H I C CNN
-F3 "" 0 0 50 H I C CNN
-$FPLIST
- SW?DIP?x1*
-$ENDFPLIST
-DRAW
-C -80 0 20 0 0 0 N
-C 80 0 20 0 0 0 N
-S -150 100 150 -100 0 1 10 f
-P 2 0 0 0 -60 5 93 46 N
-X ~ 1 -300 0 200 R 50 50 1 1 P
-X ~ 2 300 0 200 L 50 50 1 1 P
 ENDDRAW
 ENDDEF
 #

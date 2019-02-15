@@ -20,7 +20,7 @@ U 1 1 5C46CD90
 P 7800 3100
 F 0 "U1" H 7800 4137 60  0000 C CNN
 F 1 "ProMicro" H 7800 4031 60  0000 C CNN
-F 2 "promicro:proMicrov3" H 7900 2050 60  0001 C CNN
+F 2 "Transformer_SMD:proMicrov6" H 7900 2050 60  0001 C CNN
 F 3 "" H 7900 2050 60  0000 C CNN
 	1    7800 3100
 	1    0    0    -1  
@@ -237,7 +237,7 @@ Wire Wire Line
 	8550 2950 8500 2950
 Wire Wire Line
 	8550 2950 8550 3300
-Text Label 7100 2950 2    50   ~ 0
+Text Label 7100 2850 2    50   ~ 0
 Col1
 Text Label 7100 3050 2    50   ~ 0
 Col2
@@ -359,7 +359,7 @@ Text Label 2900 4050 2    50   ~ 0
 Row3
 Text Label 8500 2350 0    50   ~ 0
 RAW1
-Text Label 8600 1550 2    50   ~ 0
+Text Label 8200 1450 3    50   ~ 0
 RAW1
 Text Label 9650 1750 0    50   ~ 0
 GND1
@@ -367,44 +367,32 @@ NoConn ~ 9050 3400
 NoConn ~ 7100 2550
 NoConn ~ 7100 2650
 NoConn ~ 7100 2750
-NoConn ~ 7100 2850
 NoConn ~ 8500 2850
 NoConn ~ 8500 2750
 NoConn ~ 8500 2550
 NoConn ~ 7100 3450
-$Comp
-L arrowPad-rescue:SW_DIP_x01-Switch SW1
-U 1 1 5C52B630
-P 8900 1550
-F 0 "SW1" H 8900 1817 50  0000 C CNN
-F 1 "SW_DIP_x01" H 8900 1726 50  0000 C CNN
-F 2 "Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical" H 8900 1550 50  0001 C CNN
-F 3 "" H 8900 1550 50  0001 C CNN
-	1    8900 1550
-	1    0    0    -1  
-$EndComp
 Wire Wire Line
 	9650 1450 9200 1450
 Wire Wire Line
 	9200 1450 9200 1550
 $Comp
-L Connector:AudioJack3_Ground J1
+L arrowPad-rescue:AudioJack3_Ground-Connector J1
 U 1 1 5C63EF42
 P 6150 1700
 F 0 "J1" H 6130 2025 50  0000 C CNN
 F 1 "AudioJack3_Ground" H 6130 1934 50  0000 C CNN
-F 2 "" H 6150 1700 50  0001 C CNN
+F 2 "Connector_PinHeader_2.54mm:PinHeader_1x04_P2.54mm_Vertical" H 6150 1700 50  0001 C CNN
 F 3 "~" H 6150 1700 50  0001 C CNN
 	1    6150 1700
 	1    0    0    -1  
 $EndComp
 $Comp
-L Connector:AudioJack3_Ground J2
+L arrowPad-rescue:AudioJack3_Ground-Connector J2
 U 1 1 5C63F1CE
 P 5950 2750
 F 0 "J2" H 5930 3075 50  0000 C CNN
 F 1 "AudioJack3_Ground" H 5930 2984 50  0000 C CNN
-F 2 "" H 5950 2750 50  0001 C CNN
+F 2 "Connector_PinHeader_2.54mm:PinHeader_1x04_P2.54mm_Vertical" H 5950 2750 50  0001 C CNN
 F 3 "~" H 5950 2750 50  0001 C CNN
 	1    5950 2750
 	1    0    0    -1  
@@ -444,4 +432,49 @@ Wire Wire Line
 Wire Wire Line
 	6350 2650 6150 2650
 Connection ~ 6800 2450
+$Comp
+L Device:R R1
+U 1 1 5C64D075
+P 6450 3500
+F 0 "R1" H 6520 3546 50  0000 L CNN
+F 1 "R" H 6520 3455 50  0000 L CNN
+F 2 "keyboard_parts:D_SOD123_axial" V 6380 3500 50  0001 C CNN
+F 3 "~" H 6450 3500 50  0001 C CNN
+	1    6450 3500
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:LED D10
+U 1 1 5C64D1AE
+P 6450 4000
+F 0 "D10" V 6488 3882 50  0000 R CNN
+F 1 "LED" V 6397 3882 50  0000 R CNN
+F 2 "Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical" H 6450 4000 50  0001 C CNN
+F 3 "~" H 6450 4000 50  0001 C CNN
+	1    6450 4000
+	0    -1   -1   0   
+$EndComp
+Text Label 6450 4150 2    50   ~ 0
+GND1
+Wire Wire Line
+	6450 3850 6450 3650
+Wire Wire Line
+	6450 3350 6450 2950
+Wire Wire Line
+	6450 2950 7100 2950
+Wire Wire Line
+	9200 1550 8500 1550
+Wire Wire Line
+	8500 1550 8500 1250
+$Comp
+L Analog_Switch:ADG417BN U3
+U 1 1 5C659A57
+P 8200 1250
+F 0 "U3" H 8200 1517 50  0000 C CNN
+F 1 "ADG417BN" H 8200 1426 50  0000 C CNN
+F 2 "Connector_PinHeader_2.54mm:PinHeader_1x03_P2.54mm_Vertical" H 8200 1150 50  0001 C CNN
+F 3 "http://www.analog.com/media/en/technical-documentation/data-sheets/ADG417.pdf" H 8200 1250 50  0001 C CNN
+	1    8200 1250
+	1    0    0    -1  
+$EndComp
 $EndSCHEMATC
