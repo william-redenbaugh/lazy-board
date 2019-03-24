@@ -467,12 +467,12 @@ Wire Wire Line
 Wire Wire Line
 	8500 1550 8500 1250
 $Comp
-L Analog_Switch:ADG417BN U?
+L Analog_Switch:ADG417BN U3
 U 1 1 5C659A57
 P 8200 1250
-F 0 "U?" H 8200 1517 50  0000 C CNN
+F 0 "U3" H 8200 1517 50  0000 C CNN
 F 1 "ADG417BN" H 8200 1426 50  0000 C CNN
-F 2 "Package_DIP:DIP-8_W7.62mm" H 8200 1150 50  0001 C CNN
+F 2 "Connector_PinHeader_2.54mm:PinHeader_1x03_P2.54mm_Vertical" H 8200 1150 50  0001 C CNN
 F 3 "http://www.analog.com/media/en/technical-documentation/data-sheets/ADG417.pdf" H 8200 1250 50  0001 C CNN
 	1    8200 1250
 	1    0    0    -1  
