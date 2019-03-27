@@ -250,8 +250,6 @@ Row2
 Text Label 8500 3450 0    50   ~ 0
 Row3
 Wire Wire Line
-	9550 2500 9550 2350
-Wire Wire Line
 	9550 2350 8750 2350
 Wire Wire Line
 	8700 2350 8700 2650
@@ -381,7 +379,7 @@ U 1 1 5C63EF42
 P 6150 1700
 F 0 "J1" H 6130 2025 50  0000 C CNN
 F 1 "AudioJack3_Ground" H 6130 1934 50  0000 C CNN
-F 2 "Connector_PinHeader_2.54mm:PinHeader_1x04_P2.54mm_Vertical" H 6150 1700 50  0001 C CNN
+F 2 "SJ1-3514-SMT:CUI_SJ1-3514-SMT" H 6150 1700 50  0001 C CNN
 F 3 "~" H 6150 1700 50  0001 C CNN
 	1    6150 1700
 	1    0    0    -1  
@@ -392,7 +390,7 @@ U 1 1 5C63F1CE
 P 5950 2750
 F 0 "J2" H 5930 3075 50  0000 C CNN
 F 1 "AudioJack3_Ground" H 5930 2984 50  0000 C CNN
-F 2 "Connector_PinHeader_2.54mm:PinHeader_1x04_P2.54mm_Vertical" H 5950 2750 50  0001 C CNN
+F 2 "SJ1-3514-SMT:CUI_SJ1-3514-SMT" H 5950 2750 50  0001 C CNN
 F 3 "~" H 5950 2750 50  0001 C CNN
 	1    5950 2750
 	1    0    0    -1  
@@ -477,4 +475,32 @@ F 3 "http://www.analog.com/media/en/technical-documentation/data-sheets/ADG417.p
 	1    8200 1250
 	1    0    0    -1  
 $EndComp
+$Comp
+L AMS1117-3.3:AMS1117-3.3 U4
+U 1 1 5C962AD9
+P 10200 2200
+F 0 "U4" H 10200 2567 50  0000 C CNN
+F 1 "AMS1117-3.3" H 10200 2476 50  0000 C CNN
+F 2 "promicro:AMS1117flipped" H 10200 2200 50  0001 L BNN
+F 3 "Sot223/Pkg 1-Amp 3.3-Volt Low Drop Out Voltage Regulatator" H 10200 2200 50  0001 L BNN
+F 4 "Advanced Monolithic Systems" H 10200 2200 50  0001 L BNN "Field4"
+F 5 "None" H 10200 2200 50  0001 L BNN "Field5"
+F 6 "Unavailable" H 10200 2200 50  0001 L BNN "Field6"
+F 7 "None" H 10200 2200 50  0001 L BNN "Field7"
+F 8 "AMS1117-3.3" H 10200 2200 50  0001 L BNN "Field8"
+	1    10200 2200
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	9550 2350 9550 2100
+Wire Wire Line
+	9550 2100 9600 2100
+Wire Wire Line
+	10800 2100 11000 2100
+Wire Wire Line
+	11000 2100 11000 2500
+Wire Wire Line
+	11000 2500 9550 2500
+Text Label 10800 2300 0    50   ~ 0
+GND1
 $EndSCHEMATC
