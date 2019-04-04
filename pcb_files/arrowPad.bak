@@ -365,26 +365,26 @@ Wire Wire Line
 $Comp
 L arrowPad-rescue:AudioJack3_Ground-Connector J1
 U 1 1 5C63EF42
-P 5950 2000
-F 0 "J1" H 5930 2325 50  0000 C CNN
-F 1 "AudioJack3_Ground" H 5930 2234 50  0000 C CNN
-F 2 "foots:CUI_SJ1-3514-SMT[PAD1,2,34]" H 5950 2000 50  0001 C CNN
-F 3 "~" H 5950 2000 50  0001 C CNN
-	1    5950 2000
+P 5600 2050
+F 0 "J1" H 5580 2375 50  0000 C CNN
+F 1 "AudioJack3_Ground" H 5580 2284 50  0000 C CNN
+F 2 "foots:CUI_SJ1-3514-SMT[PAD1,2,34]" H 5600 2050 50  0001 C CNN
+F 3 "~" H 5600 2050 50  0001 C CNN
+	1    5600 2050
 	1    0    0    -1  
 $EndComp
 $Comp
 L arrowPad-rescue:AudioJack3_Ground-Connector J2
 U 1 1 5C63F1CE
-P 5950 2750
-F 0 "J2" H 5930 3075 50  0000 C CNN
-F 1 "AudioJack3_Ground" H 5930 2984 50  0000 C CNN
-F 2 "foots:CUI_SJ1-3514-SMT[PAD1,2,34]" H 5950 2750 50  0001 C CNN
-F 3 "~" H 5950 2750 50  0001 C CNN
-	1    5950 2750
+P 5550 2850
+F 0 "J2" H 5530 3175 50  0000 C CNN
+F 1 "AudioJack3_Ground" H 5530 3084 50  0000 C CNN
+F 2 "foots:CUI_SJ1-3514-SMT[PAD1,2,34]" H 5550 2850 50  0001 C CNN
+F 3 "~" H 5550 2850 50  0001 C CNN
+	1    5550 2850
 	1    0    0    -1  
 $EndComp
-Text Label 6150 2850 0    50   ~ 0
+Text Label 5750 2950 0    50   ~ 0
 RAW1
 Wire Wire Line
 	9200 1550 8500 1550
@@ -623,37 +623,11 @@ Connection ~ 2300 3200
 Connection ~ 3050 3200
 Connection ~ 3800 3200
 Connection ~ 4550 3200
-Text Label 5950 3050 0    50   ~ 0
+Text Label 5550 3150 0    50   ~ 0
 GND1
-Text Label 5950 2300 0    50   ~ 0
+Text Label 5600 2350 0    50   ~ 0
 GND1
-Wire Wire Line
-	6150 1900 6850 1900
-Wire Wire Line
-	6850 1900 6850 2750
-Wire Wire Line
-	6850 2750 7100 2750
-Wire Wire Line
-	6150 2650 6750 2650
-Wire Wire Line
-	6750 2650 6750 2750
-Wire Wire Line
-	6750 2750 6850 2750
-Connection ~ 6850 2750
-Wire Wire Line
-	6150 2000 6550 2000
-Wire Wire Line
-	6550 2000 6550 2850
-Wire Wire Line
-	6550 2850 7100 2850
-Wire Wire Line
-	6150 2750 6500 2750
-Wire Wire Line
-	6500 2750 6500 2850
-Wire Wire Line
-	6500 2850 6550 2850
-Connection ~ 6550 2850
-Text Label 6150 2100 0    50   ~ 0
+Text Label 5800 2150 0    50   ~ 0
 VCC1
 Text Label 8500 2650 0    50   ~ 0
 VCC1
@@ -670,4 +644,74 @@ Col1
 NoConn ~ 7900 1250
 NoConn ~ 14050 1150
 NoConn ~ 12800 2250
+Text Label 6750 3700 0    50   ~ 0
+VCC1
+$Comp
+L Analog_Switch:ADG417BN U?
+U 1 1 5C9D336E
+P 6450 3700
+F 0 "U?" H 6450 3967 50  0000 C CNN
+F 1 "ADG417BN" H 6450 3876 50  0000 C CNN
+F 2 "Connector_PinHeader_2.54mm:PinHeader_1x03_P2.54mm_Vertical" H 6450 3600 50  0001 C CNN
+F 3 "http://www.analog.com/media/en/technical-documentation/data-sheets/ADG417.pdf" H 6450 3700 50  0001 C CNN
+	1    6450 3700
+	-1   0    0    1   
+$EndComp
+Wire Wire Line
+	5750 2850 6100 2850
+Wire Wire Line
+	5750 2750 6250 2750
+Wire Wire Line
+	5800 2050 6100 2050
+Wire Wire Line
+	6100 2050 6100 2850
+Connection ~ 6100 2850
+Wire Wire Line
+	6100 2850 6450 2850
+Wire Wire Line
+	5800 1950 6250 1950
+Wire Wire Line
+	6250 1950 6250 2750
+Connection ~ 6250 2750
+Wire Wire Line
+	6250 2750 6700 2750
+Wire Wire Line
+	6450 3500 6700 3500
+Wire Wire Line
+	6700 3500 6700 3300
+$Comp
+L Device:R R?
+U 1 1 5C9F1D14
+P 6700 3150
+F 0 "R?" H 6770 3196 50  0000 L CNN
+F 1 "R" H 6770 3105 50  0000 L CNN
+F 2 "" V 6630 3150 50  0001 C CNN
+F 3 "~" H 6700 3150 50  0001 C CNN
+	1    6700 3150
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:R R?
+U 1 1 5C9F1DDC
+P 6450 3150
+F 0 "R?" H 6520 3196 50  0000 L CNN
+F 1 "R" H 6520 3105 50  0000 L CNN
+F 2 "" V 6380 3150 50  0001 C CNN
+F 3 "~" H 6450 3150 50  0001 C CNN
+	1    6450 3150
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	6450 3500 6450 3300
+Connection ~ 6450 3500
+Wire Wire Line
+	6450 3000 6450 2850
+Connection ~ 6450 2850
+Wire Wire Line
+	6450 2850 7100 2850
+Wire Wire Line
+	6700 3000 6700 2750
+Connection ~ 6700 2750
+Wire Wire Line
+	6700 2750 7100 2750
 $EndSCHEMATC

@@ -20,7 +20,7 @@ U 1 1 5C46CD90
 P 7800 3100
 F 0 "U1" H 7800 4137 60  0000 C CNN
 F 1 "ProMicro" H 7800 4031 60  0000 C CNN
-F 2 "promicro:ProMicro" H 7900 2050 60  0001 C CNN
+F 2 "foots:ProMicroPinsFlipped" H 7900 2050 60  0001 C CNN
 F 3 "" H 7900 2050 60  0000 C CNN
 	1    7800 3100
 	1    0    0    -1  
@@ -631,7 +631,7 @@ Text Label 5800 2150 0    50   ~ 0
 VCC1
 Text Label 8500 2650 0    50   ~ 0
 VCC1
-Text Label 9600 2100 2    50   ~ 0
+Text Label 9300 2300 0    50   ~ 0
 VCC1
 NoConn ~ 7100 2450
 NoConn ~ 7100 2350
@@ -647,10 +647,10 @@ NoConn ~ 12800 2250
 Text Label 6750 3700 0    50   ~ 0
 VCC1
 $Comp
-L Analog_Switch:ADG417BN U?
+L Analog_Switch:ADG417BN U5
 U 1 1 5C9D336E
 P 6450 3700
-F 0 "U?" H 6450 3967 50  0000 C CNN
+F 0 "U5" H 6450 3967 50  0000 C CNN
 F 1 "ADG417BN" H 6450 3876 50  0000 C CNN
 F 2 "Connector_PinHeader_2.54mm:PinHeader_1x03_P2.54mm_Vertical" H 6450 3600 50  0001 C CNN
 F 3 "http://www.analog.com/media/en/technical-documentation/data-sheets/ADG417.pdf" H 6450 3700 50  0001 C CNN
@@ -680,23 +680,23 @@ Wire Wire Line
 Wire Wire Line
 	6700 3500 6700 3300
 $Comp
-L Device:R R?
+L Device:R R2
 U 1 1 5C9F1D14
 P 6700 3150
-F 0 "R?" H 6770 3196 50  0000 L CNN
+F 0 "R2" H 6770 3196 50  0000 L CNN
 F 1 "R" H 6770 3105 50  0000 L CNN
-F 2 "" V 6630 3150 50  0001 C CNN
+F 2 "keyboard_parts:D_SOD123_axial" V 6630 3150 50  0001 C CNN
 F 3 "~" H 6700 3150 50  0001 C CNN
 	1    6700 3150
 	1    0    0    -1  
 $EndComp
 $Comp
-L Device:R R?
+L Device:R R1
 U 1 1 5C9F1DDC
 P 6450 3150
-F 0 "R?" H 6520 3196 50  0000 L CNN
+F 0 "R1" H 6520 3196 50  0000 L CNN
 F 1 "R" H 6520 3105 50  0000 L CNN
-F 2 "" V 6380 3150 50  0001 C CNN
+F 2 "keyboard_parts:D_SOD123_axial" V 6380 3150 50  0001 C CNN
 F 3 "~" H 6450 3150 50  0001 C CNN
 	1    6450 3150
 	1    0    0    -1  
@@ -714,4 +714,15 @@ Wire Wire Line
 Connection ~ 6700 2750
 Wire Wire Line
 	6700 2750 7100 2750
+$Comp
+L Analog_Switch:ADG417BN U6
+U 1 1 5CA64439
+P 9300 2100
+F 0 "U6" H 9300 2367 50  0000 C CNN
+F 1 "ADG417BN" H 9300 2276 50  0000 C CNN
+F 2 "Connector_PinHeader_2.54mm:PinHeader_1x03_P2.54mm_Vertical" H 9300 2000 50  0001 C CNN
+F 3 "http://www.analog.com/media/en/technical-documentation/data-sheets/ADG417.pdf" H 9300 2100 50  0001 C CNN
+	1    9300 2100
+	1    0    0    -1  
+$EndComp
 $EndSCHEMATC
