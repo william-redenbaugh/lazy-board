@@ -25,6 +25,7 @@ void loop() {
   readBoard(); //reads and stores which switches are released and pressed 
   pressKeys(); //sends keypress to device
   //printState(); //for debugging
+  Serial.println(sizeof(keysState));
   delay(2); //to not over load the arduino
 }
 
@@ -64,14 +65,14 @@ void pressKeys(){
     for(int j = colSize - 1; j >= 0; j--){
       //switch at current point is pressed
       if(keysState[j][i] == 0){
-        Serial.print("Pressed: ");
-        Serial.println(keys[i][j]);
+        //Serial.print("Pressed: ");
+        //Serial.println(keys[i][j]);
         //sends pressed value based keys array
         Keyboard.press(keys[i][j]); 
       }
       else{ //switch at current point is not pressed
-        Serial.print("Released: ");
-        Serial.println(keys[i][j]);
+        //Serial.print("Released: ");
+        //Serial.println(keys[i][j]);
         //sends release value based on keys array
         Keyboard.release(keys[i][j]);
       }
