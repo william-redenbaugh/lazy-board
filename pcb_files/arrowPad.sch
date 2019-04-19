@@ -658,23 +658,7 @@ F 3 "http://www.analog.com/media/en/technical-documentation/data-sheets/ADG417.p
 	-1   0    0    1   
 $EndComp
 Wire Wire Line
-	5750 2850 6100 2850
-Wire Wire Line
-	5750 2750 6250 2750
-Wire Wire Line
-	5800 2050 6100 2050
-Wire Wire Line
-	6100 2050 6100 2850
-Connection ~ 6100 2850
-Wire Wire Line
-	6100 2850 6450 2850
-Wire Wire Line
-	5800 1950 6250 1950
-Wire Wire Line
-	6250 1950 6250 2750
-Connection ~ 6250 2750
-Wire Wire Line
-	6250 2750 6700 2750
+	5750 2750 6000 2750
 Wire Wire Line
 	6450 3500 6700 3500
 Wire Wire Line
@@ -725,4 +709,345 @@ F 3 "http://www.analog.com/media/en/technical-documentation/data-sheets/ADG417.p
 	1    9300 2100
 	1    0    0    -1  
 $EndComp
+$Comp
+L MCU_Texas_MSP430:MSP430G2553IN20 U?
+U 1 1 5CB8C432
+P 5400 5800
+F 0 "U?" H 5400 4872 50  0000 C CNN
+F 1 "MSP430G2553IN20" H 5400 4963 50  0000 C CNN
+F 2 "Package_DIP:DIP-20_W7.62mm" H 3950 5250 50  0001 C CIN
+F 3 "http://www.ti.com/lit/ds/symlink/msp430g2553.pdf" H 5350 5800 50  0001 C CNN
+	1    5400 5800
+	-1   0    0    1   
+$EndComp
+$Comp
+L Device:LED D20
+U 1 1 5CB8D62F
+P 700 4750
+F 0 "D20" V 645 4829 50  0000 L CNN
+F 1 "LED" V 736 4829 50  0000 L CNN
+F 2 "" H 700 4750 50  0001 C CNN
+F 3 "~" H 700 4750 50  0001 C CNN
+	1    700  4750
+	0    1    1    0   
+$EndComp
+$Comp
+L Device:LED D21
+U 1 1 5CB8DBD6
+P 1050 4750
+F 0 "D21" V 995 4829 50  0000 L CNN
+F 1 "LED" V 1086 4829 50  0000 L CNN
+F 2 "" H 1050 4750 50  0001 C CNN
+F 3 "~" H 1050 4750 50  0001 C CNN
+	1    1050 4750
+	0    1    1    0   
+$EndComp
+$Comp
+L Device:LED D22
+U 1 1 5CB8F3DE
+P 1400 4750
+F 0 "D22" V 1345 4829 50  0000 L CNN
+F 1 "LED" V 1436 4829 50  0000 L CNN
+F 2 "" H 1400 4750 50  0001 C CNN
+F 3 "~" H 1400 4750 50  0001 C CNN
+	1    1400 4750
+	0    1    1    0   
+$EndComp
+$Comp
+L Device:LED D23
+U 1 1 5CB8F3E5
+P 1750 4750
+F 0 "D23" V 1695 4829 50  0000 L CNN
+F 1 "LED" V 1786 4829 50  0000 L CNN
+F 2 "" H 1750 4750 50  0001 C CNN
+F 3 "~" H 1750 4750 50  0001 C CNN
+	1    1750 4750
+	0    1    1    0   
+$EndComp
+$Comp
+L Device:LED D24
+U 1 1 5CB9089D
+P 2100 4750
+F 0 "D24" V 2045 4829 50  0000 L CNN
+F 1 "LED" V 2136 4829 50  0000 L CNN
+F 2 "" H 2100 4750 50  0001 C CNN
+F 3 "~" H 2100 4750 50  0001 C CNN
+	1    2100 4750
+	0    1    1    0   
+$EndComp
+$Comp
+L Device:LED D25
+U 1 1 5CB908A4
+P 2450 4750
+F 0 "D25" V 2395 4829 50  0000 L CNN
+F 1 "LED" V 2486 4829 50  0000 L CNN
+F 2 "" H 2450 4750 50  0001 C CNN
+F 3 "~" H 2450 4750 50  0001 C CNN
+	1    2450 4750
+	0    1    1    0   
+$EndComp
+$Comp
+L Device:LED D26
+U 1 1 5CB91E04
+P 2800 4750
+F 0 "D26" V 2745 4829 50  0000 L CNN
+F 1 "LED" V 2836 4829 50  0000 L CNN
+F 2 "" H 2800 4750 50  0001 C CNN
+F 3 "~" H 2800 4750 50  0001 C CNN
+	1    2800 4750
+	0    1    1    0   
+$EndComp
+$Comp
+L Device:LED D27
+U 1 1 5CB91E0B
+P 3150 4750
+F 0 "D27" V 3095 4829 50  0000 L CNN
+F 1 "LED" V 3186 4829 50  0000 L CNN
+F 2 "" H 3150 4750 50  0001 C CNN
+F 3 "~" H 3150 4750 50  0001 C CNN
+	1    3150 4750
+	0    1    1    0   
+$EndComp
+$Comp
+L Device:LED D28
+U 1 1 5CB9A3EE
+P 7150 5000
+F 0 "D28" V 7095 5079 50  0000 L CNN
+F 1 "LED" V 7186 5079 50  0000 L CNN
+F 2 "" H 7150 5000 50  0001 C CNN
+F 3 "~" H 7150 5000 50  0001 C CNN
+	1    7150 5000
+	0    1    1    0   
+$EndComp
+$Comp
+L Device:LED D29
+U 1 1 5CB9A3F5
+P 7500 5000
+F 0 "D29" V 7445 5079 50  0000 L CNN
+F 1 "LED" V 7536 5079 50  0000 L CNN
+F 2 "" H 7500 5000 50  0001 C CNN
+F 3 "~" H 7500 5000 50  0001 C CNN
+	1    7500 5000
+	0    1    1    0   
+$EndComp
+$Comp
+L Device:LED D30
+U 1 1 5CB9A3FC
+P 7850 5000
+F 0 "D30" V 7795 5079 50  0000 L CNN
+F 1 "LED" V 7886 5079 50  0000 L CNN
+F 2 "" H 7850 5000 50  0001 C CNN
+F 3 "~" H 7850 5000 50  0001 C CNN
+	1    7850 5000
+	0    1    1    0   
+$EndComp
+$Comp
+L Device:LED D31
+U 1 1 5CB9A403
+P 8200 5000
+F 0 "D31" V 8145 5079 50  0000 L CNN
+F 1 "LED" V 8236 5079 50  0000 L CNN
+F 2 "" H 8200 5000 50  0001 C CNN
+F 3 "~" H 8200 5000 50  0001 C CNN
+	1    8200 5000
+	0    1    1    0   
+$EndComp
+$Comp
+L Device:LED D32
+U 1 1 5CB9A40A
+P 8550 5000
+F 0 "D32" V 8495 5079 50  0000 L CNN
+F 1 "LED" V 8586 5079 50  0000 L CNN
+F 2 "" H 8550 5000 50  0001 C CNN
+F 3 "~" H 8550 5000 50  0001 C CNN
+	1    8550 5000
+	0    1    1    0   
+$EndComp
+$Comp
+L Device:LED D33
+U 1 1 5CB9A411
+P 8900 5000
+F 0 "D33" V 8845 5079 50  0000 L CNN
+F 1 "LED" V 8936 5079 50  0000 L CNN
+F 2 "" H 8900 5000 50  0001 C CNN
+F 3 "~" H 8900 5000 50  0001 C CNN
+	1    8900 5000
+	0    1    1    0   
+$EndComp
+$Comp
+L Device:LED D34
+U 1 1 5CB9A418
+P 9250 5000
+F 0 "D34" V 9195 5079 50  0000 L CNN
+F 1 "LED" V 9286 5079 50  0000 L CNN
+F 2 "" H 9250 5000 50  0001 C CNN
+F 3 "~" H 9250 5000 50  0001 C CNN
+	1    9250 5000
+	0    1    1    0   
+$EndComp
+$Comp
+L Device:LED D35
+U 1 1 5CB9A41F
+P 9600 5000
+F 0 "D35" V 9545 5079 50  0000 L CNN
+F 1 "LED" V 9636 5079 50  0000 L CNN
+F 2 "" H 9600 5000 50  0001 C CNN
+F 3 "~" H 9600 5000 50  0001 C CNN
+	1    9600 5000
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	700  4600 1050 4600
+Connection ~ 1050 4600
+Wire Wire Line
+	1050 4600 1400 4600
+Connection ~ 1400 4600
+Wire Wire Line
+	1400 4600 1750 4600
+Connection ~ 1750 4600
+Wire Wire Line
+	1750 4600 2100 4600
+Connection ~ 2100 4600
+Wire Wire Line
+	2100 4600 2450 4600
+Connection ~ 2450 4600
+Wire Wire Line
+	2450 4600 2800 4600
+Connection ~ 2800 4600
+Wire Wire Line
+	2800 4600 3150 4600
+Wire Wire Line
+	7150 4850 7500 4850
+Connection ~ 7500 4850
+Wire Wire Line
+	7500 4850 7850 4850
+Connection ~ 7850 4850
+Wire Wire Line
+	7850 4850 8200 4850
+Connection ~ 8200 4850
+Wire Wire Line
+	8200 4850 8550 4850
+Connection ~ 8550 4850
+Wire Wire Line
+	8550 4850 8900 4850
+Connection ~ 8900 4850
+Wire Wire Line
+	8900 4850 9250 4850
+Connection ~ 9250 4850
+Wire Wire Line
+	9250 4850 9600 4850
+Text Label 5400 5050 0    50   ~ 0
+GND2
+Text Label 5400 6600 0    50   ~ 0
+VCC1
+Wire Wire Line
+	7100 5400 7150 5400
+Wire Wire Line
+	7150 5400 7150 5150
+Wire Wire Line
+	7100 5500 7500 5500
+Wire Wire Line
+	7500 5150 7500 5500
+Wire Wire Line
+	7100 5600 7850 5600
+Wire Wire Line
+	7850 5600 7850 5150
+Wire Wire Line
+	7100 5700 8200 5700
+Wire Wire Line
+	8200 5700 8200 5150
+Wire Wire Line
+	7100 5800 8550 5800
+Wire Wire Line
+	8550 5800 8550 5150
+Wire Wire Line
+	7100 5900 8900 5900
+Wire Wire Line
+	8900 5900 8900 5150
+Wire Wire Line
+	7100 6000 9250 6000
+Wire Wire Line
+	9250 6000 9250 5150
+Wire Wire Line
+	7100 6100 9600 6100
+Wire Wire Line
+	9600 6100 9600 5150
+Wire Wire Line
+	3700 5500 3700 4650
+Wire Wire Line
+	3700 4650 6050 4650
+Wire Wire Line
+	6050 4650 6050 3100
+Wire Wire Line
+	6050 3100 6300 3100
+Wire Wire Line
+	6300 3100 6300 2850
+Connection ~ 6300 2850
+Wire Wire Line
+	6300 2850 6450 2850
+Wire Wire Line
+	3550 5600 3550 4400
+Wire Wire Line
+	3550 4400 5950 4400
+Wire Wire Line
+	5950 4400 5950 2950
+Wire Wire Line
+	5950 2950 6200 2950
+Wire Wire Line
+	6200 2950 6200 2750
+Wire Wire Line
+	3550 5600 3700 5600
+Connection ~ 6200 2750
+Wire Wire Line
+	5750 2850 5900 2850
+Wire Wire Line
+	5800 2050 5900 2050
+Wire Wire Line
+	5900 2050 5900 2850
+Connection ~ 5900 2850
+Wire Wire Line
+	5900 2850 6300 2850
+Wire Wire Line
+	6200 2750 6700 2750
+Wire Wire Line
+	5800 1950 6000 1950
+Wire Wire Line
+	6000 1950 6000 2750
+Connection ~ 6000 2750
+Wire Wire Line
+	6000 2750 6200 2750
+Wire Wire Line
+	3150 4900 3150 5700
+Wire Wire Line
+	3150 5700 3700 5700
+Wire Wire Line
+	2800 4900 2800 5800
+Wire Wire Line
+	2800 5800 3700 5800
+Wire Wire Line
+	2450 4900 2450 5900
+Wire Wire Line
+	2450 5900 3700 5900
+Wire Wire Line
+	2100 4900 2100 6000
+Wire Wire Line
+	2100 6000 3700 6000
+Wire Wire Line
+	1750 4900 1750 6100
+Wire Wire Line
+	1750 6100 3700 6100
+Wire Wire Line
+	1400 4900 1400 6200
+Wire Wire Line
+	1400 6200 3700 6200
+Wire Wire Line
+	9600 4850 10350 4850
+Connection ~ 9600 4850
+Text Label 10350 4850 0    50   ~ 0
+GND2
+Wire Wire Line
+	700  4600 700  4350
+Connection ~ 700  4600
+Text Label 700  4350 0    50   ~ 0
+GND2
 $EndSCHEMATC
