@@ -1084,22 +1084,18 @@ Wire Wire Line
 Connection ~ 6600 4850
 Wire Wire Line
 	6600 4850 6900 4850
-Text Label 2000 4850 2    50   ~ 0
-GND1
-Wire Wire Line
-	8950 3900 8950 3700
 Wire Wire Line
 	8850 3700 8850 3900
 $Comp
-L Device:R R?
+L Device:R R3
 U 1 1 5CC8653E
-P 8850 3550
-F 0 "R?" H 8920 3596 50  0000 L CNN
-F 1 "R" H 8920 3505 50  0000 L CNN
-F 2 "" V 8780 3550 50  0001 C CNN
-F 3 "~" H 8850 3550 50  0001 C CNN
-	1    8850 3550
-	1    0    0    -1  
+P 9000 3700
+F 0 "R3" V 8793 3700 50  0000 C CNN
+F 1 "R" V 8884 3700 50  0000 C CNN
+F 2 "keyboard_parts:D_SOD123_axial" V 8930 3700 50  0001 C CNN
+F 3 "~" H 9000 3700 50  0001 C CNN
+	1    9000 3700
+	0    1    1    0   
 $EndComp
 Wire Wire Line
 	8750 3900 8750 3700
@@ -1107,4 +1103,16 @@ Wire Wire Line
 	9250 4600 9550 4600
 Wire Wire Line
 	9550 4600 9550 4300
+Text Label 8950 3900 0    50   ~ 0
+GND1
+Text Label 8850 3400 0    50   ~ 0
+GND1
+Text Label 9150 3700 0    50   ~ 0
+GND1
+Text Label 2000 4850 0    50   ~ 0
+VCC1
+Text Label 9550 4300 0    50   ~ 0
+VCC1
+Text Label 8750 3700 1    50   ~ 0
+VCC1
 $EndSCHEMATC
