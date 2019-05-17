@@ -8,8 +8,8 @@ byte keysState[3][3];
 //change the key for each switch presse
 //refer to https://www.arduino.cc/en/Reference/KeyboardPress
 //modifier keys - https://www.arduino.cc/en/Reference/KeyboardModifiers
-char keys[3][3] =  {{'q', 'w', 'e'},
-                    {'a', 's', 'd'},
+char keys[3][3] =  {{'q', KEY_UP_ARROW, 'e'},
+                    {KEY_LEFT_ARROW, KEY_DOWN_ARROW, KEY_RIGHT_ARROW},
                     {'z', 'x', ' '}};
 
 byte rowSize = sizeof(row);
