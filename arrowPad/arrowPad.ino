@@ -148,10 +148,10 @@ void setAll(int x){
 }
 
 //LIGHTS: FADES COLUMNS IN WAVE PATTERN
-int current1 = 0; //edit the currenti values for offsets
+int current1 = 500; //edit the currenti values for offsets
 int current2 = 1000;
 int current3 = 2000;
-int current4 = 3800;
+int current4 = 3000;
 int increment5 = 100; //edit to slow or speed wave
 
 int inc1 = 1;
@@ -207,6 +207,7 @@ void lightReact(int pres){
   for (int i = 0; i < rowSize; i++){
     for(int j = 0; j < colSize; j++){
       if(keysState[j][i] == pres){
+        
         Tlc.set(ledMap[lightIndex], 4000);
       }
       else{
@@ -217,12 +218,4 @@ void lightReact(int pres){
   }
   Tlc.update();
 }
-
-
-
-
-
-
-
-  
 
