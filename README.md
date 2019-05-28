@@ -13,7 +13,7 @@
 - [ ] Smd led(3528 SMD LED)
 - [ ] TI TLC5940 (TSSOP package)
 - [ ] Switches
-Extra 
+1. Extra 
 - [ ] 6v - 16v battery (not fully implemented)
 - [ ] Trrs jack 
 - [ ] Trrs cable 
