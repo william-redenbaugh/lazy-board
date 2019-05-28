@@ -1,3 +1,4 @@
+# UNDER CONSTRUCTION
 # arrowPad
 1. A 4 x 4 keypad that uses a custom pcb and mechanical keyboard switches.
 
@@ -10,6 +11,8 @@
 - [ ] Kailh Choc keycaps
 - [ ] Arduino Pro Micro
 - [ ] Smd led(3528 SMD LED)
+- [ ] TI TLC5940 (TSSOP package)
+- [ ] Switches
 Extra 
 - [ ] 6v - 16v battery (not fully implemented)
 - [ ] Trrs jack 
