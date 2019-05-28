@@ -12,7 +12,7 @@
 - [ ] Arduino Pro Micro
 - [ ] M3 Screw holes
 
-1. Extra 
+1. Extra Parts
 - [ ] Slide switches (Used for enabling or disabling features)
 - [ ] Smd led(3528 SMD LED)
 - [ ] TI TLC5940 (TSSOP package)
