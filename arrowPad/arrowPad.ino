@@ -1,8 +1,10 @@
 #include <Keyboard.h>
 #include "Tlc5940.h"
 
-byte row[] = {7, 8, 0, 20} ;//col grounds
-byte col[] = {4, 1, 6, 21} ;//input pullups
+//byte row[] = {7, 8, 0, 20} ;//col grounds
+byte row[] = {20,0,8,7};
+byte col[] = {21,6,1,4};
+//byte col[] = {4, 1, 6, 21} ;//input pullups
 byte rowSize = sizeof(row);
 byte colSize = sizeof(col);
 byte keysState[4][4];
@@ -34,7 +36,7 @@ void loop() {
   checkLightMode();
   runLighting();
   //printState(); //for debugging
-  delay(2); //to not over load the arduino
+  delay(5); //to not over load the arduino
 }
 
 //KEYBOARD ROUTINES
@@ -77,6 +79,7 @@ void pressKeys(){
       }
     }
   }
+  Serial.println();
 }
 
 void  initalize(){
@@ -204,8 +207,8 @@ void lightsAllFade(){
 //pres = 0 Lights only pressed key
 void lightReact(int pres){
   int lightIndex = 0;
-  for (int i = 0; i < rowSize; i++){
-    for(int j = 0; j < colSize; j++){
+  for (int i = rowSize; i < rowSize; i++){
+    for(int j = colSize; j < colSize; j++){
       if(keysState[j][i] == pres){
         
         Tlc.set(ledMap[lightIndex], 4000);
