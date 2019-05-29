@@ -210,7 +210,6 @@ void lightReact(int pres){
   for (int i = rowSize; i < rowSize; i++){
     for(int j = colSize; j < colSize; j++){
       if(keysState[j][i] == pres){
-        
         Tlc.set(ledMap[lightIndex], 4000);
       }
       else{
