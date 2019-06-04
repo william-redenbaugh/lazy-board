@@ -130,7 +130,7 @@ void runLighting(){
   switch(ledMode){
     case 0: lightsAllFade();
             break;
-    case 1: lightReact(0);
+    case 1: lightStrace();
             break;
     case 2: lightsColFade();
             break;
@@ -143,6 +143,8 @@ void setCol(int c, int val){
     Tlc.set(ledMap[i], val);
   }
 }
+
+
 //Sets all LEDS to specific value
 void setAll(int x){
   for (int i = 0; i < 16; i++) {
@@ -219,5 +221,32 @@ void lightReact(int pres){
     }
   }
   Tlc.update();
+}
+
+
+//LIGHTS: S Pattern
+int sSpeed = 3;
+int inc6;
+int index=0;
+int reversing = true;
+byte sequenceS[] = {ledMap[0], ledMap[1], ledMap[2], ledMap[3], 
+                    ledMap[7], ledMap[6], ledMap[5], ledMap[4], 
+                    ledMap[8], ledMap[9], ledMap[10], ledMap[11], 
+                    ledMap[15], ledMap[14], ledMap[13], ledMap[12], };
+void lightStrace(){
+  if(inc6>sSpeed){
+    if(index > 15) reversing = true;
+     if(index < 0){
+      index=0;
+      reversing = false;
+     }
+    if(!reversing)Tlc.set(sequenceS[index],3000);
+    if(reversing) Tlc.set(sequenceS[index],0);
+    Tlc.update();
+    inc6 = 0;
+    if(reversing) index--;
+    else index++;
+  }
+  inc6+=1;
 }
 
