@@ -1,10 +1,8 @@
 #include <Keyboard.h>
 #include "Tlc5940.h"
-
-//byte row[] = {7, 8, 0, 20} ;//col grounds
 byte row[] = {20,0,8,7};
 byte col[] = {21,6,1,4};
-//byte col[] = {4, 1, 6, 21} ;//input pullups
+
 byte rowSize = sizeof(row);
 byte colSize = sizeof(col);
 byte keysState[4][4];
@@ -143,8 +141,6 @@ void setCol(int c, int val){
     Tlc.set(ledMap[i], val);
   }
 }
-
-
 //Sets all LEDS to specific value
 void setAll(int x){
   for (int i = 0; i < 16; i++) {
@@ -203,7 +199,7 @@ void lightsAllFade(){
   Tlc.update();
 }
 
-//LIGHTS: REACTS TO if KEY IS PRESSED
+//LIGHTS: REACTS TO if KEY IS PRESSED(Work in progress)
 
 //pres = 1 Lights all but pressed key
 //pres = 0 Lights only pressed key
@@ -223,8 +219,7 @@ void lightReact(int pres){
   Tlc.update();
 }
 
-
-//LIGHTS: S Pattern
+//LIGHTS: S Pattern.
 int sSpeed = 3;
 int inc6;
 int index=0;
