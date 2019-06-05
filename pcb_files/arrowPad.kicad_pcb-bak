@@ -2,7 +2,7 @@
 
   (general
     (thickness 1.6)
-    (drawings 26)
+    (drawings 16)
     (tracks 1121)
     (zones 0)
     (modules 65)
@@ -11,8 +11,8 @@
 
   (page A4)
   (layers
-    (0 F.Cu signal hide)
-    (31 B.Cu signal hide)
+    (0 F.Cu signal)
+    (31 B.Cu signal)
     (32 B.Adhes user)
     (33 F.Adhes user)
     (34 B.Paste user)
@@ -2660,18 +2660,6 @@
     (pad 1 np_thru_hole circle (at 0 0) (size 3.2 3.2) (drill 3.2) (layers *.Cu *.Mask))
   )
 
-  (gr_line (start 123.1 56.55) (end 123.1 52.75) (layer F.SilkS) (width 0.2))
-  (gr_line (start 132.3 56.55) (end 123.1 56.55) (layer F.SilkS) (width 0.2))
-  (gr_line (start 132.3 52.7) (end 132.3 56.6) (layer F.SilkS) (width 0.2))
-  (gr_line (start 118.75 52.7) (end 132.3 52.7) (layer F.SilkS) (width 0.2))
-  (gr_line (start 119.6 114.5) (end 119.6 123.5) (layer F.SilkS) (width 0.2))
-  (gr_line (start 123.55 114.5) (end 119.6 114.5) (layer F.SilkS) (width 0.2))
-  (gr_line (start 123.55 123.5) (end 123.55 114.5) (layer F.SilkS) (width 0.2))
-  (gr_line (start 118.75 123.5) (end 123.55 123.5) (layer F.SilkS) (width 0.2))
-  (gr_line (start 118.75 134) (end 118.75 123.5) (layer F.SilkS) (width 0.2))
-  (gr_text "By: LowJ" (at 116.84 124.46 90) (layer F.SilkS)
-    (effects (font (size 1.5 1.5) (thickness 0.3)))
-  )
   (gr_line (start 204.47 133.985) (end 204.47 73.66) (layer Edge.Cuts) (width 0.15))
   (gr_line (start 204.47 52.705) (end 204.47 58.42) (layer Edge.Cuts) (width 0.15))
   (gr_line (start 114.3 52.705) (end 114.3 133.985) (layer Edge.Cuts) (width 0.2))
