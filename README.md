@@ -1,3 +1,6 @@
+Project page on hackster here
+https://texasinstruments.hackster.io/jwlow/multipurpose-keypad-682653
+
 # UNDER CONSTRUCTION
 # arrowPad
 A 4 x 4 keypad that uses a custom pcb and mechanical keyboard switches.
