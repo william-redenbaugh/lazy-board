@@ -1,4 +1,7 @@
 (fp_lib_table
   (lib (name foots)(type KiCad)(uri /Users/Jonathan/Desktop/projects/arrowPad/foots.pretty)(options "")(descr ""))
   (lib (name SJ-43514-SMT)(type Legacy)(uri ${KIPRJMOD}/footprints/SJ-43514-SMT/SJ-43514-SMT.mod)(options "")(descr ""))
+  (lib (name gengar2)(type Legacy)(uri /Users/Jonathan/Desktop/projects/arrowPad/Gengar/gengar2.mod)(options "")(descr ""))
+  (lib (name geargar3)(type Legacy)(uri /Users/Jonathan/Desktop/projects/arrowPad/Gengar/geargar3.mod)(options "")(descr ""))
+  (lib (name geargar4)(type Legacy)(uri ${KIPRJMOD}/geargar4.mod)(options "")(descr ""))
 )

@@ -406,7 +406,7 @@ U 1 1 5C962AD9
 P 10200 2200
 F 0 "U4" H 10200 2567 50  0000 C CNN
 F 1 "AMS1117-3.3" H 10200 2476 50  0000 C CNN
-F 2 "promicro:AMS1117flipped" H 10200 2200 50  0001 L BNN
+F 2 "AMS1117-3.3:SOT229P700X180-4N" H 10200 2200 50  0001 L BNN
 F 3 "Sot223/Pkg 1-Amp 3.3-Volt Low Drop Out Voltage Regulatator" H 10200 2200 50  0001 L BNN
 F 4 "Advanced Monolithic Systems" H 10200 2200 50  0001 L BNN "Field4"
 F 5 "None" H 10200 2200 50  0001 L BNN "Field5"
@@ -638,7 +638,6 @@ Text Label 7100 2950 2    50   ~ 0
 Col1
 NoConn ~ 7900 1250
 NoConn ~ 14050 1150
-NoConn ~ 12800 2250
 Text Label 6750 3700 0    50   ~ 0
 VCC1
 $Comp
@@ -1111,8 +1110,8 @@ Text Label 9150 3700 0    50   ~ 0
 GND1
 Text Label 2000 4850 0    50   ~ 0
 VCC1
-Text Label 9550 4300 0    50   ~ 0
-VCC1
 Text Label 8750 3700 1    50   ~ 0
+VCC1
+Text Label 9550 4300 0    50   ~ 0
 VCC1
 $EndSCHEMATC
