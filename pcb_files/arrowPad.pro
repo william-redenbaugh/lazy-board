@@ -1,4 +1,4 @@
-update=Monday, June 17, 2019 at 09:12:14 PM
+update=Monday, June 24, 2019 at 04:34:14 PM
 version=1
 last_client=kicad
 [general]
@@ -15,7 +15,7 @@ LibDir=
 [pcbnew]
 version=1
 PageLayoutDescrFile=
-LastNetListRead=arrowPad6.net
+LastNetListRead=arrowPad.net
 PadDrill=0
 PadDrillOvalY=0
 PadSizeH=0.9299999999999999

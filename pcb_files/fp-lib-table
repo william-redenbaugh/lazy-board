@@ -1,5 +1,5 @@
 (fp_lib_table
-  (lib (name foots)(type KiCad)(uri D:/Users/jonathan/Desktop/arrowPad/foots.pretty)(options "")(descr ""))
   (lib (name SJ-43514-SMT)(type Legacy)(uri ${KIPRJMOD}/footprints/SJ-43514-SMT/SJ-43514-SMT.mod)(options "")(descr ""))
-  (lib (name snorlax)(type KiCad)(uri D:/Users/jonathan/Desktop/arrowPad/snorlax.pretty)(options "")(descr ""))
+  (lib (name snorlax)(type KiCad)(uri ${KIPRJMOD}/footprints/snorlax.pretty)(options "")(descr ""))
+  (lib (name foots)(type KiCad)(uri ${KIPRJMOD}/footprints/foots.pretty)(options "")(descr ""))
 )
