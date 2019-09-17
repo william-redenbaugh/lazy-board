@@ -9,7 +9,7 @@ If you want to build one of these yourself, follow this guide.
 <h2> Parts List </h2>
 
   Here is a list of parts you will need.
-  * __Pro Micro__ - _An arduino programmable board. _
+  * __Pro Micro__ - _An arduino programmable board._
   * __TI TLC5940__ - _LED Driver used to control the 16 LEDs._
   * __Schottky diode__(16) - _Used to prevent unwanted key presses (keyboard ghosting)._
   * __Kailh Choc switches__(16) - _The type of mechanical switch used for each key. There are many types avaliable which feel and sound different (clicky, tactile, linear)_
