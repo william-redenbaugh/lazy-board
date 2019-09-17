@@ -25,23 +25,32 @@ If you want to build one of these yourself, follow this guide.
  
 <h2> Build Time! </h2>
 
-I will use the terms front and back. Back will refer to the side with the Snorlax.
+* I will use the terms front and back. Back will refer to the side with the Snorlax.
 
 <h4> Soldering LEDs </h4>
 
- If you look at the led pad in the top left, it labels the positive and negative. The rest of the LEDs will follow this orientation. When soldering the LEDs on, start just by soldering it on to one of the pads, this will make it easier to adjust. Then check if it is positioned correctly by trying to place the switch in. Adjust if needed. Once each LED is aligned properly solder in all the other ends.
+* If you look at the led pad in the top left, it labels the positive and negative. The rest of the LEDs will follow this orientation. When soldering the LEDs on, start just by soldering it on to one of the pads, this will make it easier to adjust. Then check if it is positioned correctly by trying to place the switch in. Adjust if needed. Once each LED is aligned properly solder in all the other ends.
  
 <h4> LED driver </h4>
 
-First align the driver with the solder pads, it helps to solder in one of the ends to keep it in place. Next place a bunch of solder on all the pins so everything is connecting. Then take some wick and place it in a group of 4-8 pins to remove the solder. This should remove the solder between each pin, however the solder connecting the pad and the pin will stay. Repeat this with the rest.
+* First align the driver with the solder pads, it helps to solder in one of the ends to keep it in place. Next place a bunch of solder on all the pins so everything is connecting. Then take some wick and place it in a group of 4-8 pins to remove the solder. This should remove the solder between each pin, however the solder connecting the pad and the pin will stay. Repeat this with the rest.
 (PIC)
-Make sure you solder the 10K resistor (R3). Make sure it is installed on the back side.
+* Make sure you solder the 10K resistor (R3). Make sure it is installed on the back side.
 
 <h4> Diodes </h4>
 
-When putting in the diode, the direction matters. Follow the labeling on the front side. Also make sure to install the diodes on the back side of the pcb, this will allow for the housing to fit properly. Cut the excess leads.
+* When putting in the diode, the direction matters. Follow the labeling on the front side. Also make sure to install the diodes on the back side of the pcb, this will allow for the housing to fit properly. Cut the excess leads.
 
 <h4> Sockets and Pro Micro </h4>
-First install all the sockets. Sockets at K3 and K4 will need to have the bottom portions cut with an x-acto to allow for the pro micro to fit in. Once the pro micro is installed, cut the excess leads. 
+* First install all the sockets. Sockets at K3 and K4 will need to have the bottom portions cut with an x-acto to allow for the pro micro to fit in. Once the pro micro is installed, cut the excess leads. Try to make sure the cuts are as close to the board as possible, as a switch will be installed on top of them.
 (PIC)
+
+<h2> Housing </h2>
+I included the dxf files for the housing. It uses #2 screws.
+
+<h2> Programming </h2>
+Key presses can be modified by changing the key array in line 14. If you want to use keyboard modifiers, refer here https://www.arduino.cc/en/Reference/KeyboardModifiers.
+There are 3 preset lighting modes.....
+
+
 
