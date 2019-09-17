@@ -42,15 +42,18 @@ If you want to build one of these yourself, follow this guide.
 * When putting in the diode, the direction matters. Follow the labeling on the front side. Also make sure to install the diodes on the back side of the pcb, this will allow for the housing to fit properly. Cut the excess leads.
 
 <h4> Sockets and Pro Micro </h4>
+
 * First install all the sockets. Sockets at K3 and K4 will need to have the bottom portions cut with an x-acto to allow for the pro micro to fit in. Once the pro micro is installed, cut the excess leads. Try to make sure the cuts are as close to the board as possible, as a switch will be installed on top of them.
 (PIC)
 
 <h2> Housing </h2>
-I included the dxf files for the housing. It uses #2 screws.
+
+* I included the dxf files for the housing I used in the laser cutter. It uses #2 screws to hold everything together.
 
 <h2> Programming </h2>
-Key presses can be modified by changing the key array in line 14. If you want to use keyboard modifiers, refer here https://www.arduino.cc/en/Reference/KeyboardModifiers.
-There are 3 preset lighting modes.....
+
+* Key presses can be modified by changing the key array in line 14. If you want to use keyboard modifiers, refer here https://www.arduino.cc/en/Reference/KeyboardModifiers.
+* There are 3 preset lighting modes and the three left most keys in the bottom row will cycle between them. I will figure out a way to be able to unbind them...
 
 
 
