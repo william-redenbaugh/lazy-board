@@ -1,9 +1,7 @@
 
+<h4> If you are looking for information on how it works, I made a detailed post on hackster.io. </h4> 
 
-
-If you are looking for more information, I made a post on hackster.io
 https://texasinstruments.hackster.io/jwlow/multipurpose-keypad-682653
-
 
 <h1> Build Guide </h1>
 If you want to build one of these yourself, follow this guide.
