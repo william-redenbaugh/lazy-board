@@ -9,17 +9,19 @@ If you want to build one of these yourself, follow this guide.
 <h2> Parts List </h2>
 
   Here is a list of parts you will need.
-  * __Pro Micro__ - An arduino programmable board. 
-  * __TI TLC5940__ - LED Driver used to control the 16 LEDs.
-  * __Schottky diode__(16) - Used to prevent unwanted key presses (keyboard ghosting).
-  * __Kailh Choc switches__(16) - The type of mechanical switch used for each key. There are many types avaliable which feel and sound different (clicky, tactile, linear)
-  * __Kailh Choc PCB sockets__(16) - Sockets for the Choc Switches soldered on to the PCB. Sockets allow for the mechanical switches to be taken out easily. 
-  * __Kailh low profile keycaps__(16) - Keycaps for the mechanical switches.
-  * __3528 SMD LEDs__(16) - The PCB has pads for SMD LEDs, I made the pads large so different kinds of sizes would work.
-  * __10K Resistor__ - For the LED driver.
-  * __Solder Wick__ - Needed for hand soldering the LED driver.
+  * __Pro Micro__ - _An arduino programmable board. _
+  * __TI TLC5940__ - _LED Driver used to control the 16 LEDs._
+  * __Schottky diode__(16) - _Used to prevent unwanted key presses (keyboard ghosting)._
+  * __Kailh Choc switches__(16) - _The type of mechanical switch used for each key. There are many types avaliable which feel and sound different (clicky, tactile, linear)_
+  * __Kailh Choc PCB sockets__(16) - _Sockets for the Choc Switches soldered on to the PCB. Sockets allow for the mechanical switches to be taken out easily._
+  * __Kailh low profile keycaps__(16) - _Keycaps for the mechanical switches._
+  * __3528 SMD LEDs__(16) - _The PCB has pads for SMD LEDs, I made the pads large so different kinds of sizes would work._
+  * __10K Resistor__ - _For the LED driver._
+  * __Solder Wick__ - _Needed for hand soldering the LED driver._
+  
   <h4> Obtaining PCBs </h4>
-  * PCBs can be obtained by ordering them through sites like JLCPCB or PCBway. Ive ordered PCBs from both of them, the prices are good. One of the draw backs is that shipping to the US can talke 3-4 weeks.
+  
+* PCBs can be obtained by ordering them through sites like JLCPCB or PCBway. Ive ordered PCBs from both of them, the prices are good. One of the draw backs is that shipping to the US can talke 3-4 weeks.
  
 <h2> Build Time! </h2>
 
