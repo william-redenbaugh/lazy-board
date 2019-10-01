@@ -3,6 +3,32 @@
 
 https://texasinstruments.hackster.io/jwlow/multipurpose-keypad-682653
 
+
+![alt text](https://i.gyazo.com/83f4064b9b0d78ada4ea7b015f7d7ddd.jpg "top")
+
+<h2> Pictures </h2>
+<details><summary> 3D Renders </summary> 
+ 
+![alt text](https://i.gyazo.com/d43b5fd12b36bb39a85464d7c94d60a3.png "top")
+![alt text](https://i.gyazo.com/467492ff98c31ae9e84727753231b388.png "side")
+</details>
+
+<details><summary> PCB traces </summary> 
+  
+![alt text](https://i.gyazo.com/5db6f24fbbabc50d9381db6222e21120.png "pcb traces")
+</details>
+
+<details><summary> Schematic </summary> 
+  
+![alt text](https://i.gyazo.com/c49d5a83c74e05b01f7faae8bfd25376.png "schematic")
+</details>
+
+<details><summary> Final </summary> 
+  
+![alt text](https://i.gyazo.com/83f4064b9b0d78ada4ea7b015f7d7ddd.jpg "top")
+![alt text](https://i.gyazo.com/b64d2baa040787c60e52b97e204d4b35.jpg "bottom")
+</details>
+
 <h1> Build Guide </h1>
 If you want to build one of these yourself, follow this guide.
 
