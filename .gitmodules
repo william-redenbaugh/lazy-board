@@ -1,0 +1,3 @@
+[submodule "lazy-code/Teensy4LazyBoard/lib/ChRt"]
+	path = lazy-code/Teensy4LazyBoard/lib/ChRt
+	url = git@github.com:william-redenbaugh/ChRt.git
