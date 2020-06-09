@@ -23,7 +23,6 @@ extern KeyState* get_keyboard_values(void);
 */
 /**************************************************************************/
 extern KeyState* get_keyboard_values(void){
-    // Done so we don't have to look at VS code errors. 
     return &key_state;
 }
 
