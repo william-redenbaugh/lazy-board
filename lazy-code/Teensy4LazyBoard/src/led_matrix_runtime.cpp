@@ -24,6 +24,11 @@ OctoWS2811 leds(leds_per_strip, display_memory, drawing_memory, config, num_pins
 
 extern void start_led_strip_thread(void);
 
+/**************************************************************************/
+/*!
+    @brief Thread function and stack space for our led matrix stuff. 
+*/
+/**************************************************************************/
 static THD_WORKING_AREA(led_matrix_thread_wa, 4096);
 static THD_FUNCTION(led_matrix_thread, arg){
     (void)arg; 
@@ -37,6 +42,11 @@ static THD_FUNCTION(led_matrix_thread, arg){
     }   
 }
 
+/**************************************************************************/
+/*!
+    @brief Allows us to setup our led strip/matrix thread.  
+*/
+/**************************************************************************/
 extern void start_led_strip_thread(void){
     chThdCreateStatic(led_matrix_thread_wa, 
                       sizeof(led_matrix_thread_wa), 
