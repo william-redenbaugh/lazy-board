@@ -2,14 +2,14 @@
 
 // Pinmap of all the gpio pins for reading the keyboard matrix, rows and columns
 uint8_t matrix_row_gpio[] = {KB_MATRIX_PIN_0, 
-                 KB_MATRIX_PIN_1, 
-                 KB_MATRIX_PIN_2, 
-                 KB_MATRIX_PIN_3};
+                             KB_MATRIX_PIN_1, 
+                             KB_MATRIX_PIN_2, 
+                             KB_MATRIX_PIN_3};
 
 uint8_t matrix_col_gpio[] = {KB_MATRIX_PIN_4, 
-                 KB_MATRIX_PIN_5, 
-                 KB_MATRIX_PIN_6, 
-                 KB_MATRIX_PIN_7};  
+                             KB_MATRIX_PIN_5, 
+                             KB_MATRIX_PIN_6, 
+                             KB_MATRIX_PIN_7};  
 
 KeyState key_state;
 
@@ -23,7 +23,6 @@ extern KeyState* get_keyboard_values(void);
 */
 /**************************************************************************/
 extern KeyState* get_keyboard_values(void){
-    // Done so we don't have to look at VS code errors. 
     return &key_state;
 }
 
