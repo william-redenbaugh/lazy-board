@@ -40,8 +40,8 @@ extern void loop(void) {
       }
   }
   
-  // So we have the whole system run every 200 milliseconds. 
-  message_thread_end_tick = message_thread_begin_tick + TIME_I2MS(200);
+  // So we have the whole system run every 7 milliseconds. 
+  message_thread_end_tick = message_thread_begin_tick + TIME_I2MS(7);
   if(message_thread_end_tick > chVTGetSystemTimeX())
     chThdSleepUntil(message_thread_end_tick);
 }

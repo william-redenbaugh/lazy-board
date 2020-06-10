@@ -10,7 +10,7 @@ const int num_pins = 1;
 byte pin_list[num_pins] = {14};
 
 // number of leds per strip
-const int leds_per_strip = 12;
+const int leds_per_strip = 16;
 
 // dma memory space for reading the led strips. 
 DMAMEM int display_memory[leds_per_strip*num_pins*(3/4)];
