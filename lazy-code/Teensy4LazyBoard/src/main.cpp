@@ -17,10 +17,10 @@
 void chibiSetup(void){
   
   // Starting our different threads for dealing with communication. 
-  start_message_management();
-  start_keyboard_runtime_thread();
+  //start_message_management();
+  //start_keyboard_runtime_thread();
   start_led_strip_thread();
-  start_spi_display_thread();
+  //start_spi_display_thread();
 }
 
 /**************************************************************************/
@@ -30,5 +30,5 @@ void chibiSetup(void){
 /**************************************************************************/
 void setup() {
   // We do all of our setup in here. 
-  chBegin(chibiSetup);
+  chBegin(chibiSetup);  
 }
