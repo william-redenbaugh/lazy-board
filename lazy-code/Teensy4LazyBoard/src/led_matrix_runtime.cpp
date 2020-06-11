@@ -23,6 +23,7 @@ static THD_FUNCTION(led_matrix_thread, arg){
     
     // Looping runtime. 
     for(;;){
+        
         chThdSleepSeconds(1);
     }   
 }
