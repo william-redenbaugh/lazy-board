@@ -5,11 +5,11 @@
 #include "Arduino.h"
 #include "ChRt.h"
 
-// GPIO pin that we will put our led strip on. 
-#define LED_STRIP_GPIO 14
+// WS2812Serial DMA Bitbang library
+#include "WS2812Serial.h"
 
-// For us on our prototyping board. 
-#define NUM_MATRIX_LEDS 12
+// Our LED matrix handler library. 
+#include "led_matrix_handler.hpp"
 
 extern void start_led_strip_thread(void);
 
