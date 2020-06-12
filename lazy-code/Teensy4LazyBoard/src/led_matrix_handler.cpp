@@ -161,7 +161,7 @@ extern void _set_ws2812b_led_hsv(uint8_t x, uint8_t y, uint8_t h, uint8_t s, uin
     hsv.v = v; 
     RgbColor rgb = HsvToRgb(hsv);
 
-    _set_ws2812b_led(x, y, rgb.r, rgb.g, rgb.g);
+    _set_ws2812b_led(x, y, rgb.r, rgb.g, rgb.b);
 }
 
 extern void _set_ws2812b_macro_hsv(led_macro_t led_macro, uint8_t h, uint8_t s, uint8_t v){
@@ -171,7 +171,7 @@ extern void _set_ws2812b_macro_hsv(led_macro_t led_macro, uint8_t h, uint8_t s, 
     hsv.v = v; 
     RgbColor rgb = HsvToRgb(hsv);
 
-    _set_ws2812b_macro(led_macro, rgb.r, rgb.g, rgb.g);
+    _set_ws2812b_macro(led_macro, rgb.r, rgb.g, rgb.b);
 }
 
 /**************************************************************************/

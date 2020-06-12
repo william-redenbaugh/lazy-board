@@ -23,8 +23,16 @@ static THD_FUNCTION(led_matrix_thread, arg){
     
     // Looping runtime. 
     for(;;){
-        
-        chThdSleepSeconds(1);
+        for(uint8_t h = 0; h < 255; h++){
+            for(uint8_t y = 0; y < 4; y++){
+                for(uint8_t x = 0; x < 4; x++){
+                    uint8_t hue_val = (uint8_t)((y* 9 * x) + h ) % 255; 
+                    _set_ws2812b_led_hsv(x, y, hue_val, 255, 20);
+                }
+            }
+            _update_ws2812b_matrix();
+            chThdSleepMilliseconds(20);
+        }
     }   
 }
 
