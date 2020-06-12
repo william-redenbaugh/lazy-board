@@ -1,5 +1,7 @@
 #include "spi_display_runtime.hpp"
 
+#include "Keyboard.h"
+
 Adafruit_ST7735 key_ips = Adafruit_ST7735(LCD_SPI_PIN_CS, LCD_SPI_PIN_DC, LCD_SPI_PIN_RST);
 
 extern void start_spi_display_thread(void);

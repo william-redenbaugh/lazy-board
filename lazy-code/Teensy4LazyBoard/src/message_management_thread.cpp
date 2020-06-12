@@ -26,7 +26,6 @@ extern void start_message_management(void){
 */
 /**************************************************************************/
 extern void loop(void) {
-    /*
     message_thread_begin_tick = chVTGetSystemTimeX();
     // Running our message management on the main loop thread. 
     if(message_management.run()){
@@ -44,9 +43,7 @@ extern void loop(void) {
     message_thread_end_tick = message_thread_begin_tick + TIME_I2MS(200);
     if(message_thread_end_tick > chVTGetSystemTimeX())
     chThdSleepUntil(message_thread_end_tick);
-    */
-   
-   chThdSleepSeconds(1);
+
 }
 
 /**************************************************************************/
