@@ -5,7 +5,7 @@
 #include "Arduino.h"
 #include "ChRt.h"
 
-// Keyboard Matrix pins.
+// Keyboard matrix pins.
 #define KB_MATRIX_PIN_0 2
 #define KB_MATRIX_PIN_1 3
 #define KB_MATRIX_PIN_2 4
