@@ -1,3 +1,6 @@
 [submodule "lazy-code/Teensy4LazyBoard/lib/ChRt"]
 	path = lazy-code/Teensy4LazyBoard/lib/ChRt
 	url = git@github.com:william-redenbaugh/ChRt.git
+[submodule "lazy-code/Teensy4LazyBoard/lib/Adafruit-ST7735-Library"]
+	path = lazy-code/Teensy4LazyBoard/lib/Adafruit-ST7735-Library
+	url = https://github.com/adafruit/Adafruit-ST7735-Library

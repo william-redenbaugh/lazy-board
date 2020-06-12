@@ -5,6 +5,8 @@
 #include "Arduino.h"
 #include "ChRt.h"
 
+#include "Adafruit_GFX.h"
+
 // LCD SPI PIN DENOMINATIONS
 #define LCD_SPI_PIN_CS 10
 #define LCD_SPI_PIN_MOSI 11
