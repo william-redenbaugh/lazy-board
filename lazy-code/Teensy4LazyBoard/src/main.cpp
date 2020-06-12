@@ -20,7 +20,7 @@ void chibiSetup(void){
   //start_message_management();
   //start_keyboard_runtime_thread();
   start_led_strip_thread();
-  //start_spi_display_thread();
+  start_spi_display_thread();
 }
 
 /**************************************************************************/
