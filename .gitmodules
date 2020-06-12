@@ -4,3 +4,6 @@
 [submodule "lazy-code/Teensy4LazyBoard/lib/Adafruit-ST7735-Library"]
 	path = lazy-code/Teensy4LazyBoard/lib/Adafruit-ST7735-Library
 	url = https://github.com/adafruit/Adafruit-ST7735-Library
+[submodule "lazy-code/Teensy4LazyBoard/lib/Adafruit-GFX"]
+	path = lazy-code/Teensy4LazyBoard/lib/Adafruit-GFX
+	url = git@github.com:william-redenbaugh/Adafruit-GFX-Library
