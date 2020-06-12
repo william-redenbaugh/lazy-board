@@ -1,5 +1,7 @@
 #include "spi_display_runtime.hpp"
 
+Adafruit_ST7735 key_ips = Adafruit_ST7735(LCD_SPI_PIN_CS, LCD_SPI_PIN_DC, LCD_SPI_PIN_RST);
+
 extern void start_spi_display_thread(void);
 
 /**************************************************************************/
@@ -10,6 +12,8 @@ extern void start_spi_display_thread(void);
 static THD_WORKING_AREA(spi_display_thread_wa, 4096);
 static THD_FUNCTION(spi_display_thread, arg){
     (void)arg; 
+
+    key_ips.initR(INITR_MINI160x80);  // Init ST7735S mini display
 
     // Looping runtime. 
     for(;;){
