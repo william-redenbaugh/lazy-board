@@ -26,5 +26,5 @@ struct LEDMatrixConfiguration{
 };
 
 extern void start_led_strip_thread(void);
-extern void set_animation_parameters(LEDMatrixConfiguration config);
+extern void change_matrix_config(LEDMatrixConfiguration config);
 #endif
