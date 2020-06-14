@@ -1,16 +1,19 @@
 #ifndef _HSV_RGB_CONV_HPP
 #define _HSV_RGB_CONV_HPP
 
+#include "Arduino.h"
+#include "ChRt.h"
+
 typedef struct RgbColor{
-    unsigned char r;
-    unsigned char g;
-    unsigned char b;
+    uint8_t r;
+    uint8_t g;
+    uint8_t b;
 } RgbColor;
 
 typedef struct HsvColor{
-    unsigned char h;
-    unsigned char s;
-    unsigned char v;
+    uint8_t h;
+    uint8_t s;
+    uint8_t v;
 } HsvColor;
 
 HsvColor RgbToHsv(RgbColor rgb);
