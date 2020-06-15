@@ -13,142 +13,144 @@ static THD_FUNCTION(keyboard_runtime_thread, arg){
     (void)arg; 
 
     start_keyboard_gpio();
-    // Creates pointer to the array that has the keyboard values. 
-    KeyState *key_state_ptr = get_keyboard_values();
     Keyboard.begin();
 
     systime_t kb_thread_begin_tick;
     systime_t kb_thread_end_tick;  
 
-    while(1){
-        // Reads in the keyboard data from the matrix. 
-        //read_keybord_gpio();
+    Serial.begin(115200);
 
-        // Get current tick
+    KeyState key_state; 
+
+    while(1){
+        // Get current tick  aneiobfk
         kb_thread_begin_tick = chVTGetSystemTimeX();
 
-        // Run through 2D array, check which keys are pressed and which arent. 
+        // Reads in the keyboard data from the matrix. 
+        read_keyboard_gpio();
+        get_keyboard_values(key_state);
 
-        // BEGIN OF KEYSTROKE KEYBOARD OUTPUT // 
-        for(uint8_t row = 0; row < NUM_ROWS; row++){
-            for(uint8_t col = 0; col < NUM_COLS; col++){
-                uint16_t current_enum = row * NUM_COLS + col;
-                if(*key_state_ptr[row][col]){
-                    switch(current_enum){
-                    case(KB_MACRO_0_POS):
-                        Keyboard.press(KB_MACRO_0);
-                    break;
-                    case(KB_MACRO_1_POS):
-                        Keyboard.press(KB_MACRO_1);
-                    break;
-                    case(KB_MACRO_2_POS):
-                        Keyboard.press(KB_MACRO_2);
-                    break;
-                    case(KB_MACRO_3_POS):
-                        Keyboard.press(KB_MACRO_3);
-                    break;
-                    case(KB_MACRO_4_POS):
-                        Keyboard.press(KB_MACRO_4);
-                    break;
-                    case(KB_MACRO_5_POS):
-                        Keyboard.press(KB_MACRO_5);
-                    break;
-                    case(KB_MACRO_6_POS):
-                        Keyboard.press(KB_MACRO_6);
-                    break;
-                    case(KB_MACRO_7_POS):
-                        Keyboard.press(KB_MACRO_7);
-                    break;
-                    case(KB_MACRO_8_POS):
-                        Keyboard.press(KB_MACRO_8);
-                    break;
-                    case(KB_MACRO_9_POS):
-                        Keyboard.press(KB_MACRO_9);
-                    break;
-                    case (KB_MACRO_10_POS):
-                        Keyboard.press(KB_MACRO_10);
-                    break;
-                    case(KB_MACRO_11_POS):
-                        Keyboard.press(KB_MACRO_11);
-                    break;
-                    
-                    // ** NOTE: CURRENTLY UNUSED PINS BEGIN ** // 
-                    case(KB_MACRO_12_POS):
-                        Keyboard.press(KB_MACRO_12);
-                    break;
-                    case(KB_MACRO_13_POS):
-                        Keyboard.press(KB_MACRO_13);
-                    break;
-                    case(KB_MACRO_14_POS):
-                        Keyboard.press(KB_MACRO_14);
-                    break;
-                    case(KB_MACRO_15_POS):
-                        Keyboard.press(KB_MACRO_15);
-                    break;
-                    // ** NOTE: CURRENTLY UNUSED PINS END ** // 
-                    default:
-                        // HOW TF DID WE GET HERE ?!?!!!??  :0 // 
-                    break;
-                    }
+        for(uint8_t x = 0; x < NUM_ROWS * NUM_COLS; x++){
+            if(key_state[x] == 0){
+                Serial.println(x);
+            }
+        }
+        // Run through 2D array, check which keys are pressed and which arent. 
+        for(uint8_t x = 0; x < NUM_ROWS * NUM_COLS; x++){
+            if(key_state[x] == 3){
+                switch(x){
+                case(KB_MACRO_0_POS):
+                    Keyboard.press(KB_MACRO_0);
+                break;
+                case(KB_MACRO_1_POS):
+                    Keyboard.press(KB_MACRO_1);
+                break;
+                case(KB_MACRO_2_POS):
+                    Keyboard.press(KB_MACRO_2);
+                break;
+                case(KB_MACRO_3_POS):
+                    Keyboard.press(KB_MACRO_3);
+                break;
+                case(KB_MACRO_4_POS):
+                    Keyboard.press(KB_MACRO_4);
+                break;
+                case(KB_MACRO_5_POS):
+                    Keyboard.press(KB_MACRO_5);
+                break;
+                case(KB_MACRO_6_POS):
+                    Keyboard.press(KB_MACRO_6);
+                break;
+                case(KB_MACRO_7_POS):
+                    Keyboard.press(KB_MACRO_7);
+                break;
+                case(KB_MACRO_8_POS):
+                    Keyboard.press(KB_MACRO_8);
+                break;
+                case(KB_MACRO_9_POS):
+                    Keyboard.press(KB_MACRO_9);
+                break;
+                case (KB_MACRO_10_POS):
+                    Keyboard.press(KB_MACRO_10);
+                break;
+                case(KB_MACRO_11_POS):
+                    Keyboard.press(KB_MACRO_11);
+                break;
+                
+                // ** NOTE: CURRENTLY UNUSED PINS BEGIN ** // 
+                case(KB_MACRO_12_POS):
+                    Keyboard.press(KB_MACRO_12);
+                break;
+                case(KB_MACRO_13_POS):
+                    Keyboard.press(KB_MACRO_13);
+                break;
+                case(KB_MACRO_14_POS):
+                    Keyboard.press(KB_MACRO_14);
+                break;
+                case(KB_MACRO_15_POS):
+                    Keyboard.press(KB_MACRO_15);
+                break;
+                // ** NOTE: CURRENTLY UNUSED PINS END ** // 
+                default:
+                    // HOW TF DID WE GET HERE ?!?!!!??  :0 // 
+                break;
                 }
-                // If key isn't currently pressed, then we make sure it's been released. 
-                else{
-                    switch(current_enum){
-                    case(KB_MACRO_0_POS):
-                        Keyboard.release(KB_MACRO_0);
-                    break;
-                    case(KB_MACRO_1_POS):
-                        Keyboard.release(KB_MACRO_1);
-                    break;
-                    case(KB_MACRO_2_POS):
-                        Keyboard.release(KB_MACRO_2);
-                    break;
-                    case(KB_MACRO_3_POS):
-                        Keyboard.release(KB_MACRO_3);
-                    break;
-                    case(KB_MACRO_4_POS):
-                        Keyboard.release(KB_MACRO_4);
-                    break;
-                    case(KB_MACRO_5_POS):
-                        Keyboard.release(KB_MACRO_5);
-                    break;
-                    case(KB_MACRO_6_POS):
-                        Keyboard.release(KB_MACRO_6);
-                    break;
-                    case(KB_MACRO_7_POS):
-                        Keyboard.release(KB_MACRO_7);
-                    break;
-                    case(KB_MACRO_8_POS):
-                        Keyboard.release(KB_MACRO_8);
-                    break;
-                    case(KB_MACRO_9_POS):
-                        Keyboard.release(KB_MACRO_9);
-                    break;
-                    case (KB_MACRO_10_POS):
-                        Keyboard.release(KB_MACRO_10);
-                    break;
-                    case(KB_MACRO_11_POS):
-                        Keyboard.release(KB_MACRO_11);
-                    break;
-                    
-                    // ** NOTE: CURRENTLY UNUSED PINS BEGIN ** // 
-                    case(KB_MACRO_12_POS):
-                        Keyboard.release(KB_MACRO_12);
-                    break;
-                    case(KB_MACRO_13_POS):
-                        Keyboard.release(KB_MACRO_13);
-                    break;
-                    case(KB_MACRO_14_POS):
-                        Keyboard.release(KB_MACRO_14);
-                    break;
-                    case(KB_MACRO_15_POS):
-                        Keyboard.release(KB_MACRO_15);
-                    break;
-                    // ** NOTE: CURRENTLY UNUSED PINS END ** // 
-                    default:
-                        // HOW TF DID WE GET HERE ?!?!!!??  :0 // 
-                    break;
-                    }
+            }
+            else{
+                switch(x){
+                case(KB_MACRO_0_POS):
+                    Keyboard.release(KB_MACRO_0);
+                break;
+                case(KB_MACRO_1_POS):
+                    Keyboard.release(KB_MACRO_1);
+                break;
+                case(KB_MACRO_2_POS):
+                    Keyboard.release(KB_MACRO_2);
+                break;
+                case(KB_MACRO_3_POS):
+                    Keyboard.release(KB_MACRO_3);
+                break;
+                case(KB_MACRO_4_POS):
+                    Keyboard.release(KB_MACRO_4);
+                break;
+                case(KB_MACRO_5_POS):
+                    Keyboard.release(KB_MACRO_5);
+                break;
+                case(KB_MACRO_6_POS):
+                    Keyboard.release(KB_MACRO_6);
+                break;
+                case(KB_MACRO_7_POS):
+                    Keyboard.release(KB_MACRO_7);
+                break;
+                case(KB_MACRO_8_POS):
+                    Keyboard.release(KB_MACRO_8);
+                break;
+                case(KB_MACRO_9_POS):
+                    Keyboard.release(KB_MACRO_9);
+                break;
+                case (KB_MACRO_10_POS):
+                    Keyboard.release(KB_MACRO_10);
+                break;
+                case(KB_MACRO_11_POS):
+                    Keyboard.release(KB_MACRO_11);
+                break;
+                
+                // ** NOTE: CURRENTLY UNUSED PINS BEGIN ** // 
+                case(KB_MACRO_12_POS):
+                    Keyboard.release(KB_MACRO_12);
+                break;
+                case(KB_MACRO_13_POS):
+                    Keyboard.release(KB_MACRO_13);
+                break;
+                case(KB_MACRO_14_POS):
+                    Keyboard.release(KB_MACRO_14);
+                break;
+                case(KB_MACRO_15_POS):
+                    Keyboard.release(KB_MACRO_15);
+                break;
+                // ** NOTE: CURRENTLY UNUSED PINS END ** // 
+                default:
+                    // HOW TF DID WE GET HERE ?!?!!!??  :0 // 
+                break;
                 }
             }
         }

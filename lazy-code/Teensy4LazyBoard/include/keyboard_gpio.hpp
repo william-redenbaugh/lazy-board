@@ -22,7 +22,7 @@
 /**************************************************************************/
 enum matrix_size_t {NUM_ROWS = 4, 
                     NUM_COLS = 4
-};                      
+                    };                      
 
 /**************************************************************************/
 /*!
@@ -53,10 +53,11 @@ enum kb_macro_pos_t{
     @brief redefined array that has our row and colum space. 
 */
 /**************************************************************************/
-typedef volatile uint8_t KeyState[NUM_ROWS][NUM_COLS]; 
+typedef volatile uint8_t KeyState[NUM_ROWS * NUM_COLS]; 
 
 extern void start_keyboard_gpio(void);
-extern void read_keybord_gpio(void);
-extern KeyState* get_keyboard_values();
+extern void read_keyboard_gpio(void);
+extern void get_keyboard_values(KeyState key_state_ptr);
+
 
 #endif
