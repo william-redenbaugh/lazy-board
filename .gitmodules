@@ -7,3 +7,6 @@
 [submodule "lazy-code/Teensy4LazyBoard/lib/Adafruit-GFX"]
 	path = lazy-code/Teensy4LazyBoard/lib/Adafruit-GFX
 	url = git@github.com:william-redenbaugh/Adafruit-GFX-Library
+[submodule "lazy-code/Teensy4LazyBoard/lib/nanopb"]
+	path = lazy-code/Teensy4LazyBoard/lib/nanopb
+	url = https://github.com/nanopb/nanopb
