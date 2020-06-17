@@ -4,7 +4,6 @@ MUTEX_DECL(led_matrix_mutex);
 thread_t *led_runtime_handler;
 
 #define CHANGE_MATRIX_BITMASK 0 
-#define TRIGGER_KEYPRESS_MATRIX_BITMASK 1
 eventmask_t event_mask;  
 
 LEDMatrixConfiguration current_matrix_config; 
@@ -13,7 +12,7 @@ RgbColor static_all_col = {100, 100, 100};
 RgbColor static_individual_col[NUM_MATRIX_LEDS];
 
 // Map of keys that are pressed for key triggered animations
-uint8_t latest_key_press_map[NUM_MATRIX_LEDS];
+uint8_t latest_key_press_map[16];
 
 bool matrix_cycle_individual(void);
 bool matrix_static_all(void);
@@ -24,9 +23,12 @@ extern void start_led_strip_thread(void);
 extern void change_led_config(LEDMatrixConfiguration next_matrix_config);
 extern void trigger_keymap(volatile uint8_t key_pressed_map[]);
 
+volatile bool keypress_trigger = false; 
+
 /**************************************************************************/
 /*!
     @brief wipes through the rgb array through the numpad. 
+    @return animation was interrupted. 
 */
 /**************************************************************************/
 bool matrix_cycle_individual(void){
@@ -55,35 +57,88 @@ bool matrix_cycle_individual(void){
 /**************************************************************************/
 /*!
     @brief Reactive LED pattern. 
+    @return animation was interrupted. 
 */
 /**************************************************************************/
 bool matrix_keytrigger_reactive(void){
-    
-    current_matrix_config.interval_speed = 20;
     HsvColor current_hsv[NUM_MATRIX_LEDS];
+    memset(current_hsv, 0, sizeof(current_hsv));
     
     while(1){
-        event_mask = chEvtWaitAnyTimeout(EVENT_MASK(CHANGE_MATRIX_BITMASK), 10 * current_matrix_config.interval_speed);
-        // If we got a trigger event
-        if(event_mask & EVENT_MASK(TRIGGER_KEYPRESS_MATRIX_BITMASK)){
+        
+        chThdSleepMilliseconds(20);
+        if(keypress_trigger){
             // Run through all of the matrix leds. 
-            for(uint8_t x = 0; x < NUM_MATRIX_LEDS; x++){
+            for(uint8_t y = 0; y < 16; y++){
                 // IF said key has been triggered
-                if(latest_key_press_map[x] == 0){
+                if(latest_key_press_map[y] == 0){
+                    uint8_t x = 0; 
+                    switch(y){
+                    case(0):
+                        x = 8;
+                    break;
+                    case(1):
+                    break;
+
+                    case(2):
+                    break;
+                    case(3):
+                        x = 0; 
+                    break;
+                    case(4):
+                        x = 9;
+                    break;
+                    case(5):
+                    break;
+                    case(6):
+                    break;
+                    case(7):
+                        x = 1;
+                    break;
+                    case(8):
+                        x = 10;
+                    break;
+                    case(9):
+                        x = 6;
+                    break;
+                    case(10):
+                        x = 4;
+                    break;
+                    case(11):
+                        x = 2;
+                    break;
+                    case(12):
+                        x = 11; 
+                    break;
+                    case(13):
+                        x = 7;
+                    break;
+                    case(14):
+                        x = 5; 
+                    break;
+                    case(15):
+                        x = 3;
+                    break;
+                    default: 
+                    break;
+                    }
                     // We update the current hsv with latest keypress values. 
-                    current_hsv[x].h = 100;
-                    current_hsv[x].s = 100;
-                    current_hsv[x].v = 100;
+                    current_hsv[x].h = 15 * y;
+                    current_hsv[x].s = 180;
+                    current_hsv[x].v = 30;
+                    _set_ws2812b_macro_hsv((led_macro_t)x, current_hsv[x].h, current_hsv[x].s, current_hsv[x].v);
                 }
             }
         }
 
         // Slowly decrement each LED. 
         for(uint8_t x = 0; x < NUM_MATRIX_LEDS; x++){
-            if(current_hsv[x].v >= 10)
-                current_hsv[x].v = current_hsv[x].v - 10; 
-            _set_ws2812b_macro_hsv((led_macro_t)x, current_hsv[x].h, current_hsv[x].s, current_hsv[x].v);
+            if(current_hsv[x].v >= 5){
+                current_hsv[x].v = current_hsv[x].v - 5; 
+                _set_ws2812b_macro_hsv((led_macro_t)x, current_hsv[x].h, current_hsv[x].s, current_hsv[x].v);
+            }
         }
+
         // Update after each run. 
         _update_ws2812b_matrix();
     }
@@ -93,6 +148,7 @@ bool matrix_keytrigger_reactive(void){
 /**************************************************************************/
 /*!
     @brief Allows us to statically set all LEDs perodically. 
+    @return animation was interrupted. 
 */
 /**************************************************************************/
 bool matrix_static_all(void){
@@ -113,6 +169,7 @@ bool matrix_static_all(void){
 /**************************************************************************/
 /*!
     @brief Allows us to statically set all LEDs perodically, but with each LED having it's own color. 
+    @return animation was interrupted. 
 */
 /**************************************************************************/
 bool matrix_static_individual(void){
@@ -214,9 +271,8 @@ extern void change_led_config(LEDMatrixConfiguration next_matrix_config){
 /**************************************************************************/
 extern void trigger_keymap(volatile uint8_t key_pressed_map[]){
     // Run through the key press map
-    for(uint8_t i = 0; i < NUM_MATRIX_LEDS; i++) 
+    for(uint8_t i = 0; i < 15; i++) 
         latest_key_press_map[i] = key_pressed_map[i];
     
-    // Trigger keypress matrix. 
-    chEvtSignal(led_runtime_handler, EVENT_MASK(TRIGGER_KEYPRESS_MATRIX_BITMASK));
+    keypress_trigger = true; 
 }

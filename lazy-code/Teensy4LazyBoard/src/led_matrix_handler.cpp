@@ -35,7 +35,11 @@ extern void _start_ws2812b_matrix(void){
 /**************************************************************************/
 /*!
     @brief LED matrix function that converts x and y corridinates into LED strip values since matrix is actually a strip
-    @param uint8_t x, uint8_t y(positional values), uint8_t r, uint8_t g, uint8_t b(color values)
+    @param uint8_t x position 
+    @param uint8_t y position
+    @param uint8_t red
+    @param uint8_t green
+    @param uint8_t blue
 */
 /**************************************************************************/
 extern void _set_ws2812b_led(uint8_t x, uint8_t y, uint8_t r, uint8_t g, uint8_t b){
@@ -114,6 +118,15 @@ extern void _set_ws2812b_led(uint8_t x, uint8_t y, uint8_t r, uint8_t g, uint8_t
     }
 }
 
+/**************************************************************************/
+/*!
+    @brief Allows us to set all of our LEDs to a specific HSV value
+    @param led_macro_t (which led are we controlling)
+    @param uint8_t(red)
+    @param uint8_t(green)
+    @param uint8_t(blue)
+*/
+/**************************************************************************/
 extern void _set_ws2812b_macro(led_macro_t led_macro,  uint8_t r, uint8_t g, uint8_t b){
     switch (led_macro){
     case(LED_MACRO_0_POS):
@@ -157,6 +170,16 @@ extern void _set_ws2812b_macro(led_macro_t led_macro,  uint8_t r, uint8_t g, uin
     }
 }
 
+/**************************************************************************/
+/*!
+    @brief Allows us to set all of our LEDs to a specific HSV value
+    @param uint8_t (x position)
+    @param uint8_t (y position)
+    @param uint8_t(hue)
+    @param uint8_t(saturation)
+    @param uint8_t(value)
+*/
+/**************************************************************************/
 extern void _set_ws2812b_led_hsv(uint8_t x, uint8_t y, uint8_t h, uint8_t s, uint8_t v){
     HsvColor hsv; 
     hsv.h = h; 
@@ -167,6 +190,15 @@ extern void _set_ws2812b_led_hsv(uint8_t x, uint8_t y, uint8_t h, uint8_t s, uin
     _set_ws2812b_led(x, y, rgb.r, rgb.g, rgb.b);
 }
 
+/**************************************************************************/
+/*!
+    @brief Allows us to set all of our LEDs to a specific HSV value
+    @param led_macro_t (which LED are we controlling. )
+    @param uint8_t(hue)
+    @param uint8_t(saturation)
+    @param uint8_t(value)
+*/
+/**************************************************************************/
 extern void _set_ws2812b_macro_hsv(led_macro_t led_macro, uint8_t h, uint8_t s, uint8_t v){
     HsvColor hsv; 
     hsv.h = h; 
@@ -177,10 +209,27 @@ extern void _set_ws2812b_macro_hsv(led_macro_t led_macro, uint8_t h, uint8_t s, 
     _set_ws2812b_macro(led_macro, rgb.r, rgb.g, rgb.b);
 }
 
+/**************************************************************************/
+/*!
+    @brief Allows us to set all of our LEDs to a specific HSV value
+    @param uint8_t(blue)
+    @param uint8_t(green)
+    @param uint8_t(blue)
+*/
+/**************************************************************************/
 extern void _set_ws2812b_led_all(uint8_t r, uint8_t g, uint8_t b){
     for(uint8_t i = 0; i < NUM_MATRIX_LEDS; i++)
         _set_ws2812b_macro((led_macro_t)i, r, g, b);
 }
+
+/**************************************************************************/
+/*!
+    @brief Allows us to set all of our LEDs to a specific HSV value
+    @param uint8_t(hue)
+    @param uint8_t(saturation)
+    @param uint8_t(value)
+*/
+/**************************************************************************/
 extern void _set_ws2812b_led_all_hsv(uint8_t h, uint8_t s, uint8_t v){
     for(uint8_t i = 0; i < NUM_MATRIX_LEDS; i++)
         _set_ws2812b_macro_hsv((led_macro_t)i, h, s, v);
