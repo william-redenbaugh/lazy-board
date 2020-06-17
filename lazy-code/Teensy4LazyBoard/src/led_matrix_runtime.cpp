@@ -63,7 +63,7 @@ bool matrix_keytrigger_reactive(void){
     HsvColor current_hsv[NUM_MATRIX_LEDS];
     memset(current_hsv, 0, sizeof(current_hsv));
     memset(latest_key_press_map, 0, sizeof(latest_key_press_map));
-    
+
     while(1){
         
         chThdSleepMilliseconds(10);
@@ -133,8 +133,8 @@ bool matrix_keytrigger_reactive(void){
                     }
 
                     // We update the current hsv with latest keypress values. 
-                    current_hsv[x].h = 15 * y;
-                    current_hsv[x].s = 180;
+                    current_hsv[x].h = random(255);
+                    current_hsv[x].s = random(90, 180);
                     current_hsv[x].v = 70;
                     _set_ws2812b_macro_hsv((led_macro_t)x, current_hsv[x].h, current_hsv[x].s, current_hsv[x].v);
                 }

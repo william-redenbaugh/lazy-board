@@ -24,20 +24,27 @@ static THD_FUNCTION(keyboard_runtime_thread, arg){
 
     // Sets and clears all the previous key state information information
     KeyState prev_key_state;
-    for(uint8_t i = 0; i < NUM_ROWS * NUM_COLS; i++)
+        
+    for(uint8_t i = 0; i < NUM_ROWS * NUM_COLS; i++){
         prev_key_state[i] = 1; 
+    }
     
+    // Checking if there is a new click.
+    bool new_click = false; 
     while(1){
         // Get current tick  aneiobfk
         kb_thread_begin_tick = chVTGetSystemTimeX();
 
         // Reads in the keyboard data from the matrix. 
         read_keyboard_gpio();
-        get_keyboard_values(key_state);    
+        get_keyboard_values(key_state);   
+
+
         // Run through 2D array, check which keys are pressed and which arent. 
         for(uint8_t x = 0; x < NUM_ROWS * NUM_COLS; x++){
             
             if((key_state[x] == 0) && !(key_state[x] == prev_key_state[x])){
+                new_click = true; 
                 switch(x){
                 case(KB_MACRO_0_POS):
                     Keyboard.press(KB_MACRO_0);
@@ -94,8 +101,11 @@ static THD_FUNCTION(keyboard_runtime_thread, arg){
                     // HOW TF DID WE GET HERE ?!?!!!??  :0 // 
                 break;
                 }
+                // Setting the previous key state to the next key_state
+                prev_key_state[x] = key_state[x];
             }
             if((key_state[x] == 1) && !(key_state[x] == prev_key_state[x])){
+                new_click = true; 
                 switch(x){
                 case(KB_MACRO_0_POS):
                     Keyboard.release(KB_MACRO_0);
@@ -152,15 +162,18 @@ static THD_FUNCTION(keyboard_runtime_thread, arg){
                     // HOW TF DID WE GET HERE ?!?!!!??  :0 // 
                 break;
                 }
+                // Setting the previous key state to the next key_state
+                prev_key_state[x] = key_state[x];
+                key_state[x] = 0; 
             }
-            // Setting the previous key state to the next key_state
-            prev_key_state[x] = key_state[x];
         }
         // END OF KEYSTROKE KEYBOARD OUTPUT // 
 
-        // Send keystroke information to the LED strip thread, casts to volatile unsigned 8 bit integer. 
-        trigger_keymap((volatile uint8_t*)key_state);
-
+        if(new_click){
+            // Send keystroke information to the LED strip thread, casts to volatile unsigned 8 bit integer. 
+            trigger_keymap((volatile uint8_t*)key_state);
+            new_click = false; 
+        }
         // we sleep the remainder of the time for the keyboard. 
         kb_thread_end_tick = kb_thread_begin_tick + TIME_I2MS(33);
         if(kb_thread_end_tick > chVTGetSystemTimeX())
