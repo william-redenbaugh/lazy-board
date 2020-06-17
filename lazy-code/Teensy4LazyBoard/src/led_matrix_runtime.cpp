@@ -49,7 +49,6 @@ bool matrix_cycle_individual(void){
             return 1; 
  
     }
-
     return 0; 
 }
 
@@ -63,11 +62,13 @@ bool matrix_cycle_individual(void){
 bool matrix_keytrigger_reactive(void){
     HsvColor current_hsv[NUM_MATRIX_LEDS];
     memset(current_hsv, 0, sizeof(current_hsv));
+    memset(latest_key_press_map, 0, sizeof(latest_key_press_map));
     
     while(1){
         
-        chThdSleepMilliseconds(20);
+        chThdSleepMilliseconds(10);
         if(keypress_trigger){
+            keypress_trigger = false; 
             // Run through all of the matrix leds. 
             for(uint8_t y = 0; y < 16; y++){
                 // IF said key has been triggered
@@ -77,55 +78,64 @@ bool matrix_keytrigger_reactive(void){
                     case(0):
                         x = 8;
                     break;
-                    case(1):
-                    break;
 
-                    case(2):
-                    break;
                     case(3):
                         x = 0; 
                     break;
+
                     case(4):
                         x = 9;
                     break;
-                    case(5):
-                    break;
-                    case(6):
-                    break;
+                    
+                    
                     case(7):
                         x = 1;
                     break;
+
                     case(8):
                         x = 10;
                     break;
+
                     case(9):
                         x = 6;
                     break;
+
                     case(10):
                         x = 4;
                     break;
+
                     case(11):
                         x = 2;
                     break;
+
                     case(12):
                         x = 11; 
                     break;
+
                     case(13):
                         x = 7;
                     break;
+
                     case(14):
                         x = 5; 
                     break;
+                    
                     case(15):
                         x = 3;
                     break;
+
+                    case(16):
+                        x = 12;
+                    
                     default: 
+                        x = 0; 
                     break;
                     }
+
                     // We update the current hsv with latest keypress values. 
                     current_hsv[x].h = 15 * y;
                     current_hsv[x].s = 180;
-                    current_hsv[x].v = 30;
+                    current_hsv[x].v = 70;
                     _set_ws2812b_macro_hsv((led_macro_t)x, current_hsv[x].h, current_hsv[x].s, current_hsv[x].v);
                 }
             }
@@ -133,8 +143,8 @@ bool matrix_keytrigger_reactive(void){
 
         // Slowly decrement each LED. 
         for(uint8_t x = 0; x < NUM_MATRIX_LEDS; x++){
-            if(current_hsv[x].v >= 5){
-                current_hsv[x].v = current_hsv[x].v - 5; 
+            if(!(current_hsv[x].v == 0)){
+                current_hsv[x].v = current_hsv[x].v - 1; 
                 _set_ws2812b_macro_hsv((led_macro_t)x, current_hsv[x].h, current_hsv[x].s, current_hsv[x].v);
             }
         }
@@ -271,7 +281,7 @@ extern void change_led_config(LEDMatrixConfiguration next_matrix_config){
 /**************************************************************************/
 extern void trigger_keymap(volatile uint8_t key_pressed_map[]){
     // Run through the key press map
-    for(uint8_t i = 0; i < 15; i++) 
+    for(uint8_t i = 0; i < 16; i++) 
         latest_key_press_map[i] = key_pressed_map[i];
     
     keypress_trigger = true; 
