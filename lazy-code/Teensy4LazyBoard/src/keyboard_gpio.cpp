@@ -1,12 +1,12 @@
 #include "keyboard_gpio.hpp"
 
 // Pinmap of all the gpio pins for reading the keyboard matrix, rows and columns
-uint8_t matrix_col_gpio[] = {KB_MATRIX_PIN_0, 
+uint8_t matrix_row_gpio[] = {KB_MATRIX_PIN_0, 
                              KB_MATRIX_PIN_1, 
                              KB_MATRIX_PIN_2, 
                              KB_MATRIX_PIN_3};
 
-uint8_t matrix_row_gpio[] = {KB_MATRIX_PIN_4, 
+uint8_t matrix_col_gpio[] = {KB_MATRIX_PIN_4, 
                              KB_MATRIX_PIN_5, 
                              KB_MATRIX_PIN_6, 
                              KB_MATRIX_PIN_7};  
@@ -38,11 +38,14 @@ extern void read_keyboard_gpio(void){
     for(uint8_t row = 0; row < NUM_ROWS; row++){
         pinMode(matrix_row_gpio[row], OUTPUT);
         digitalWriteFast(matrix_row_gpio[row], LOW);
+        
         for(uint8_t col = 0; col < NUM_COLS; col++){
             pinMode(matrix_col_gpio[col], INPUT_PULLUP);
+            chThdSleepMicroseconds(1);
             key_state[x] = (uint8_t)digitalReadFast(matrix_col_gpio[col]);
             x++;
             pinMode(matrix_col_gpio[col], INPUT);
+            
         }
         pinMode(matrix_row_gpio[row], INPUT);
     }

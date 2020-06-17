@@ -18,9 +18,11 @@ uint8_t latest_key_press_map[NUM_MATRIX_LEDS];
 bool matrix_cycle_individual(void);
 bool matrix_static_all(void);
 bool matrix_static_individual(void);
+bool matrix_keytrigger_reactive(void);
 
 extern void start_led_strip_thread(void);
-extern void change_matrix_config(LEDMatrixConfiguration next_matrix_config);
+extern void change_led_config(LEDMatrixConfiguration next_matrix_config);
+extern void trigger_keymap(volatile uint8_t key_pressed_map[]);
 
 /**************************************************************************/
 /*!
@@ -49,6 +51,45 @@ bool matrix_cycle_individual(void){
     return 0; 
 }
 
+
+/**************************************************************************/
+/*!
+    @brief Reactive LED pattern. 
+*/
+/**************************************************************************/
+bool matrix_keytrigger_reactive(void){
+    
+    current_matrix_config.interval_speed = 20;
+    HsvColor current_hsv[NUM_MATRIX_LEDS];
+    
+    while(1){
+        event_mask = chEvtWaitAnyTimeout(EVENT_MASK(CHANGE_MATRIX_BITMASK), 10 * current_matrix_config.interval_speed);
+        // If we got a trigger event
+        if(event_mask & EVENT_MASK(TRIGGER_KEYPRESS_MATRIX_BITMASK)){
+            // Run through all of the matrix leds. 
+            for(uint8_t x = 0; x < NUM_MATRIX_LEDS; x++){
+                // IF said key has been triggered
+                if(latest_key_press_map[x] == 0){
+                    // We update the current hsv with latest keypress values. 
+                    current_hsv[x].h = 100;
+                    current_hsv[x].s = 100;
+                    current_hsv[x].v = 100;
+                }
+            }
+        }
+
+        // Slowly decrement each LED. 
+        for(uint8_t x = 0; x < NUM_MATRIX_LEDS; x++){
+            if(current_hsv[x].v >= 10)
+                current_hsv[x].v = current_hsv[x].v - 10; 
+            _set_ws2812b_macro_hsv((led_macro_t)x, current_hsv[x].h, current_hsv[x].s, current_hsv[x].v);
+        }
+        // Update after each run. 
+        _update_ws2812b_matrix();
+    }
+}
+
+
 /**************************************************************************/
 /*!
     @brief Allows us to statically set all LEDs perodically. 
@@ -68,6 +109,12 @@ bool matrix_static_all(void){
     return 0;  
 }
 
+
+/**************************************************************************/
+/*!
+    @brief Allows us to statically set all LEDs perodically, but with each LED having it's own color. 
+*/
+/**************************************************************************/
 bool matrix_static_individual(void){
     
     chMtxLock(&led_matrix_mutex);
@@ -111,7 +158,7 @@ static THD_FUNCTION(led_matrix_thread, arg){
         
         break;
         case(MATRIX_REACTIVE):
-        
+            animation_changed = matrix_keytrigger_reactive();    
         break;
         case(MATRIX_RIPPLE):
         
@@ -145,7 +192,13 @@ extern void start_led_strip_thread(void){
                       NULL);
 }
 
-extern void change_matrix_config(LEDMatrixConfiguration next_matrix_config){
+/**************************************************************************/
+/*!
+    @brief Remote function that let's us change what's the configutation of our LED matrix
+    @param LEDMatrixConfiguration Struct of the next matrix configuration information
+*/
+/**************************************************************************/
+extern void change_led_config(LEDMatrixConfiguration next_matrix_config){
     chMtxLock(&led_matrix_mutex);
     current_matrix_config = next_matrix_config;     
     chMtxUnlock(&led_matrix_mutex);
@@ -154,7 +207,12 @@ extern void change_matrix_config(LEDMatrixConfiguration next_matrix_config){
     chEvtSignal(led_runtime_handler, EVENT_MASK(0));
 }
 
-extern void trigger_keymap(uint8_t key_pressed_map[]){
+/**************************************************************************/
+/*!
+    @brief Sends a map of the triggered keys to the LED matrix thread. 
+*/
+/**************************************************************************/
+extern void trigger_keymap(volatile uint8_t key_pressed_map[]){
     // Run through the key press map
     for(uint8_t i = 0; i < NUM_MATRIX_LEDS; i++) 
         latest_key_press_map[i] = key_pressed_map[i];
