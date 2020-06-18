@@ -33,6 +33,8 @@ bool MessageManagement::run(void){
 
         return true;
     }
+
+    return false; 
 }
 
 /**************************************************************************/
@@ -117,7 +119,7 @@ void MessageManagement::processing_led_strip_information(void){
 bool MessageManagement::testing_message_protobuffers(void){
     MessageData message_data_out;
     message_data_out.message_size = 32;
-    message_data_out.message_type = MessageData_MessageType_MATRIX_DATA;
+    message_data_out.message_type = MessageData_MessageType_GENERAL_INSTRUCTIONS;
 
     // Put data into serialized format. 
     uint8_t buffer[16];

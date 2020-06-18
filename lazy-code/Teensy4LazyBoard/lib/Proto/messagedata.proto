@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+message MessageData{
+    // Size of message that we are going to send after this. 
+    uint32 message_size = 1; 
+    // Enumerated Type of message that we are going to send after this. 
+    enum MessageType {
+        
+        // General instruction message that will do a variety of functions. 
+        GENERAL_INSTRUCTIONS = 0; 
+
+        // Tells microcontroller to program latest key binding information
+        PROGRAM_KEYBINDINGS = 1; 
+        
+        // Tells microcontroller to program latest RGB Setting information
+        PROGRAM_RGB_ANIMATIONS = 2; 
+
+        // Tells microcontroller to program latest Display setting information. 
+        PROGRAM_DISPLAY = 3; 
+    }
+
+    MessageType message_type = 2;
+    
+    // Whether or not we want a return message
+    bool return_message = 3;
+}

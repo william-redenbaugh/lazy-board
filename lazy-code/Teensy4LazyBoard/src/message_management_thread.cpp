@@ -34,6 +34,15 @@ extern void loop(void) {
         run_general_instructions();
         break;
         
+        case(MessageData_MessageType_PROGRAM_KEYBINDINGS):
+        break;
+
+        case(MessageData_MessageType_PROGRAM_RGB_ANIMATIONS):
+        break;
+
+        case(MessageData_MessageType_PROGRAM_DISPLAY):
+        break;
+        
         default:
         break;
         }

@@ -52,6 +52,9 @@ bool matrix_cycle_individual(void){
     return 0; 
 }
 
+bool matrix_trigger_ripple(void){
+    
+}
 
 /**************************************************************************/
 /*!
