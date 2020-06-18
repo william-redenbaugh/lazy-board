@@ -73,6 +73,7 @@ int32_t MessageManagement::return_message_size(void){
 void MessageManagement::process_general_instructions(void){
     // Array with latest package information. 
     uint8_t general_instr_buff[this->latest_message_data.message_size];
+    
     // Get latest data off serial device. 
     for(uint8_t i = 0; i < this->latest_message_data.message_size; i++)
         general_instr_buff[i] = Serial.read();
@@ -83,30 +84,36 @@ void MessageManagement::process_general_instructions(void){
 
 /**************************************************************************/
 /*!
+    @brief Processes keybinding information. 
+*/
+/**************************************************************************/
+void MessageManagement::process_keybinding_information(void){
+    uint8_t keybinding_buff[this->latest_message_data.message_size];
+    // Get latest data off serial device. 
+    for(uint8_t i = 0; i < this->latest_message_data.message_size; i++)
+        keybinding_buff[i] = Serial.read();
+    
+    pb_istream_t msg_in = pb_istream_from_buffer(keybinding_buff, this->latest_message_data.message_size);
+    pb_decode(&msg_in, ProgramKeybindings_fields, &this->latest_keybinding_info);
+}
+
+/**************************************************************************/
+/*!
+    @returns latest keybinding information. should be called after process_keybinding_informatio()
+*/
+/**************************************************************************/
+ProgramKeybindings MessageManagement::get_keybinding_information(void){
+    return this->latest_keybinding_info;
+}
+
+/**************************************************************************/
+/*!
     @returns The latest general instruction data, should be called right after we know we got new general instruction data.  
 */
 /**************************************************************************/
 GeneralInstructions_MainInstrEnum MessageManagement::get_latest_general_instructions(void){
     this->process_general_instructions();
     return this->general_instructions.main_instructions;
-}
-
-/**************************************************************************/
-/*!
-    @brief Unpacks matrix information, and get's system ready to send out information to matrix. 
-*/
-/**************************************************************************/
-void MessageManagement::processing_matrix_information(void){
-
-}
-
-/**************************************************************************/
-/*!
-    @brief Unpacks LED matrix information. 
-*/
-/**************************************************************************/
-void MessageManagement::processing_led_strip_information(void){
-
 }
 
 /**************************************************************************/

@@ -10,6 +10,7 @@ extern void start_message_management(void);
 extern void loop(void);
 
 void run_general_instructions(void);
+void run_keybinding_instructions(void);
 
 /**************************************************************************/
 /*!
@@ -35,6 +36,7 @@ extern void loop(void) {
         break;
         
         case(MessageData_MessageType_PROGRAM_KEYBINDINGS):
+        run_keybinding_instructions();
         break;
 
         case(MessageData_MessageType_PROGRAM_RGB_ANIMATIONS):
@@ -42,7 +44,7 @@ extern void loop(void) {
 
         case(MessageData_MessageType_PROGRAM_DISPLAY):
         break;
-        
+
         default:
         break;
         }
@@ -72,15 +74,7 @@ void run_general_instructions(void){
     case(GeneralInstructions_MainInstrEnum_FREE_MEM):
     break;
 
-    case(GeneralInstructions_MainInstrEnum_FLASH_LED):
-    break;
-
-    case(GeneralInstructions_MainInstrEnum_FLASH_GREEN):
-
-    break;
-
-    case(GeneralInstructions_MainInstrEnum_FLASH_BLUE):
-    
+    case(GeneralInstructions_MainInstrEnum_STATUS):
     break;
 
     default:
@@ -88,3 +82,12 @@ void run_general_instructions(void){
     }
 }
 
+/**************************************************************************/
+/*!
+    @brief Whenever we get new keybinding information, it should sit here. 
+*/
+/**************************************************************************/
+void run_keybinding_instructions(void){
+    message_management.process_keybinding_information();
+
+}

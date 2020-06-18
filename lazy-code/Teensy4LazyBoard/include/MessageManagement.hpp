@@ -11,6 +11,7 @@
 #include "status.pb.h"
 #include "messagedata.pb.h"
 #include "general_instructions.pb.h"
+#include "program_keybindings.pb.h"
 
 class MessageManagement{
 public: 
@@ -33,6 +34,10 @@ public:
     // Returns the latest General instruction data. 
     GeneralInstructions_MainInstrEnum get_latest_general_instructions(void);
 
+    // Allows to unpack keybinding information. 
+    void process_keybinding_information(void);
+    ProgramKeybindings get_keybinding_information(void);
+
     // Test code for making sure that the protobuffers are
     // packing and unpacking properly
     bool testing_message_protobuffers(void);
@@ -52,6 +57,9 @@ private:
 
     // latest general instruction data. 
     GeneralInstructions general_instructions; 
+
+    // Latest keybinding data. 
+    ProgramKeybindings latest_keybinding_info; 
 };
 
 #endif 
