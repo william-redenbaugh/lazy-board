@@ -144,20 +144,23 @@ message ProgramKeybindings{
         F23 = 138;
         F24 = 139;
     }
-
-    KeyType macro_one = 1; 
-    KeyType macro_two = 2; 
-    KeyType macro_three = 3; 
-    KeyType macro_four = 4; 
-    KeyType macro_five = 5; 
-    KeyType macro_six = 6; 
-    KeyType macro_seven = 7; 
-    KeyType macro_eight = 8; 
-    KeyType macro_nine = 9; 
-    KeyType macro_ten = 10; 
-    KeyType macro_eleven = 11; 
-    KeyType macro_twelve = 12; 
+    KeyType macro_zero = 1;
+    KeyType macro_one = 2; 
+    KeyType macro_two = 3; 
+    KeyType macro_three = 4; 
+    KeyType macro_four = 5; 
+    KeyType macro_five = 6; 
+    KeyType macro_six = 7; 
+    KeyType macro_seven = 8; 
+    KeyType macro_eight = 9; 
+    KeyType macro_nine = 10; 
+    KeyType macro_ten = 11; 
+    KeyType macro_eleven = 12; 
+    KeyType macro_twelve = 13; 
+    KeyType macro_thirteen = 14; 
+    KeyType macro_fourteen = 15; 
+    KeyType macro_fifteen = 16; 
 
     // Whether or not we want a return message
-    bool return_message = 13;
+    bool return_message = 17;
 }

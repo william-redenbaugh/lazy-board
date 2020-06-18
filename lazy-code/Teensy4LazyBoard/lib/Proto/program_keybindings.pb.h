@@ -159,6 +159,7 @@ typedef enum _ProgramKeybindings_KeyType {
 
 /* Struct definitions */
 typedef struct _ProgramKeybindings {
+    ProgramKeybindings_KeyType macro_zero;
     ProgramKeybindings_KeyType macro_one;
     ProgramKeybindings_KeyType macro_two;
     ProgramKeybindings_KeyType macro_three;
@@ -171,6 +172,9 @@ typedef struct _ProgramKeybindings {
     ProgramKeybindings_KeyType macro_ten;
     ProgramKeybindings_KeyType macro_eleven;
     ProgramKeybindings_KeyType macro_twelve;
+    ProgramKeybindings_KeyType macro_thirteen;
+    ProgramKeybindings_KeyType macro_fourteen;
+    ProgramKeybindings_KeyType macro_fifteen;
     bool return_message;
 } ProgramKeybindings;
 
@@ -182,39 +186,47 @@ typedef struct _ProgramKeybindings {
 
 
 /* Initializer values for message structs */
-#define ProgramKeybindings_init_default          {_ProgramKeybindings_KeyType_MIN, _ProgramKeybindings_KeyType_MIN, _ProgramKeybindings_KeyType_MIN, _ProgramKeybindings_KeyType_MIN, _ProgramKeybindings_KeyType_MIN, _ProgramKeybindings_KeyType_MIN, _ProgramKeybindings_KeyType_MIN, _ProgramKeybindings_KeyType_MIN, _ProgramKeybindings_KeyType_MIN, _ProgramKeybindings_KeyType_MIN, _ProgramKeybindings_KeyType_MIN, _ProgramKeybindings_KeyType_MIN, 0}
-#define ProgramKeybindings_init_zero             {_ProgramKeybindings_KeyType_MIN, _ProgramKeybindings_KeyType_MIN, _ProgramKeybindings_KeyType_MIN, _ProgramKeybindings_KeyType_MIN, _ProgramKeybindings_KeyType_MIN, _ProgramKeybindings_KeyType_MIN, _ProgramKeybindings_KeyType_MIN, _ProgramKeybindings_KeyType_MIN, _ProgramKeybindings_KeyType_MIN, _ProgramKeybindings_KeyType_MIN, _ProgramKeybindings_KeyType_MIN, _ProgramKeybindings_KeyType_MIN, 0}
+#define ProgramKeybindings_init_default          {_ProgramKeybindings_KeyType_MIN, _ProgramKeybindings_KeyType_MIN, _ProgramKeybindings_KeyType_MIN, _ProgramKeybindings_KeyType_MIN, _ProgramKeybindings_KeyType_MIN, _ProgramKeybindings_KeyType_MIN, _ProgramKeybindings_KeyType_MIN, _ProgramKeybindings_KeyType_MIN, _ProgramKeybindings_KeyType_MIN, _ProgramKeybindings_KeyType_MIN, _ProgramKeybindings_KeyType_MIN, _ProgramKeybindings_KeyType_MIN, _ProgramKeybindings_KeyType_MIN, _ProgramKeybindings_KeyType_MIN, _ProgramKeybindings_KeyType_MIN, _ProgramKeybindings_KeyType_MIN, 0}
+#define ProgramKeybindings_init_zero             {_ProgramKeybindings_KeyType_MIN, _ProgramKeybindings_KeyType_MIN, _ProgramKeybindings_KeyType_MIN, _ProgramKeybindings_KeyType_MIN, _ProgramKeybindings_KeyType_MIN, _ProgramKeybindings_KeyType_MIN, _ProgramKeybindings_KeyType_MIN, _ProgramKeybindings_KeyType_MIN, _ProgramKeybindings_KeyType_MIN, _ProgramKeybindings_KeyType_MIN, _ProgramKeybindings_KeyType_MIN, _ProgramKeybindings_KeyType_MIN, _ProgramKeybindings_KeyType_MIN, _ProgramKeybindings_KeyType_MIN, _ProgramKeybindings_KeyType_MIN, _ProgramKeybindings_KeyType_MIN, 0}
 
 /* Field tags (for use in manual encoding/decoding) */
-#define ProgramKeybindings_macro_one_tag         1
-#define ProgramKeybindings_macro_two_tag         2
-#define ProgramKeybindings_macro_three_tag       3
-#define ProgramKeybindings_macro_four_tag        4
-#define ProgramKeybindings_macro_five_tag        5
-#define ProgramKeybindings_macro_six_tag         6
-#define ProgramKeybindings_macro_seven_tag       7
-#define ProgramKeybindings_macro_eight_tag       8
-#define ProgramKeybindings_macro_nine_tag        9
-#define ProgramKeybindings_macro_ten_tag         10
-#define ProgramKeybindings_macro_eleven_tag      11
-#define ProgramKeybindings_macro_twelve_tag      12
-#define ProgramKeybindings_return_message_tag    13
+#define ProgramKeybindings_macro_zero_tag        1
+#define ProgramKeybindings_macro_one_tag         2
+#define ProgramKeybindings_macro_two_tag         3
+#define ProgramKeybindings_macro_three_tag       4
+#define ProgramKeybindings_macro_four_tag        5
+#define ProgramKeybindings_macro_five_tag        6
+#define ProgramKeybindings_macro_six_tag         7
+#define ProgramKeybindings_macro_seven_tag       8
+#define ProgramKeybindings_macro_eight_tag       9
+#define ProgramKeybindings_macro_nine_tag        10
+#define ProgramKeybindings_macro_ten_tag         11
+#define ProgramKeybindings_macro_eleven_tag      12
+#define ProgramKeybindings_macro_twelve_tag      13
+#define ProgramKeybindings_macro_thirteen_tag    14
+#define ProgramKeybindings_macro_fourteen_tag    15
+#define ProgramKeybindings_macro_fifteen_tag     16
+#define ProgramKeybindings_return_message_tag    17
 
 /* Struct field encoding specification for nanopb */
 #define ProgramKeybindings_FIELDLIST(X, a) \
-X(a, STATIC,   SINGULAR, UENUM,    macro_one,         1) \
-X(a, STATIC,   SINGULAR, UENUM,    macro_two,         2) \
-X(a, STATIC,   SINGULAR, UENUM,    macro_three,       3) \
-X(a, STATIC,   SINGULAR, UENUM,    macro_four,        4) \
-X(a, STATIC,   SINGULAR, UENUM,    macro_five,        5) \
-X(a, STATIC,   SINGULAR, UENUM,    macro_six,         6) \
-X(a, STATIC,   SINGULAR, UENUM,    macro_seven,       7) \
-X(a, STATIC,   SINGULAR, UENUM,    macro_eight,       8) \
-X(a, STATIC,   SINGULAR, UENUM,    macro_nine,        9) \
-X(a, STATIC,   SINGULAR, UENUM,    macro_ten,        10) \
-X(a, STATIC,   SINGULAR, UENUM,    macro_eleven,     11) \
-X(a, STATIC,   SINGULAR, UENUM,    macro_twelve,     12) \
-X(a, STATIC,   SINGULAR, BOOL,     return_message,   13)
+X(a, STATIC,   SINGULAR, UENUM,    macro_zero,        1) \
+X(a, STATIC,   SINGULAR, UENUM,    macro_one,         2) \
+X(a, STATIC,   SINGULAR, UENUM,    macro_two,         3) \
+X(a, STATIC,   SINGULAR, UENUM,    macro_three,       4) \
+X(a, STATIC,   SINGULAR, UENUM,    macro_four,        5) \
+X(a, STATIC,   SINGULAR, UENUM,    macro_five,        6) \
+X(a, STATIC,   SINGULAR, UENUM,    macro_six,         7) \
+X(a, STATIC,   SINGULAR, UENUM,    macro_seven,       8) \
+X(a, STATIC,   SINGULAR, UENUM,    macro_eight,       9) \
+X(a, STATIC,   SINGULAR, UENUM,    macro_nine,       10) \
+X(a, STATIC,   SINGULAR, UENUM,    macro_ten,        11) \
+X(a, STATIC,   SINGULAR, UENUM,    macro_eleven,     12) \
+X(a, STATIC,   SINGULAR, UENUM,    macro_twelve,     13) \
+X(a, STATIC,   SINGULAR, UENUM,    macro_thirteen,   14) \
+X(a, STATIC,   SINGULAR, UENUM,    macro_fourteen,   15) \
+X(a, STATIC,   SINGULAR, UENUM,    macro_fifteen,    16) \
+X(a, STATIC,   SINGULAR, BOOL,     return_message,   17)
 #define ProgramKeybindings_CALLBACK NULL
 #define ProgramKeybindings_DEFAULT NULL
 
@@ -224,7 +236,7 @@ extern const pb_msgdesc_t ProgramKeybindings_msg;
 #define ProgramKeybindings_fields &ProgramKeybindings_msg
 
 /* Maximum encoded size of messages (where known) */
-#define ProgramKeybindings_size                  38
+#define ProgramKeybindings_size                  52
 
 #ifdef __cplusplus
 } /* extern "C" */
