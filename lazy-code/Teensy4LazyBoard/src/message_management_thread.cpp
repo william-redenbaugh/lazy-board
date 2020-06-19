@@ -82,6 +82,8 @@ void run_general_instructions(void){
     }
 }
 
+uint16_t convert_proto_keymap(ProgramKeybindings_KeyType proto_key);
+
 /**************************************************************************/
 /*!
     @brief Whenever we get new keybinding information, it should sit here. 
@@ -92,22 +94,22 @@ void run_keybinding_instructions(void){
     ProgramKeybindings keybind_buff = message_management.get_keybinding_information(); 
     uint16_t keymap[16];
     
-    keymap[0] = keybind_buff.macro_zero;
-    keymap[1] = keybind_buff.macro_one;
-    keymap[2] = keybind_buff.macro_two;
-    keymap[3] = keybind_buff.macro_three;
-    keymap[4] = keybind_buff.macro_four;
-    keymap[5] = keybind_buff.macro_five;
-    keymap[6] = keybind_buff.macro_six;
-    keymap[7] = keybind_buff.macro_seven;
-    keymap[8] = keybind_buff.macro_eight;
-    keymap[9] = keybind_buff.macro_nine;
-    keymap[10] = keybind_buff.macro_ten;
-    keymap[11] = keybind_buff.macro_eleven;
-    keymap[12] = keybind_buff.macro_twelve;
-    keymap[13] = keybind_buff.macro_thirteen;
-    keymap[14] = keybind_buff.macro_fourteen;
-    keymap[15] = keybind_buff.macro_fifteen;
+    keymap[0] = convert_proto_keymap(keybind_buff.macro_zero);
+    keymap[1] = convert_proto_keymap(keybind_buff.macro_one);
+    keymap[2] = convert_proto_keymap(keybind_buff.macro_two);
+    keymap[3] = convert_proto_keymap(keybind_buff.macro_three);
+    keymap[4] = convert_proto_keymap(keybind_buff.macro_four);
+    keymap[5] = convert_proto_keymap(keybind_buff.macro_five);
+    keymap[6] = convert_proto_keymap(keybind_buff.macro_six);
+    keymap[7] = convert_proto_keymap(keybind_buff.macro_seven);
+    keymap[8] = convert_proto_keymap(keybind_buff.macro_eight);
+    keymap[9] = convert_proto_keymap(keybind_buff.macro_nine);
+    keymap[10] = convert_proto_keymap(keybind_buff.macro_ten);
+    keymap[11] = convert_proto_keymap(keybind_buff.macro_eleven);
+    keymap[12] = convert_proto_keymap(keybind_buff.macro_twelve);
+    keymap[13] = convert_proto_keymap(keybind_buff.macro_thirteen);
+    keymap[14] = convert_proto_keymap(keybind_buff.macro_fourteen);
+    keymap[15] = convert_proto_keymap(keybind_buff.macro_fifteen);
 
     reprogram_key(keymap, sizeof(keymap));    
 }

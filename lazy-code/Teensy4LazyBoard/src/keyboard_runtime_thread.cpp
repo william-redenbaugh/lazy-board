@@ -1,18 +1,23 @@
 #include "keyboard_runtime_thread.hpp"
 #include "kb_macros_define.h"
 #include "led_matrix_runtime.hpp"
+#include "program_keybindings.pb.h"
 
 extern void start_keyboard_runtime_thread(void);
 extern void reprogram_key(uint16_t map[], size_t map_size);
 
 // Allows us to reset the current keymap. 
 void reset_keymap(void);
+uint16_t convert_proto_keymap(ProgramKeybindings_KeyType proto_key);
 
 // Setting up the current keymap information. 
 volatile uint16_t current_keymap[NUM_ROWS * NUM_COLS];
 
 // Checking if there is a new click.
 bool new_click = false; 
+
+MUTEX_DECL(keymap_mutx);
+
 
 /**************************************************************************/
 /*!
@@ -47,6 +52,8 @@ static THD_FUNCTION(keyboard_runtime_thread, arg){
         read_keyboard_gpio();
         get_keyboard_values(key_state);   
 
+        // Lock Down our resource!
+        chMtxLock(&keymap_mutx);
         // Run through 2D array, check which keys are pressed and which arent. 
         for(uint8_t x = 0; x < NUM_ROWS * NUM_COLS; x++){
             
@@ -64,6 +71,7 @@ static THD_FUNCTION(keyboard_runtime_thread, arg){
                 key_state[x] = 0; 
             }
         }
+        chMtxUnlock(&keymap_mutx);
         // END OF KEYSTROKE KEYBOARD OUTPUT // 
 
         if(new_click){
@@ -91,6 +99,13 @@ extern void start_keyboard_runtime_thread(void){
                       NULL);
 }
 
+extern void reprogram_key(uint16_t map[], size_t map_size){
+    chMtxLock(&keymap_mutx);
+    for(size_t i = 0; i < map_size; i++)
+        current_keymap[i] = convert_proto_keymap(ProgramKeybindings_KeyType(map[i]));
+    chMtxUnlock(&keymap_mutx);
+}
+
 void reset_keymap(void){
     current_keymap[0] = DEFAULT_KB_MACRO_0;
     current_keymap[1] = DEFAULT_KB_MACRO_1; 
@@ -110,7 +125,102 @@ void reset_keymap(void){
     current_keymap[15] = DEFAULT_KB_MACRO_15; 
 }
 
-extern void reprogram_key(uint16_t map[], size_t map_size){
-    for(size_t i = 0; i < map_size; i++)
-        current_keymap[i] = map[i];
+uint16_t convert_proto_keymap(ProgramKeybindings_KeyType proto_key){
+    switch(proto_key){
+        case(ProgramKeybindings_KeyType_CTRL):
+        return KEY_LEFT_CTRL;
+        
+        case(ProgramKeybindings_KeyType_SHIFT):
+        return KEY_LEFT_SHIFT;
+        
+        case(ProgramKeybindings_KeyType_ALT):
+        return KEY_LEFT_ALT;
+        
+        case(ProgramKeybindings_KeyType_GUI):
+        return KEY_LEFT_GUI;
+        
+        case(ProgramKeybindings_KeyType_LEFT_CTRL):
+        return KEY_LEFT_CTRL;
+
+        case(ProgramKeybindings_KeyType_LEFT_SHIFT):
+        return KEY_LEFT_SHIFT;
+
+        case(ProgramKeybindings_KeyType_LEFT_ALT):
+        return KEY_LEFT_ALT; 
+
+        case(ProgramKeybindings_KeyType_LEFT_GUI):
+        return KEY_LEFT_GUI; 
+
+        case(ProgramKeybindings_KeyType_RIGHT_CTRL):
+        return KEY_RIGHT_CTRL; 
+
+        case(ProgramKeybindings_KeyType_RIGHT_SHIFT):
+        return KEY_RIGHT_SHIFT;
+
+        case(ProgramKeybindings_KeyType_RIGHT_ALT):
+        return KEY_RIGHT_ALT;
+
+        case(ProgramKeybindings_KeyType_RIGHT_GUI):
+        return KEY_RIGHT_GUI; 
+
+        case(ProgramKeybindings_KeyType_SYSTEM_POWER_DOWN):
+        return KEY_SYSTEM_POWER_DOWN;
+
+        case(ProgramKeybindings_KeyType_SYSTEM_SLEEP):
+        return KEY_SYSTEM_SLEEP;
+
+        case(ProgramKeybindings_KeyType_SYSTEM_WAKE_UP):
+        return KEY_SYSTEM_WAKE_UP;
+
+        case(ProgramKeybindings_KeyType_PLAY):
+        return KEY_MEDIA_PLAY; 
+
+        case(ProgramKeybindings_KeyType_MEDIA_PAUSE):
+        return KEY_MEDIA_PAUSE;
+
+        case(ProgramKeybindings_KeyType_RECORD):
+        return KEY_MEDIA_RECORD; 
+
+        case(ProgramKeybindings_KeyType_FAST_FORWARD):
+        return KEY_MEDIA_FAST_FORWARD;
+
+        case(ProgramKeybindings_KeyType_REWIND):
+        return KEY_MEDIA_REWIND;
+
+        case(ProgramKeybindings_KeyType_NEXT_TRACK):
+        return KEY_MEDIA_NEXT_TRACK;
+
+        case(ProgramKeybindings_KeyType_PREV_TRACK):
+        return KEY_MEDIA_PREV_TRACK;
+
+        case(ProgramKeybindings_KeyType_STOP):
+        return KEY_MEDIA_STOP; 
+
+        case(ProgramKeybindings_KeyType_EJECT):
+        return KEY_MEDIA_EJECT;
+
+        case(ProgramKeybindings_KeyType_RANDOM_PLAY):
+        return KEY_MEDIA_RANDOM_PLAY;
+
+        case(ProgramKeybindings_KeyType_PLAY_PAUSE):
+        return KEY_MEDIA_PLAY_PAUSE;
+
+        case(ProgramKeybindings_KeyType_MUTE):
+        return KEY_MEDIA_MUTE; 
+
+        case(ProgramKeybindings_KeyType_VOLUME_INC):
+        return KEY_MEDIA_VOLUME_INC;
+
+        case(ProgramKeybindings_KeyType_VOLUME_DEC):
+        return KEY_MEDIA_VOLUME_DEC;
+    
+        default:
+        
+        if(proto_key >= 30 && proto_key <= 139){
+            return (   (proto_key-26)  | 0xF000 );
+        }
+        break;
+    }
+
+    return KEY_SPACE;
 }
