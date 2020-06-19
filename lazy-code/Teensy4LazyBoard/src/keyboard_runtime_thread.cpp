@@ -216,9 +216,11 @@ uint16_t convert_proto_keymap(ProgramKeybindings_KeyType proto_key){
     
         default:
         
-        if(proto_key >= 30 && proto_key <= 139){
-            return (   (proto_key-26)  | 0xF000 );
-        }
+        // Converts to keys that the program can understand
+        if(proto_key >= 30 && proto_key <= 127)
+            return (   (proto_key - 26)  | 0xF000 );
+        else if(proto_key >= 128 && proto_key <= 139)
+            return (   (proto_key - 24)  | 0xF000 );
         break;
     }
 

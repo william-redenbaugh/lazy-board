@@ -108,6 +108,30 @@ ProgramKeybindings MessageManagement::get_keybinding_information(void){
 
 /**************************************************************************/
 /*!
+    @brief Processes rgb instructions
+*/
+/**************************************************************************/
+void MessageManagement::process_rgb_instructions(void){
+     uint8_t rgb_data_buff[this->latest_message_data.message_size];
+    // Get latest data off serial device. 
+    for(uint8_t i = 0; i < this->latest_message_data.message_size; i++)
+        rgb_data_buff[i] = Serial.read();
+    
+    pb_istream_t msg_in = pb_istream_from_buffer(rgb_data_buff, this->latest_message_data.message_size);
+    pb_decode(&msg_in, GeneralRGBData_fields, &this->latest_general_rgb_data);
+}
+
+/**************************************************************************/
+/*!
+    @returns latest keybinding information. should be called after process_keybinding_informatio()
+*/
+/**************************************************************************/
+GeneralRGBData MessageManagement::get_rgb_general_instructions(void){
+    return latest_general_rgb_data;
+}
+
+/**************************************************************************/
+/*!
     @returns The latest general instruction data, should be called right after we know we got new general instruction data.  
 */
 /**************************************************************************/

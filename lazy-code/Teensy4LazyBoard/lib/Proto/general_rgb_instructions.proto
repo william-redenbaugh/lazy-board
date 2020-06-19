@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+message GeneralRGBData{
+    
+    // Since we are going to send another message after this, 
+    // The microcontroller needs to know how big the message is
+    uint32 message_size = 1; 
+
+    enum RGBMessageType{
+        MATRIX_CYCLE_INDIVIDUAL = 0; 
+        MATRIX_CYCLE_ALL = 1; 
+        MATRIX_STATIC_INDIVIDUAL = 2; 
+        MATRIX_KEYTRIGGER_REACTIVE = 3; 
+        MATRIX_TRIGGER_RIPPLE = 4; 
+    }
+    // Enumerated Message Type
+    RGBMessageType message_type = 2; 
+    
+    // Whether or not more information is provided after. 
+    bool more_data = 3; 
+}

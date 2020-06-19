@@ -5,6 +5,7 @@ thread_t *led_runtime_handler;
 
 #define CHANGE_MATRIX_BITMASK 0 
 eventmask_t event_mask;  
+volatile bool interrupt_animation = false; 
 
 LEDMatrixConfiguration current_matrix_config; 
 
@@ -15,6 +16,7 @@ RgbColor static_individual_col[NUM_MATRIX_LEDS];
 uint8_t latest_key_press_map[16];
 
 bool matrix_cycle_individual(void);
+bool matrix_trigger_ripple(void);
 bool matrix_static_all(void);
 bool matrix_static_individual(void);
 bool matrix_keytrigger_reactive(void);
@@ -47,13 +49,25 @@ bool matrix_cycle_individual(void){
         event_mask = chEvtWaitAnyTimeout(EVENT_MASK(CHANGE_MATRIX_BITMASK), 10 * current_matrix_config.interval_speed);
         if(event_mask & EVENT_MASK(CHANGE_MATRIX_BITMASK))
             return 1; 
+        if(interrupt_animation)
+            return 1; 
  
     }
     return 0; 
 }
 
+/**************************************************************************/
+/*!
+    @brief reactive animations on the matrix, similar to most rgb keyboards. 
+    @return animation was interrupted. 
+*/
+/**************************************************************************/
 bool matrix_trigger_ripple(void){
-    
+    for(;;){
+        if(interrupt_animation)
+            return 1; 
+    }
+    return 0; 
 }
 
 /**************************************************************************/
@@ -154,7 +168,12 @@ bool matrix_keytrigger_reactive(void){
 
         // Update after each run. 
         _update_ws2812b_matrix();
+
+        if(interrupt_animation)
+            return 1; 
     }
+
+    return 0; 
 }
 
 
@@ -174,6 +193,9 @@ bool matrix_static_all(void){
     event_mask = chEvtWaitAnyTimeout(EVENT_MASK(CHANGE_MATRIX_BITMASK), 10 * current_matrix_config.interval_speed);
     if(event_mask & EVENT_MASK(CHANGE_MATRIX_BITMASK))
         return 1;
+    
+    if(interrupt_animation)
+        return 1; 
 
     return 0;  
 }
@@ -197,6 +219,9 @@ bool matrix_static_individual(void){
     event_mask = chEvtWaitAnyTimeout(EVENT_MASK(CHANGE_MATRIX_BITMASK), 10 * current_matrix_config.interval_speed);
     if(event_mask & EVENT_MASK(CHANGE_MATRIX_BITMASK))
         return 1;
+    
+    if(interrupt_animation)
+        return 1; 
 
     return 0;  
 }
@@ -275,6 +300,23 @@ extern void change_led_config(LEDMatrixConfiguration next_matrix_config){
 
     // Signal to the thread to change the animations. 
     chEvtSignal(led_runtime_handler, EVENT_MASK(0));
+    interrupt_animation = true; 
+}
+
+/**************************************************************************/
+/*!
+    @brief Remote function that let's us change what's the configutation of our LED matrix
+    @param LEDMatrixAnimation Struct of the next matrix configuration information
+*/
+/**************************************************************************/
+extern void change_led_animation(LEDMatrixAnimation animation){
+    chMtxLock(&led_matrix_mutex);
+    current_matrix_config.matrix_animation_enum = animation;
+    chMtxUnlock(&led_matrix_mutex);
+
+    // Signal to the thread to change the animations. 
+    chEvtSignal(led_runtime_handler, EVENT_MASK(0));
+    interrupt_animation = true; 
 }
 
 /**************************************************************************/

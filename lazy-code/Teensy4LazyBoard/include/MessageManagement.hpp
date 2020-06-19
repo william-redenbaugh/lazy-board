@@ -12,6 +12,7 @@
 #include "messagedata.pb.h"
 #include "general_instructions.pb.h"
 #include "program_keybindings.pb.h"
+#include "general_rgb_instructions.pb.h"
 
 class MessageManagement{
 public: 
@@ -34,9 +35,13 @@ public:
     // Returns the latest General instruction data. 
     GeneralInstructions_MainInstrEnum get_latest_general_instructions(void);
 
-    // Allows to unpack keybinding information. 
+    // Allows to unpack and pass keybinding information. 
     void process_keybinding_information(void);
     ProgramKeybindings get_keybinding_information(void);
+    
+    // Allows to unpack and pass rgb information
+    void process_rgb_instructions(void);
+    GeneralRGBData get_rgb_general_instructions(void);
 
     // Test code for making sure that the protobuffers are
     // packing and unpacking properly
@@ -60,6 +65,9 @@ private:
 
     // Latest keybinding data. 
     ProgramKeybindings latest_keybinding_info; 
+
+    // Latest RGB general instruction data; 
+    GeneralRGBData latest_general_rgb_data; 
 };
 
 #endif 
