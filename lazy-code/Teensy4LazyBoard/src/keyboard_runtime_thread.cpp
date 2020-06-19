@@ -1,8 +1,23 @@
 #include "keyboard_runtime_thread.hpp"
 #include "kb_macros_define.h"
 #include "led_matrix_runtime.hpp"
+#include "program_keybindings.pb.h"
 
 extern void start_keyboard_runtime_thread(void);
+extern void reprogram_key(uint16_t map[], size_t map_size);
+
+// Allows us to reset the current keymap. 
+void reset_keymap(void);
+uint16_t convert_proto_keymap(ProgramKeybindings_KeyType proto_key);
+
+// Setting up the current keymap information. 
+volatile uint16_t current_keymap[NUM_ROWS * NUM_COLS];
+
+// Checking if there is a new click.
+bool new_click = false; 
+
+MUTEX_DECL(keymap_mutx);
+
 
 /**************************************************************************/
 /*!
@@ -15,22 +30,20 @@ static THD_FUNCTION(keyboard_runtime_thread, arg){
 
     start_keyboard_gpio();
     Keyboard.begin();
-
-    systime_t kb_thread_begin_tick;
-    systime_t kb_thread_end_tick;  
-
-    Serial.begin(115200);
+    reset_keymap();
+   
+   // Latest keystate information. 
     KeyState key_state; 
 
-    // Sets and clears all the previous key state information information
+    // previous key state information information
     KeyState prev_key_state;
-        
-    for(uint8_t i = 0; i < NUM_ROWS * NUM_COLS; i++){
+
+    for(uint8_t i = 0; i < NUM_ROWS * NUM_COLS; i++)
         prev_key_state[i] = 1; 
-    }
-    
-    // Checking if there is a new click.
-    bool new_click = false; 
+
+    systime_t kb_thread_begin_tick;
+    systime_t kb_thread_end_tick; 
+ 
     while(1){
         // Get current tick  aneiobfk
         kb_thread_begin_tick = chVTGetSystemTimeX();
@@ -39,134 +52,26 @@ static THD_FUNCTION(keyboard_runtime_thread, arg){
         read_keyboard_gpio();
         get_keyboard_values(key_state);   
 
-
+        // Lock Down our resource!
+        chMtxLock(&keymap_mutx);
         // Run through 2D array, check which keys are pressed and which arent. 
         for(uint8_t x = 0; x < NUM_ROWS * NUM_COLS; x++){
             
             if((key_state[x] == 0) && !(key_state[x] == prev_key_state[x])){
                 new_click = true; 
-                switch(x){
-                case(KB_MACRO_0_POS):
-                    Keyboard.press(KB_MACRO_0);
-                break;
-                case(KB_MACRO_1_POS):
-                    Keyboard.press(KB_MACRO_1);
-                break;
-                case(KB_MACRO_2_POS):
-                    Keyboard.press(KB_MACRO_2);
-                break;
-                case(KB_MACRO_3_POS):
-                    Keyboard.press(KB_MACRO_3);
-                break;
-                case(KB_MACRO_4_POS):
-                    Keyboard.press(KB_MACRO_4);
-                break;
-                case(KB_MACRO_5_POS):
-                    Keyboard.press(KB_MACRO_5);
-                break;
-                case(KB_MACRO_6_POS):
-                    Keyboard.press(KB_MACRO_6);
-                break;
-                case(KB_MACRO_7_POS):
-                    Keyboard.press(KB_MACRO_7);
-                break;
-                case(KB_MACRO_8_POS):
-                    Keyboard.press(KB_MACRO_8);
-                break;
-                case(KB_MACRO_9_POS):
-                    Keyboard.press(KB_MACRO_9);
-                break;
-                case (KB_MACRO_10_POS):
-                    Keyboard.press(KB_MACRO_10);
-                break;
-                case(KB_MACRO_11_POS):
-                    Keyboard.press(KB_MACRO_11);
-                break;
-                
-                // ** NOTE: CURRENTLY UNUSED PINS BEGIN ** // 
-                case(KB_MACRO_12_POS):
-                    Keyboard.press(KB_MACRO_12);
-                break;
-                case(KB_MACRO_13_POS):
-                    Keyboard.press(KB_MACRO_13);
-                break;
-                case(KB_MACRO_14_POS):
-                    Keyboard.press(KB_MACRO_14);
-                break;
-                case(KB_MACRO_15_POS):
-                    Keyboard.press(KB_MACRO_15);
-                break;
-                // ** NOTE: CURRENTLY UNUSED PINS END ** // 
-                default:
-                    // HOW TF DID WE GET HERE ?!?!!!??  :0 // 
-                break;
-                }
+                Keyboard.press(current_keymap[x]);
                 // Setting the previous key state to the next key_state
                 prev_key_state[x] = key_state[x];
             }
             if((key_state[x] == 1) && !(key_state[x] == prev_key_state[x])){
                 new_click = true; 
-                switch(x){
-                case(KB_MACRO_0_POS):
-                    Keyboard.release(KB_MACRO_0);
-                break;
-                case(KB_MACRO_1_POS):
-                    Keyboard.release(KB_MACRO_1);
-                break;
-                case(KB_MACRO_2_POS):
-                    Keyboard.release(KB_MACRO_2);
-                break;
-                case(KB_MACRO_3_POS):
-                    Keyboard.release(KB_MACRO_3);
-                break;
-                case(KB_MACRO_4_POS):
-                    Keyboard.release(KB_MACRO_4);
-                break;
-                case(KB_MACRO_5_POS):
-                    Keyboard.release(KB_MACRO_5);
-                break;
-                case(KB_MACRO_6_POS):
-                    Keyboard.release(KB_MACRO_6);
-                break;
-                case(KB_MACRO_7_POS):
-                    Keyboard.release(KB_MACRO_7);
-                break;
-                case(KB_MACRO_8_POS):
-                    Keyboard.release(KB_MACRO_8);
-                break;
-                case(KB_MACRO_9_POS):
-                    Keyboard.release(KB_MACRO_9);
-                break;
-                case (KB_MACRO_10_POS):
-                    Keyboard.release(KB_MACRO_10);
-                break;
-                case(KB_MACRO_11_POS):
-                    Keyboard.release(KB_MACRO_11);
-                break;
-                
-                // ** NOTE: CURRENTLY UNUSED PINS BEGIN ** // 
-                case(KB_MACRO_12_POS):
-                    Keyboard.release(KB_MACRO_12);
-                break;
-                case(KB_MACRO_13_POS):
-                    Keyboard.release(KB_MACRO_13);
-                break;
-                case(KB_MACRO_14_POS):
-                    Keyboard.release(KB_MACRO_14);
-                break;
-                case(KB_MACRO_15_POS):
-                    Keyboard.release(KB_MACRO_15);
-                break;
-                // ** NOTE: CURRENTLY UNUSED PINS END ** // 
-                default:
-                    // HOW TF DID WE GET HERE ?!?!!!??  :0 // 
-                break;
-                }
+                Keyboard.release(current_keymap[x]);
                 // Setting the previous key state to the next key_state
                 prev_key_state[x] = key_state[x];
                 key_state[x] = 0; 
             }
         }
+        chMtxUnlock(&keymap_mutx);
         // END OF KEYSTROKE KEYBOARD OUTPUT // 
 
         if(new_click){
@@ -194,3 +99,130 @@ extern void start_keyboard_runtime_thread(void){
                       NULL);
 }
 
+extern void reprogram_key(uint16_t map[], size_t map_size){
+    chMtxLock(&keymap_mutx);
+    for(size_t i = 0; i < map_size; i++)
+        current_keymap[i] = convert_proto_keymap(ProgramKeybindings_KeyType(map[i]));
+    chMtxUnlock(&keymap_mutx);
+}
+
+void reset_keymap(void){
+    current_keymap[0] = DEFAULT_KB_MACRO_0;
+    current_keymap[1] = DEFAULT_KB_MACRO_1; 
+    current_keymap[2] = DEFAULT_KB_MACRO_2; 
+    current_keymap[3] = DEFAULT_KB_MACRO_3;
+    current_keymap[4] = DEFAULT_KB_MACRO_4; 
+    current_keymap[5] = DEFAULT_KB_MACRO_5; 
+    current_keymap[6] = DEFAULT_KB_MACRO_6; 
+    current_keymap[7] = DEFAULT_KB_MACRO_7; 
+    current_keymap[8] = DEFAULT_KB_MACRO_8; 
+    current_keymap[9] = DEFAULT_KB_MACRO_9; 
+    current_keymap[10] = DEFAULT_KB_MACRO_10; 
+    current_keymap[11] = DEFAULT_KB_MACRO_11; 
+    current_keymap[12] = DEFAULT_KB_MACRO_12; 
+    current_keymap[13] = DEFAULT_KB_MACRO_13; 
+    current_keymap[14] = DEFAULT_KB_MACRO_14; 
+    current_keymap[15] = DEFAULT_KB_MACRO_15; 
+}
+
+uint16_t convert_proto_keymap(ProgramKeybindings_KeyType proto_key){
+    switch(proto_key){
+        case(ProgramKeybindings_KeyType_CTRL):
+        return KEY_LEFT_CTRL;
+        
+        case(ProgramKeybindings_KeyType_SHIFT):
+        return KEY_LEFT_SHIFT;
+        
+        case(ProgramKeybindings_KeyType_ALT):
+        return KEY_LEFT_ALT;
+        
+        case(ProgramKeybindings_KeyType_GUI):
+        return KEY_LEFT_GUI;
+        
+        case(ProgramKeybindings_KeyType_LEFT_CTRL):
+        return KEY_LEFT_CTRL;
+
+        case(ProgramKeybindings_KeyType_LEFT_SHIFT):
+        return KEY_LEFT_SHIFT;
+
+        case(ProgramKeybindings_KeyType_LEFT_ALT):
+        return KEY_LEFT_ALT; 
+
+        case(ProgramKeybindings_KeyType_LEFT_GUI):
+        return KEY_LEFT_GUI; 
+
+        case(ProgramKeybindings_KeyType_RIGHT_CTRL):
+        return KEY_RIGHT_CTRL; 
+
+        case(ProgramKeybindings_KeyType_RIGHT_SHIFT):
+        return KEY_RIGHT_SHIFT;
+
+        case(ProgramKeybindings_KeyType_RIGHT_ALT):
+        return KEY_RIGHT_ALT;
+
+        case(ProgramKeybindings_KeyType_RIGHT_GUI):
+        return KEY_RIGHT_GUI; 
+
+        case(ProgramKeybindings_KeyType_SYSTEM_POWER_DOWN):
+        return KEY_SYSTEM_POWER_DOWN;
+
+        case(ProgramKeybindings_KeyType_SYSTEM_SLEEP):
+        return KEY_SYSTEM_SLEEP;
+
+        case(ProgramKeybindings_KeyType_SYSTEM_WAKE_UP):
+        return KEY_SYSTEM_WAKE_UP;
+
+        case(ProgramKeybindings_KeyType_PLAY):
+        return KEY_MEDIA_PLAY; 
+
+        case(ProgramKeybindings_KeyType_MEDIA_PAUSE):
+        return KEY_MEDIA_PAUSE;
+
+        case(ProgramKeybindings_KeyType_RECORD):
+        return KEY_MEDIA_RECORD; 
+
+        case(ProgramKeybindings_KeyType_FAST_FORWARD):
+        return KEY_MEDIA_FAST_FORWARD;
+
+        case(ProgramKeybindings_KeyType_REWIND):
+        return KEY_MEDIA_REWIND;
+
+        case(ProgramKeybindings_KeyType_NEXT_TRACK):
+        return KEY_MEDIA_NEXT_TRACK;
+
+        case(ProgramKeybindings_KeyType_PREV_TRACK):
+        return KEY_MEDIA_PREV_TRACK;
+
+        case(ProgramKeybindings_KeyType_STOP):
+        return KEY_MEDIA_STOP; 
+
+        case(ProgramKeybindings_KeyType_EJECT):
+        return KEY_MEDIA_EJECT;
+
+        case(ProgramKeybindings_KeyType_RANDOM_PLAY):
+        return KEY_MEDIA_RANDOM_PLAY;
+
+        case(ProgramKeybindings_KeyType_PLAY_PAUSE):
+        return KEY_MEDIA_PLAY_PAUSE;
+
+        case(ProgramKeybindings_KeyType_MUTE):
+        return KEY_MEDIA_MUTE; 
+
+        case(ProgramKeybindings_KeyType_VOLUME_INC):
+        return KEY_MEDIA_VOLUME_INC;
+
+        case(ProgramKeybindings_KeyType_VOLUME_DEC):
+        return KEY_MEDIA_VOLUME_DEC;
+    
+        default:
+        
+        // Converts to keys that the program can understand
+        if(proto_key >= 30 && proto_key <= 127)
+            return (   (proto_key - 26)  | 0xF000 );
+        else if(proto_key >= 128 && proto_key <= 139)
+            return (   (proto_key - 24)  | 0xF000 );
+        break;
+    }
+
+    return KEY_SPACE;
+}

@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+message GeneralInstructions{
+    enum MainInstrEnum{
+        // Just sending over a test General Instruction
+        DO_NOTHING = 0; 
+
+        // Telling microcontroller to reboot. 
+        REBOOT = 1; 
+        
+        // Telling microcontroller to find and clear out any free memory. 
+        FREE_MEM = 2; 
+        
+        // Tells the microcontroller to send a status return message. 
+        STATUS = 3;
+    }
+    // Actual Packaged Data
+    MainInstrEnum main_instructions = 1; 
+}

@@ -33,6 +33,8 @@ bool MessageManagement::run(void){
 
         return true;
     }
+
+    return false; 
 }
 
 /**************************************************************************/
@@ -71,12 +73,61 @@ int32_t MessageManagement::return_message_size(void){
 void MessageManagement::process_general_instructions(void){
     // Array with latest package information. 
     uint8_t general_instr_buff[this->latest_message_data.message_size];
+    
     // Get latest data off serial device. 
     for(uint8_t i = 0; i < this->latest_message_data.message_size; i++)
         general_instr_buff[i] = Serial.read();
  
     pb_istream_t msg_in = pb_istream_from_buffer(general_instr_buff, this->latest_message_data.message_size);
     pb_decode(&msg_in, GeneralInstructions_fields, &this->general_instructions);
+}
+
+/**************************************************************************/
+/*!
+    @brief Processes keybinding information. 
+*/
+/**************************************************************************/
+void MessageManagement::process_keybinding_information(void){
+    uint8_t keybinding_buff[this->latest_message_data.message_size];
+    // Get latest data off serial device. 
+    for(uint8_t i = 0; i < this->latest_message_data.message_size; i++)
+        keybinding_buff[i] = Serial.read();
+    
+    pb_istream_t msg_in = pb_istream_from_buffer(keybinding_buff, this->latest_message_data.message_size);
+    pb_decode(&msg_in, ProgramKeybindings_fields, &this->latest_keybinding_info);
+}
+
+/**************************************************************************/
+/*!
+    @returns latest keybinding information. should be called after process_keybinding_informatio()
+*/
+/**************************************************************************/
+ProgramKeybindings MessageManagement::get_keybinding_information(void){
+    return this->latest_keybinding_info;
+}
+
+/**************************************************************************/
+/*!
+    @brief Processes rgb instructions
+*/
+/**************************************************************************/
+void MessageManagement::process_rgb_instructions(void){
+     uint8_t rgb_data_buff[this->latest_message_data.message_size];
+    // Get latest data off serial device. 
+    for(uint8_t i = 0; i < this->latest_message_data.message_size; i++)
+        rgb_data_buff[i] = Serial.read();
+    
+    pb_istream_t msg_in = pb_istream_from_buffer(rgb_data_buff, this->latest_message_data.message_size);
+    pb_decode(&msg_in, GeneralRGBData_fields, &this->latest_general_rgb_data);
+}
+
+/**************************************************************************/
+/*!
+    @returns latest keybinding information. should be called after process_keybinding_informatio()
+*/
+/**************************************************************************/
+GeneralRGBData MessageManagement::get_rgb_general_instructions(void){
+    return latest_general_rgb_data;
 }
 
 /**************************************************************************/
@@ -91,24 +142,6 @@ GeneralInstructions_MainInstrEnum MessageManagement::get_latest_general_instruct
 
 /**************************************************************************/
 /*!
-    @brief Unpacks matrix information, and get's system ready to send out information to matrix. 
-*/
-/**************************************************************************/
-void MessageManagement::processing_matrix_information(void){
-
-}
-
-/**************************************************************************/
-/*!
-    @brief Unpacks LED matrix information. 
-*/
-/**************************************************************************/
-void MessageManagement::processing_led_strip_information(void){
-
-}
-
-/**************************************************************************/
-/*!
     @brief Tests to make sure that protbuffer serialization and deserialization is working properly. 
     @returns boolean value that test was successful.  
 */
@@ -117,7 +150,7 @@ void MessageManagement::processing_led_strip_information(void){
 bool MessageManagement::testing_message_protobuffers(void){
     MessageData message_data_out;
     message_data_out.message_size = 32;
-    message_data_out.message_type = MessageData_MessageType_MATRIX_DATA;
+    message_data_out.message_type = MessageData_MessageType_GENERAL_INSTRUCTIONS;
 
     // Put data into serialized format. 
     uint8_t buffer[16];

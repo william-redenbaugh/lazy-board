@@ -9,5 +9,6 @@
 #include "keyboard_gpio.hpp"
 
 extern void start_keyboard_runtime_thread(void); 
+extern void reprogram_key(uint16_t map[], size_t map_size);
 
 #endif 

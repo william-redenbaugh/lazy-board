@@ -4,6 +4,8 @@
 #include "Arduino.h"
 #include "ChRt.h"
 #include "MessageManagement.hpp"
+#include "keyboard_runtime_thread.hpp"
+#include "led_matrix_runtime.hpp"
 
 extern void start_message_management(void);
 extern void loop(void);
