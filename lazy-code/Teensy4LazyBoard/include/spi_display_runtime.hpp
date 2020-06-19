@@ -6,7 +6,6 @@
 #include "ChRt.h"
 
 #include "Adafruit_GFX.h"
-#include "Adafruit_ST7735.h"
 
 // LCD SPI PIN DENOMINATIONS
 #define LCD_SPI_PIN_CS 10

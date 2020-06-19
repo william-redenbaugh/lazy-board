@@ -1,12 +1,12 @@
 [submodule "lazy-code/Teensy4LazyBoard/lib/ChRt"]
 	path = lazy-code/Teensy4LazyBoard/lib/ChRt
 	url = git@github.com:william-redenbaugh/ChRt.git
-[submodule "lazy-code/Teensy4LazyBoard/lib/Adafruit-ST7735-Library"]
-	path = lazy-code/Teensy4LazyBoard/lib/Adafruit-ST7735-Library
-	url = https://github.com/adafruit/Adafruit-ST7735-Library
 [submodule "lazy-code/Teensy4LazyBoard/lib/Adafruit-GFX"]
 	path = lazy-code/Teensy4LazyBoard/lib/Adafruit-GFX
 	url = git@github.com:william-redenbaugh/Adafruit-GFX-Library
 [submodule "lazy-code/Teensy4LazyBoard/lib/nanopb"]
 	path = lazy-code/Teensy4LazyBoard/lib/nanopb
 	url = https://github.com/nanopb/nanopb
+[submodule "lazy-code/Teensy4LazyBoard/lib/Adafruit-SSD1351-library"]
+	path = lazy-code/Teensy4LazyBoard/lib/Adafruit-SSD1351-library
+	url = git@github.com:adafruit/Adafruit-SSD1351-library.git
