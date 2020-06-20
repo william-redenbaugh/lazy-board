@@ -41,7 +41,7 @@ extern void loop(void) {
         break;
 
         case(MessageData_MessageType_PROGRAM_RGB_ANIMATIONS):
-        
+        run_rgb_instructions();
         break;
 
         case(MessageData_MessageType_PROGRAM_DISPLAY):

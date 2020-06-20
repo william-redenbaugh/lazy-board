@@ -41,7 +41,7 @@ extern void read_keyboard_gpio(void){
         
         for(uint8_t col = 0; col < NUM_COLS; col++){
             pinMode(matrix_col_gpio[col], INPUT_PULLUP);
-            chThdSleepMicroseconds(1);
+            chThdSleepMilliseconds(1);
             key_state[x] = (uint8_t)digitalReadFast(matrix_col_gpio[col]);
             x++;
             pinMode(matrix_col_gpio[col], INPUT);
