@@ -10,6 +10,3 @@
 [submodule "lazy-code/Teensy4LazyBoard/lib/Adafruit-SSD1351-library"]
 	path = lazy-code/Teensy4LazyBoard/lib/Adafruit-SSD1351-library
 	url = git@github.com:william-redenbaugh/Adafruit-SSD1351-library.git
-[submodule "lazy-code/Teensy4LazyBoard/lib/Adafruit-GFX-Library"]
-	path = lazy-code/Teensy4LazyBoard/lib/Adafruit-GFX-Library
-	url = git@github.com:william-redenbaugh/Adafruit-GFX-Library.git
