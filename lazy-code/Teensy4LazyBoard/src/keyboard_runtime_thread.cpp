@@ -3,6 +3,7 @@
 #include "led_matrix_runtime.hpp"
 #include "program_keybindings.pb.h"
 #include "spi_display_runtime.hpp"
+#include "EEPROM.h"
 
 extern void start_keyboard_runtime_thread(void);
 extern void reprogram_key(uint16_t map[], size_t map_size);
@@ -201,6 +202,11 @@ extern void start_keyboard_runtime_thread(void){
                       NULL);
 }
 
+/**************************************************************************/
+/*!
+   @brief  Allows us to reprogram the current keymap. 
+*/
+/**************************************************************************/
 extern void reprogram_key(uint16_t map[], size_t map_size){
     chMtxLock(&keymap_mutx);
     for(size_t i = 0; i < map_size; i++)
@@ -208,6 +214,11 @@ extern void reprogram_key(uint16_t map[], size_t map_size){
     chMtxUnlock(&keymap_mutx);
 }
 
+/**************************************************************************/
+/*!
+   @brief    Allows us to reset our keymap to the default preloaded values at compile time. 
+*/
+/**************************************************************************/
 void reset_keymap(void){
     current_keymap[0] = DEFAULT_KB_MACRO_0;
     current_keymap[1] = DEFAULT_KB_MACRO_1; 
@@ -227,6 +238,37 @@ void reset_keymap(void){
     current_keymap[15] = DEFAULT_KB_MACRO_15; 
 }
 
+/**************************************************************************/
+/*!
+   @brief    Allows us to save our current keymap configuration into eeprome
+*/
+/**************************************************************************/
+void save_keymap_eeprom(void){
+    uint8_t x = 0; 
+    for(uint8_t i = 0; i < 16; i++){
+        EEPROM.write(x, current_keymap[i] >> 8);
+        x++;
+        EEPROM.write(x, current_keymap[i]);
+        x++; 
+    }
+}
+
+/**************************************************************************/
+/*!
+   @brief    Allows us to load our current keypmap from eeprome into memeory so we can use it. 
+*/
+/**************************************************************************/
+void load_keymap_eeprom(void){
+   for(uint8_t i = 0; i < 16; i++){
+       current_keymap[i] = (EEPROM.read(i * 2) << 8) | EEPROM.read(i*2 + 1);
+   } 
+}
+
+/**************************************************************************/
+/*!
+   @brief    Converts the protobuffer messages into actual keymap values. 
+*/
+/**************************************************************************/
 uint16_t convert_proto_keymap(ProgramKeybindings_KeyType proto_key){
     switch(proto_key){
         case(ProgramKeybindings_KeyType_CTRL):
