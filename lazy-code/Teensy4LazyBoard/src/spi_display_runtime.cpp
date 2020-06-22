@@ -25,8 +25,7 @@ struct {
 }sleep;
 
 // Counter for dealing with periodic stuff. 
-uint32_t counter = 0;    
-
+volatile uint32_t counter = 0;    
 
 extern void start_spi_display_thread(void);
 void reset_sleep_mode(void);
@@ -52,12 +51,14 @@ static THD_FUNCTION(spi_display_thread, arg){
             if(sleep.mode == true)
                 reset_sleep_mode();
             oled.draw_queue();
+            key_animations.new_char_available = false; 
         }
 
         if(key_animations.char_release){
             if(sleep.mode == true)
                 reset_sleep_mode();
             oled.draw_queue();
+            key_animations.char_release = false; 
         }
 
         // Where we can do periodic stuff!
@@ -148,6 +149,6 @@ void reset_sleep_mode(void){
 /**************************************************************************/
 void enable_sleep_mode(void){
     sleep.mode = true; 
-    oled.fill_screen(OLED_Color_Black);
+    //oled.fill_screen(OLED_Color_Black);
     oled.enable_display(false);
 }
