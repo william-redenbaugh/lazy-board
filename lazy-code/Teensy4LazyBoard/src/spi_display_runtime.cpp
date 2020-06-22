@@ -13,8 +13,24 @@ const uint16_t  OLED_Color_White        = 0xFFFF;
 
 MatrixOLED oled; 
 
+struct {
+    // Key stuff .
+    volatile bool new_char_available = false; 
+    volatile bool char_release = false; 
+    volatile char new_char = 'c'; 
+}key_animations;
+
+struct {
+    volatile bool mode = false; 
+}sleep;
+
+// Counter for dealing with periodic stuff. 
+uint32_t counter = 0;    
+
 
 extern void start_spi_display_thread(void);
+void reset_sleep_mode(void);
+void enable_sleep_mode(void);
 
 /**************************************************************************/
 /*!
@@ -25,46 +41,41 @@ static THD_WORKING_AREA(spi_display_thread_wa, 4096);
 static THD_FUNCTION(spi_display_thread, arg){
     (void)arg; 
 
-    Serial.begin(115200);
+    //Setting up our oled display
     oled.begin();
-    oled.fill_screen(OLED_Color_Green);    
-
+    oled.set_rotation(2);
+    oled.queue_rect(0, 0, 127, 127, OLED_Color_Magenta);    
+    oled.draw_queue();
+    
     for(;;){
-        chThdSleepSeconds(1);
-        for(uint8_t x = 0; x < 128; x++){
-            oled.queue_pixel(x, 0, OLED_Color_Yellow);
-            if(x%3 == 0)
+        if(key_animations.new_char_available){
+            if(sleep.mode == true)
+                reset_sleep_mode();
             oled.draw_queue();
         }
 
-        for(uint8_t x = 0; x < 128; x++){
-            oled.queue_pixel(x, 127, OLED_Color_Yellow);
-            if(x%3 == 0)
+        if(key_animations.char_release){
+            if(sleep.mode == true)
+                reset_sleep_mode();
             oled.draw_queue();
         }
 
-        for(uint8_t x = 0; x < 128; x++){
-            oled.queue_pixel(127, x, OLED_Color_Yellow);
-            if(x%3 == 0)
-            oled.draw_queue();
-        }
+        // Where we can do periodic stuff!
+        counter++; 
+        switch(counter){
+            case(900):
+            enable_sleep_mode();
+            break;
 
-        for(uint8_t x = 0; x < 128; x++){
-            oled.queue_pixel(0, x, OLED_Color_Yellow);
-            if(x%3 == 0)
-            oled.draw_queue();
-        }
+            // Reset counter after 20 seconds. 
+            case(4000):
+                counter = 0; 
+            break;
 
-        for(uint8_t x = 0; x < 128; x++){
-            for(uint8_t y = 0; y < x; y++){     
-                oled.queue_pixel(x, y, OLED_Color_Yellow);
-            }       
-            if(x%2 == 0)
-            oled.draw_queue();
+            default: 
+                break;
         }
-        
-        chThdSleepSeconds(1);   
-        oled.fill_screen(OLED_Color_Black);
+        chThdSleepMilliseconds(5);
     }   
 }
 
@@ -79,4 +90,64 @@ extern void start_spi_display_thread(void){
                       NORMALPRIO + 3, 
                       spi_display_thread, 
                       NULL);
+}
+
+/**************************************************************************/
+/*!
+    @brief Allows us to trigger a new char onto the OLED display. 
+    @param char c (character that we are pushing to the screen. )
+*/
+/**************************************************************************/
+extern void trigger_new_char(char c){
+    // If sleep mode is enabled, gotta turn it off!    
+    counter = 0; 
+
+    key_animations.char_release= false; 
+    oled.queue_rect_fill(1, 1, 126, 126, OLED_Color_Magenta);
+    oled.queue_rect(0, 0, 127, 127, OLED_Color_Magenta);    
+    oled.draw_char(24, 6, key_animations.new_char, OLED_Color_Black, OLED_Color_Magenta, 16, 16);
+    
+    key_animations.new_char = c; 
+    key_animations.new_char_available = true;
+}
+
+/**************************************************************************/
+/*!
+    @brief Allows us to trigger a new char that was released onto the OLED display. 
+    @param char c (character that we are pushing to the screen. )
+*/
+/**************************************************************************/
+extern void trigger_char_release(char c){
+    // If sleep mode is enabled, gotta turn it off!
+    if(sleep.mode == true)
+        reset_sleep_mode();
+
+    key_animations.new_char_available = false; 
+    oled.queue_rect_fill(1, 1, 126, 126, OLED_Color_Black);
+    oled.queue_rect(0, 0, 127, 127, OLED_Color_Magenta);    
+    oled.draw_char(24, 6, key_animations.new_char, OLED_Color_Magenta, OLED_Color_Black, 16, 16);
+    
+    key_animations.new_char = c; 
+    key_animations.char_release = true;
+}
+
+/**************************************************************************/
+/*!
+    @brief Allows us to wake the device. 
+*/
+/**************************************************************************/
+void reset_sleep_mode(void){
+    sleep.mode = false; 
+    oled.enable_display(true);
+}
+
+/**************************************************************************/
+/*!
+    @brief allows us to sleep the device
+*/
+/**************************************************************************/
+void enable_sleep_mode(void){
+    sleep.mode = true; 
+    oled.fill_screen(OLED_Color_Black);
+    oled.enable_display(false);
 }

@@ -2,6 +2,7 @@
 #include "kb_macros_define.h"
 #include "led_matrix_runtime.hpp"
 #include "program_keybindings.pb.h"
+#include "spi_display_runtime.hpp"
 
 extern void start_keyboard_runtime_thread(void);
 extern void reprogram_key(uint16_t map[], size_t map_size);
@@ -17,7 +18,6 @@ volatile uint16_t current_keymap[NUM_ROWS * NUM_COLS];
 bool new_click = false; 
 
 MUTEX_DECL(keymap_mutx);
-
 
 /**************************************************************************/
 /*!
@@ -62,6 +62,57 @@ static THD_FUNCTION(keyboard_runtime_thread, arg){
                 Keyboard.press(current_keymap[x]);
                 // Setting the previous key state to the next key_state
                 prev_key_state[x] = key_state[x];
+
+                switch(current_keymap[x]){
+                    case(DEFAULT_KB_MACRO_0):
+                        trigger_new_char('A');
+                    break;
+
+                    case(DEFAULT_KB_MACRO_3):
+                        trigger_new_char('D');
+                    break;
+
+                    case(DEFAULT_KB_MACRO_4):
+                        trigger_new_char('E');
+                    break;
+
+                    case(DEFAULT_KB_MACRO_7):
+                        trigger_new_char('H');
+                    break;
+
+                    case(DEFAULT_KB_MACRO_8):
+                        trigger_new_char('I');
+                    break;
+
+                    case(DEFAULT_KB_MACRO_9):
+                        trigger_new_char('U');
+                    break;
+
+                    case(DEFAULT_KB_MACRO_10):
+                        trigger_new_char('P');
+                    break;
+
+                    case(DEFAULT_KB_MACRO_11):
+                        trigger_new_char('M');
+                    break;
+
+                    case(DEFAULT_KB_MACRO_12):
+                        trigger_new_char('L');
+                    break;
+
+                    case(DEFAULT_KB_MACRO_13):
+                        trigger_new_char('D');
+                    break;
+
+                    case(DEFAULT_KB_MACRO_14):
+                        trigger_new_char('R');
+                    break;
+
+                    case(DEFAULT_KB_MACRO_15):
+                        trigger_new_char('Q');
+                    break;
+
+                }
             }
             if((key_state[x] == 1) && !(key_state[x] == prev_key_state[x])){
                 new_click = true; 
@@ -69,6 +120,57 @@ static THD_FUNCTION(keyboard_runtime_thread, arg){
                 // Setting the previous key state to the next key_state
                 prev_key_state[x] = key_state[x];
                 key_state[x] = 0; 
+
+                switch(current_keymap[x]){
+                    case(DEFAULT_KB_MACRO_0):
+                        trigger_char_release('A');
+                    break;
+
+                    case(DEFAULT_KB_MACRO_3):
+                        trigger_char_release('D');
+                    break;
+
+                    case(DEFAULT_KB_MACRO_4):
+                        trigger_char_release('E');
+                    break;
+
+                    case(DEFAULT_KB_MACRO_7):
+                        trigger_char_release('H');
+                    break;
+
+                    case(DEFAULT_KB_MACRO_8):
+                        trigger_char_release('I');
+                    break;
+
+                    case(DEFAULT_KB_MACRO_9):
+                        trigger_char_release('U');
+                    break;
+
+                    case(DEFAULT_KB_MACRO_10):
+                        trigger_char_release('P');
+                    break;
+
+                    case(DEFAULT_KB_MACRO_11):
+                        trigger_char_release('M');
+                    break;
+
+                    case(DEFAULT_KB_MACRO_12):
+                        trigger_char_release('L');
+                    break;
+
+                    case(DEFAULT_KB_MACRO_13):
+                        trigger_char_release('D');
+                    break;
+
+                    case(DEFAULT_KB_MACRO_14):
+                        trigger_char_release('R');
+                    break;
+
+                    case(DEFAULT_KB_MACRO_15):
+                        trigger_char_release('Q');
+                    break;
+
+                }
             }
         }
         chMtxUnlock(&keymap_mutx);

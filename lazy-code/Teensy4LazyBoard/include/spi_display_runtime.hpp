@@ -16,5 +16,7 @@
 #define LCD_SPI_PIN_DC 16
 
 extern void start_spi_display_thread(void);
+extern void trigger_new_char(char c);
+extern void trigger_char_release(char c);
 
 #endif

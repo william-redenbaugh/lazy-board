@@ -58,14 +58,30 @@ class MatrixOLED{
         void fill_screen(uint16_t color);
 
         // INFO KEEP FRAMEBUFFER BEGIN //
+        
+        // Draw primitives. 
         void queue_pixel(uint8_t x, uint8_t y, uint16_t color);
         void queue_rect(uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint16_t col);
         void queue_rect_fill(uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint16_t col);
+        void queue_draw_fast_v_line(int16_t x, int16_t y, int16_t h, uint16_t color);
+        void queue_draw_fast_h_line(int16_t x, int16_t y, int16_t h, uint16_t color);
+        void queue_draw_circle(int16_t x0, int16_t y0, int16_t r, uint16_t color);
+        void queue_circle_helper(int16_t x0, int16_t y0, int16_t r, uint8_t cornername, uint16_t color);
+        void queue_draw_line(int16_t x0, int16_t y0, int16_t x1, int16_t y1, uint16_t color);
+        void queue_draw_triangle(int16_t x0, int16_t y0, int16_t x1, int16_t y1, int16_t x2, int16_t y2, uint16_t color); 
+        void queue_fill_triangle(int16_t x0, int16_t y0, int16_t x1, int16_t y1, int16_t x2, int16_t y2, uint16_t color);
+        
+        // Draws a character wherever :0
+        void draw_char(int16_t x, int16_t y, unsigned char c, uint16_t color, uint16_t bg, uint8_t size_x, uint8_t size_y);
+        
+        // Allows us to actually draw the character 
         void draw_queue(void);
+        
         // INFO KEEP FRAMEBUFFER END // 
 
         void set_rotation(uint8_t rot);
-
+        void enable_display(bool en);
+        
     private: 
 
         void send_command(uint8_t command_byte, const uint8_t *data, uint8_t num_bytes);

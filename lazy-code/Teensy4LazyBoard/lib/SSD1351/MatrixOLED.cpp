@@ -1,5 +1,17 @@
 #include "MatrixOLED.hpp"
 
+// GFX Font from AdafruitGFX Library, so I can do font stuff. 
+#include "glcdfont.c"
+
+#ifndef _swap_int16_t
+#define _swap_int16_t(a, b)                                                    \
+  {                                                                            \
+    int16_t t = a;                                                             \
+    a = b;                                                                     \
+    b = t;                                                                     \
+  }
+#endif
+
 static const uint8_t PROGMEM ssd1351_cmd_init_list[] = {
     SSD1351_CMD_COMMANDLOCK,
     1, // Set command lock, 1 arg
@@ -67,6 +79,19 @@ void MatrixOLED::begin(void){
     pinMode(OLED_pin_scl_sck, OUTPUT);
     pinMode(OLED_pin_sda_mosi, OUTPUT);
     
+    // Lets display reset if needed. 
+    this->rst_low();
+    chThdSleepMilliseconds(20);
+    this->rst_high();
+    chThdSleepMilliseconds(20);
+    this->rst_low();
+    chThdSleepMilliseconds(20);
+    this->rst_high();
+    chThdSleepMilliseconds(20);
+    this->rst_low();
+    chThdSleepMilliseconds(20);
+    this->rst_high();
+
     SPI.begin();
 
     // Make sure system isn't normally in reset or command mode. 
@@ -183,6 +208,312 @@ void MatrixOLED::queue_rect_fill(uint8_t x, uint8_t y, uint8_t w, uint8_t h, uin
   }
 }
 
+void MatrixOLED::draw_char(int16_t x, int16_t y, unsigned char c, uint16_t color, uint16_t bg, uint8_t size_x, uint8_t size_y){
+    
+    // NOTE ** TAKEN STRAIGHT FROM ADAFRUIT GFX LIBRARY! ** //
+    
+    if((x >= _width)            || // Clip right
+           (y >= _height)           || // Clip bottom
+           ((x + 6 * size_x - 1) < 0) || // Clip left
+           ((y + 8 * size_y - 1) < 0))   // Clip top
+            return;
+
+        if((c >= 176)) c++; // Handle 'classic' charset behavior
+
+        start_write();
+        for(int8_t i=0; i<5; i++ ) { // Char bitmap = 5 columns
+            uint8_t line = pgm_read_byte(&font[c * 5 + i]);
+            for(int8_t j=0; j<8; j++, line >>= 1) {
+                if(line & 1) {
+                    if(size_x == 1 && size_y == 1)
+                        queue_pixel(x+i, y+j, color);
+                    else
+                        queue_rect_fill(x+i*size_x, y+j*size_y, size_x, size_y, color);
+                } else if(bg != color) {
+                    if(size_x == 1 && size_y == 1)
+                        queue_pixel(x+i, y+j, bg);
+                    else
+                        queue_rect_fill(x+i*size_x, y+j*size_y, size_x, size_y, bg);
+                }
+            }
+        }
+        end_write();
+}
+
+/**************************************************************************/
+/*!
+   @brief    Draw a perfectly vertical line (this is often optimized in a
+   subclass!)
+    @param    x   Top-most x coordinate
+    @param    y   Top-most y coordinate
+    @param    h   Height in pixels
+   @param    color 16-bit 5-6-5 Color to fill with
+*/
+/**************************************************************************/
+void MatrixOLED::queue_draw_fast_v_line(int16_t x, int16_t y, int16_t h, uint16_t color){
+  this->queue_draw_line(x, y, x, y + h - 1, color);
+}
+
+/**************************************************************************/
+/*!
+   @brief    Draw a perfectly horizontal line (this is often optimized in a
+   subclass!)
+    @param    x   Left-most x coordinate
+    @param    y   Left-most y coordinate
+    @param    w   Width in pixels
+   @param    color 16-bit 5-6-5 Color to fill with
+*/
+/**************************************************************************/
+void MatrixOLED::queue_draw_fast_h_line(int16_t x, int16_t y, int16_t w, uint16_t color){
+  this->queue_draw_line(x, y, x + w - 1, y, color);
+}
+
+/**************************************************************************/
+/*!
+   @brief    Draw a circle outline
+    @param    x0   Center-point x coordinate
+    @param    y0   Center-point y coordinate
+    @param    r   Radius of circle
+    @param    color 16-bit 5-6-5 Color to draw with
+*/
+/**************************************************************************/
+void MatrixOLED::queue_draw_circle(int16_t x0, int16_t y0, int16_t r, uint16_t color){
+  int16_t f = 1 - r;
+  int16_t ddF_x = 1;
+  int16_t ddF_y = -2 * r;
+  int16_t x = 0;
+  int16_t y = r;
+
+  this->queue_pixel(x0, y0 + r, color);
+  this->queue_pixel(x0, y0 - r, color);
+  this->queue_pixel(x0 + r, y0, color);
+  this->queue_pixel(x0 - r, y0, color);
+
+  while (x < y) {
+    if (f >= 0) {
+      y--;
+      ddF_y += 2;
+      f += ddF_y;
+    }
+    x++;
+    ddF_x += 2;
+    f += ddF_x;
+
+    this->queue_pixel(x0 + x, y0 + y, color);
+    this->queue_pixel(x0 - x, y0 + y, color);
+    this->queue_pixel(x0 + x, y0 - y, color);
+    this->queue_pixel(x0 - x, y0 - y, color);
+    this->queue_pixel(x0 + y, y0 + x, color);
+    this->queue_pixel(x0 - y, y0 + x, color);
+    this->queue_pixel(x0 + y, y0 - x, color);
+    this->queue_pixel(x0 - y, y0 - x, color);
+  }
+}
+
+/**************************************************************************/
+/*!
+    @brief    Quarter-circle drawer, used to do circles and roundrects
+    @param    x0   Center-point x coordinate
+    @param    y0   Center-point y coordinate
+    @param    r   Radius of circle
+    @param    cornername  Mask bit #1 or bit #2 to indicate which quarters of
+   the circle we're doing
+    @param    color 16-bit 5-6-5 Color to draw with
+*/
+/**************************************************************************/
+void MatrixOLED::queue_circle_helper(int16_t x0, int16_t y0, int16_t r, uint8_t cornername, uint16_t color){
+  int16_t f = 1 - r;
+  int16_t ddF_x = 1;
+  int16_t ddF_y = -2 * r;
+  int16_t x = 0;
+  int16_t y = r;
+
+  while (x < y) {
+    if (f >= 0) {
+      y--;
+      ddF_y += 2;
+      f += ddF_y;
+    }
+    x++;
+    ddF_x += 2;
+    f += ddF_x;
+    if (cornername & 0x4) {
+      this->queue_pixel(x0 + x, y0 + y, color);
+      this->queue_pixel(x0 + y, y0 + x, color);
+    }
+    if (cornername & 0x2) {
+      this->queue_pixel(x0 + x, y0 - y, color);
+      this->queue_pixel(x0 + y, y0 - x, color);
+    }
+    if (cornername & 0x8) {
+      this->queue_pixel(x0 - y, y0 + x, color);
+      this->queue_pixel(x0 - x, y0 + y, color);
+    }
+    if (cornername & 0x1) {
+      this->queue_pixel(x0 - y, y0 - x, color);
+      this->queue_pixel(x0 - x, y0 - y, color);
+    }
+  }
+}
+
+/**************************************************************************/
+/*!
+   @brief    Draw a line
+    @param    x0  Start point x coordinate
+    @param    y0  Start point y coordinate
+    @param    x1  End point x coordinate
+    @param    y1  End point y coordinate
+    @param    color 16-bit 5-6-5 Color to draw with
+*/
+/**************************************************************************/
+void MatrixOLED::queue_draw_line(int16_t x0, int16_t y0, int16_t x1, int16_t y1, uint16_t color){
+  int16_t steep = abs(y1 - y0) > abs(x1 - x0);
+  if (steep) {
+    _swap_int16_t(x0, y0);
+    _swap_int16_t(x1, y1);
+  }
+
+  if (x0 > x1) {
+    _swap_int16_t(x0, x1);
+    _swap_int16_t(y0, y1);
+  }
+
+  int16_t dx, dy;
+  dx = x1 - x0;
+  dy = abs(y1 - y0);
+
+  int16_t err = dx / 2;
+  int16_t ystep;
+
+  if (y0 < y1) {
+    ystep = 1;
+  } else {
+    ystep = -1;
+  }
+
+  for (; x0 <= x1; x0++) {
+    if (steep) {
+      queue_pixel(y0, x0, color);
+    } else {
+      queue_pixel(x0, y0, color);
+    }
+    err -= dy;
+    if (err < 0) {
+      y0 += ystep;
+      err += dx;
+    }
+  }
+}
+
+/**************************************************************************/
+/*!
+   @brief   Draw a triangle with no fill color
+    @param    x0  Vertex #0 x coordinate
+    @param    y0  Vertex #0 y coordinate
+    @param    x1  Vertex #1 x coordinate
+    @param    y1  Vertex #1 y coordinate
+    @param    x2  Vertex #2 x coordinate
+    @param    y2  Vertex #2 y coordinate
+    @param    color 16-bit 5-6-5 Color to draw with
+*/
+/**************************************************************************/
+void MatrixOLED::queue_draw_triangle(int16_t x0, int16_t y0, int16_t x1, int16_t y1, int16_t x2, int16_t y2, uint16_t color){
+  queue_draw_line(x0, y0, x1, y1, color);
+  queue_draw_line(x1, y1, x2, y2, color);
+  queue_draw_line(x2, y2, x0, y0, color);
+} 
+
+/**************************************************************************/
+/*!
+   @brief     Draw a triangle with color-fill
+    @param    x0  Vertex #0 x coordinate
+    @param    y0  Vertex #0 y coordinate
+    @param    x1  Vertex #1 x coordinate
+    @param    y1  Vertex #1 y coordinate
+    @param    x2  Vertex #2 x coordinate
+    @param    y2  Vertex #2 y coordinate
+    @param    color 16-bit 5-6-5 Color to fill/draw with
+*/
+/**************************************************************************/
+void MatrixOLED::queue_fill_triangle(int16_t x0, int16_t y0, int16_t x1, int16_t y1, int16_t x2, int16_t y2, uint16_t color){
+  int16_t a, b, y, last;
+
+  // Sort coordinates by Y order (y2 >= y1 >= y0)
+  if (y0 > y1) {
+    _swap_int16_t(y0, y1);
+    _swap_int16_t(x0, x1);
+  }
+  if (y1 > y2) {
+    _swap_int16_t(y2, y1);
+    _swap_int16_t(x2, x1);
+  }
+  if (y0 > y1) {
+    _swap_int16_t(y0, y1);
+    _swap_int16_t(x0, x1);
+  }
+
+  if (y0 == y2) { // Handle awkward all-on-same-line case as its own thing
+    a = b = x0;
+    if (x1 < a)
+      a = x1;
+    else if (x1 > b)
+      b = x1;
+    if (x2 < a)
+      a = x2;
+    else if (x2 > b)
+      b = x2;
+    this->queue_draw_fast_h_line(a, y0, b - a + 1, color);
+    return;
+  }
+
+  int16_t dx01 = x1 - x0, dy01 = y1 - y0, dx02 = x2 - x0, dy02 = y2 - y0,
+          dx12 = x2 - x1, dy12 = y2 - y1;
+  int32_t sa = 0, sb = 0;
+
+  // For upper part of triangle, find scanline crossings for segments
+  // 0-1 and 0-2.  If y1=y2 (flat-bottomed triangle), the scanline y1
+  // is included here (and second loop will be skipped, avoiding a /0
+  // error there), otherwise scanline y1 is skipped here and handled
+  // in the second loop...which also avoids a /0 error here if y0=y1
+  // (flat-topped triangle).
+  if (y1 == y2)
+    last = y1; // Include y1 scanline
+  else
+    last = y1 - 1; // Skip it
+
+  for (y = y0; y <= last; y++) {
+    a = x0 + sa / dy01;
+    b = x0 + sb / dy02;
+    sa += dx01;
+    sb += dx02;
+    /* longhand:
+    a = x0 + (x1 - x0) * (y - y0) / (y1 - y0);
+    b = x0 + (x2 - x0) * (y - y0) / (y2 - y0);
+    */
+    if (a > b)
+      _swap_int16_t(a, b);
+    this->queue_draw_fast_h_line(a, y, b - a + 1, color);
+  }
+
+  // For lower part of triangle, find scanline crossings for segments
+  // 0-2 and 1-2.  This loop is skipped if y1=y2.
+  sa = (int32_t)dx12 * (y - y1);
+  sb = (int32_t)dx02 * (y - y0);
+  for (; y <= y2; y++) {
+    a = x1 + sa / dy12;
+    b = x0 + sb / dy02;
+    sa += dx12;
+    sb += dx02;
+    /* longhand:
+    a = x1 + (x2 - x1) * (y - y1) / (y2 - y1);
+    b = x0 + (x2 - x0) * (y - y0) / (y2 - y0);
+    */
+    if (a > b)
+      _swap_int16_t(a, b);
+    this->queue_draw_fast_h_line(a, y, b - a + 1, color);
+  }
+}
+
 
 /**************************************************************************/
 /*!
@@ -257,9 +588,24 @@ void MatrixOLED::set_rotation(uint8_t rot){
     
     }
 
-    send_command(SSD1351_CMD_SETREMAP, &madctl, 1);
+    this->send_command(SSD1351_CMD_SETREMAP, &madctl, 1);
     uint8_t startline = (rotation < 2) ? SSD1351HEIGHT : 0;
-    send_command(SSD1351_CMD_STARTLINE, &startline, 1);
+    this->send_command(SSD1351_CMD_STARTLINE, &startline, 1);
+}
+
+/**************************************************************************/
+/*!
+ @brief   Adafruit_SPITFT Send Command handles complete sending of commands and const data
+ @param   bool en (whether or not display is enabled)
+*/
+/**************************************************************************/
+void MatrixOLED::enable_display(bool en){
+  this->start_write();
+  if(en)
+    this->write_command(SSD1351_CMD_NORMALDISPLAY);
+  else
+    this->write_command(SSD1351_CMD_DISPLAYALLOFF);
+  this->end_write();
 }
 
 /**************************************************************************/
