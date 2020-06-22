@@ -1,16 +1,6 @@
 #include "spi_display_runtime.hpp"
 #include "Adafruit_SSD1351.h"
-
-// Screen dimensions
-#define SCREEN_WIDTH  128
-#define SCREEN_HEIGHT 128 // Change this to 96 for 1.27" OLED.
-
-// The SSD1351 is connected like this (plus VCC plus GND)
-const uint8_t   OLED_pin_scl_sck        = 13;
-const uint8_t   OLED_pin_sda_mosi       = 11;
-const uint8_t   OLED_pin_cs_ss          = 10;
-const uint8_t   OLED_pin_res_rst        = 17;
-const uint8_t   OLED_pin_dc_rs          = 16;
+#include "MatrixOLED.hpp"
 
 // SSD1331 color definitions
 const uint16_t  OLED_Color_Black        = 0x0000;
@@ -22,20 +12,8 @@ const uint16_t  OLED_Color_Magenta      = 0xF81F;
 const uint16_t  OLED_Color_Yellow       = 0xFFE0;
 const uint16_t  OLED_Color_White        = 0xFFFF;
 
-// The colors we actually want to use
-uint16_t        OLED_Text_Color         = OLED_Color_Black;
-uint16_t        OLED_Backround_Color    = OLED_Color_Blue;
+MatrixOLED oled; 
 
-// declare the display
-Adafruit_SSD1351 oled =
-    Adafruit_SSD1351(
-        SCREEN_WIDTH,
-        SCREEN_HEIGHT,
-        &SPI,
-        OLED_pin_cs_ss,
-        OLED_pin_dc_rs,
-        OLED_pin_res_rst
-     );
 
 extern void start_spi_display_thread(void);
 
@@ -48,12 +26,46 @@ static THD_WORKING_AREA(spi_display_thread_wa, 4096);
 static THD_FUNCTION(spi_display_thread, arg){
     (void)arg; 
 
+    Serial.begin(115200);
     oled.begin();
-    
-    oled.fill_screen(OLED_Color_Black);
+    oled.fill_screen(OLED_Color_Green);    
 
     for(;;){
         chThdSleepSeconds(1);
+        for(uint8_t x = 0; x < 128; x++){
+            oled.queue_pixel(x, 0, OLED_Color_Yellow);
+            if(x%3 == 0)
+            oled.draw_queue();
+        }
+
+        for(uint8_t x = 0; x < 128; x++){
+            oled.queue_pixel(x, 127, OLED_Color_Yellow);
+            if(x%3 == 0)
+            oled.draw_queue();
+        }
+
+        for(uint8_t x = 0; x < 128; x++){
+            oled.queue_pixel(127, x, OLED_Color_Yellow);
+            if(x%3 == 0)
+            oled.draw_queue();
+        }
+
+        for(uint8_t x = 0; x < 128; x++){
+            oled.queue_pixel(0, x, OLED_Color_Yellow);
+            if(x%3 == 0)
+            oled.draw_queue();
+        }
+
+        for(uint8_t x = 0; x < 128; x++){
+            for(uint8_t y = 0; y < x; y++){     
+                oled.queue_pixel(x, y, OLED_Color_Yellow);
+            }       
+            if(x%2 == 0)
+            oled.draw_queue();
+        }
+        
+        chThdSleepSeconds(1);   
+        oled.fill_screen(OLED_Color_Black);
     }   
 }
 
