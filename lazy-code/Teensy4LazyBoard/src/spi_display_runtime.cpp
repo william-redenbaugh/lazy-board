@@ -1,5 +1,4 @@
 #include "spi_display_runtime.hpp"
-#include "Adafruit_SSD1351.h"
 #include "MatrixOLED.hpp"
 
 // SSD1331 color definitions

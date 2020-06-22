@@ -1,6 +1,6 @@
 #include "MatrixOLED.hpp"
 
-static const uint8_t PROGMEM initList[] = {
+static const uint8_t PROGMEM ssd1351_cmd_init_list[] = {
     SSD1351_CMD_COMMANDLOCK,
     1, // Set command lock, 1 arg
     0x12,
@@ -50,9 +50,15 @@ static const uint8_t PROGMEM initList[] = {
     0x01,
     SSD1351_CMD_DISPLAYON,
     0,  // Main screen turn on
-    0}; // END OF COMMAND LIST
+    0
+}; 
+// END OF COMMAND LIST
 
-
+/**************************************************************************/
+/*!
+   @brief   Sets up the Matrix OLED so it's ready to send out data!
+*/
+/**************************************************************************/
 void MatrixOLED::begin(void){
     // Setup our gpio
     pinMode(OLED_pin_cs_ss, OUTPUT);
@@ -72,7 +78,7 @@ void MatrixOLED::begin(void){
     this->settings = SPISettings(36000000, MSBFIRST, SPI_MODE0);
 
     // Push out all the required settings to enable the display. 
-    const uint8_t *addr = (const uint8_t *)initList;
+    const uint8_t *addr = (const uint8_t *)ssd1351_cmd_init_list;
     uint8_t cmd, x, numArgs;
     while ((cmd = pgm_read_byte(addr++)) > 0) { // '0' command ends list
         x = pgm_read_byte(addr++);
@@ -82,12 +88,14 @@ void MatrixOLED::begin(void){
         }
         addr += numArgs;
     } 
+
+    this->set_rotation(0);
 }
 
 /**************************************************************************/
 /*!
    @brief    Fill the screen completely with one color. Update in subclasses if desired!
-    @param    color 16-bit 5-6-5 Color to fill with
+   @param    color 16-bit 5-6-5 Color to fill with
 */
 /**************************************************************************/
 void MatrixOLED::fill_screen(uint16_t color){
@@ -195,12 +203,73 @@ void MatrixOLED::draw_queue(void){
   end_write();
 }
 
+/**************************************************************************/
+/*!
+    @brief   Set origin of (0,0) and orientation of OLED display
+    @param   r
+             The index for rotation, from 0-3 inclusive
+    @return  None (void).
+    @note    SSD1351 works differently than most (all?) other SPITFT
+             displays. With certain rotation changes the screen contents
+             may change immediately into a peculiar format (mirrored, not
+             necessarily rotated) (other displays, this only affects new
+             drawing -- rotation combinations can apply to different
+             areas). Therefore, it's recommend to clear the screen
+             (fillScreen(0)) before changing rotation.
+*/
+/**************************************************************************/
+void MatrixOLED::set_rotation(uint8_t rot){
+    // madctl bits:
+    // 6,7 Color depth (01 = 64K)
+    // 5   Odd/even split COM (0: disable, 1: enable)
+    // 4   Scan direction (0: top-down, 1: bottom-up)
+    // 3   Reserved
+    // 2   Color remap (0: A->B->C, 1: C->B->A)
+    // 1   Column remap (0: 0-127, 1: 127-0)
+    // 0   Address increment (0: horizontal, 1: vertical)
+    
+    uint8_t madctl = 0b01100100; // 64K, enable split, CBA
+    rotation = rot & 3; // Clip input to valid range
+
+    switch (rotation) {
+    
+    case 0:
+        madctl |= 0b00010000; // Scan bottom-up
+        _width = SSD1351WIDTH;
+        _height = SSD1351HEIGHT;
+    break;
+    case 1:
+        madctl |= 0b00010011; // Scan bottom-up, column remap 127-0, vertical
+        _width = SSD1351HEIGHT;
+        _height = SSD1351WIDTH;
+    break;
+    case 2:
+        madctl |= 0b00000010; // Column remap 127-0
+        _width = SSD1351WIDTH;
+        _height = SSD1351HEIGHT;
+    break;
+    
+    case 3:
+    madctl |= 0b00000001; // Vertical
+    _width = SSD1351HEIGHT;
+    _height = SSD1351WIDTH;
+    break;
+    
+    }
+
+    send_command(SSD1351_CMD_SETREMAP, &madctl, 1);
+    uint8_t startline = (rotation < 2) ? SSD1351HEIGHT : 0;
+    send_command(SSD1351_CMD_STARTLINE, &startline, 1);
+}
+
+/**************************************************************************/
 /*!
  @brief   Adafruit_SPITFT Send Command handles complete sending of commands and const data
  @param   command_byte       The Command Byte
  @param   data      A pointer to the Data bytes to send
  @param   num_bytes      The number of bytes we should send
- */
+*/
+/**************************************************************************/
 void MatrixOLED::send_command(uint8_t command_byte, const uint8_t *data, uint8_t num_bytes){
     // Starts spi transation process. 
     this->start_write();
@@ -217,9 +286,36 @@ void MatrixOLED::send_command(uint8_t command_byte, const uint8_t *data, uint8_t
     this->end_write();
 }
 
+
+/**************************************************************************/
+/*!
+ @brief   Adafruit_SPITFT Send Command handles complete sending of commands and data
+ @param   command_byte       The Command Byte
+ @param   data      A pointer to the Data bytes to send
+ @param   num_bytes      The number of bytes we should send
+*/
+/**************************************************************************/
+void MatrixOLED::send_command(uint8_t command_byte, uint8_t *data, uint8_t num_bytes){
+    // Starts spi transation process. 
+    this->start_write();
+
+    // Sends our command byte using the command mode. 
+    this->write_command(command_byte);
+
+    for(uint8_t n = 0; n < num_bytes; n++){
+        SPI.transfer(*data);
+        data++;
+    }
+
+    // Ends the SPI transaction process. 
+    this->end_write();
+}
+
+// Quick Swap Preprocessor function
 #define ssd1351_swap(a, b)                                                     \
   (((a) ^= (b)), ((b) ^= (a)), ((a) ^= (b))) ///< No-temp-var swap operation
 
+/**************************************************************************/
 /*!
     @brief   Set the "address window" - the rectangle we will write to
              graphics RAM with the next chunk of SPI data writes. The
@@ -229,6 +325,7 @@ void MatrixOLED::send_command(uint8_t command_byte, const uint8_t *data, uint8_t
     @param   w Width of rectangle.
     @param   h Height of rectangle.
 */
+/**************************************************************************/
 void MatrixOLED::set_address_window(uint16_t x1, uint16_t y1, uint16_t w, uint16_t h){
     uint16_t x2 = x1 + w - 1, y2 = y1 + h - 1;
 
@@ -249,6 +346,11 @@ void MatrixOLED::set_address_window(uint16_t x1, uint16_t y1, uint16_t w, uint16
     write_command(SSD1351_CMD_WRITERAM); // Begin write
 }
 
+/**************************************************************************/
+/*!
+    @brief Writes 8 bit command to display. 
+*/
+/**************************************************************************/
 void MatrixOLED::write_command(uint8_t cmd){
     this->dc_low();
     SPI.transfer(cmd);
@@ -256,36 +358,76 @@ void MatrixOLED::write_command(uint8_t cmd){
 }
 
 // GPIO HELPER FUNCTIONS BEGIN // 
+/**************************************************************************/
+/*!
+  @brief Pulls the command pin high
+*/
+/**************************************************************************/
 void MatrixOLED::dc_high(void){
     digitalWrite(OLED_pin_dc_rs, HIGH);
 }
 
+/**************************************************************************/
+/*!
+  @brief Pulls the command pin low
+*/
+/**************************************************************************/
 void MatrixOLED::dc_low(void){
     digitalWrite(OLED_pin_dc_rs, LOW);
 }
 
+/**************************************************************************/
+/*!
+  @brief Pulls the reset pin high
+*/
+/**************************************************************************/
 void MatrixOLED::rst_high(void){
     digitalWrite(OLED_pin_res_rst, HIGH); 
 }
 
+/**************************************************************************/
+/*!
+  @brief Pulls the reset pin low
+*/
+/**************************************************************************/
 void MatrixOLED::rst_low(void){
     digitalWrite(OLED_pin_res_rst, LOW);
 }
 
-void MatrixOLED::cs_low(void){
-    digitalWrite(OLED_pin_cs_ss, LOW);
-}
-
+/**************************************************************************/
+/*!
+  @brief Pulls the chip select pin high. 
+*/
+/**************************************************************************/
 void MatrixOLED::cs_high(void){
     digitalWrite(OLED_pin_cs_ss, HIGH);
 }
+
+/**************************************************************************/
+/*!
+  @brief  Pulls the chip select pin low
+*/
+/**************************************************************************/
+void MatrixOLED::cs_low(void){
+    digitalWrite(OLED_pin_cs_ss, LOW);
+}
 // GPIO HELPER FUNCTIONS END // 
 
+/**************************************************************************/
+/*!
+  @brief Starts the SPI write process
+*/
+/**************************************************************************/
 void MatrixOLED::start_write(void){
     SPI.beginTransaction(this->settings);
     this->cs_low();
 }
 
+/**************************************************************************/
+/*!
+  @brief Ends the SPI write process
+*/
+/**************************************************************************/
 void MatrixOLED::end_write(void){
     this->cs_high();
     SPI.endTransaction();

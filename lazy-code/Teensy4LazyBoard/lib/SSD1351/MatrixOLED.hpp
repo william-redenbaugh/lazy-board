@@ -64,9 +64,12 @@ class MatrixOLED{
         void draw_queue(void);
         // INFO KEEP FRAMEBUFFER END // 
 
+        void set_rotation(uint8_t rot);
+
     private: 
 
         void send_command(uint8_t command_byte, const uint8_t *data, uint8_t num_bytes);
+        void send_command(uint8_t command_byte, uint8_t *data, uint8_t num_bytes);
         void set_address_window(uint16_t x1, uint16_t y1, uint16_t w, uint16_t h);
         void write_command(uint8_t cmd);
 
@@ -94,6 +97,10 @@ class MatrixOLED{
         
         // DMA event responder.
         EventResponder dma_event;
+
+        uint8_t _width = SSD1351WIDTH; 
+        uint8_t _height = SSD1351HEIGHT;
+        uint8_t rotation = 0; 
 };
 
 #endif 
