@@ -10,7 +10,7 @@
 // Teensy 4.0:  1, 8, 14, 17, 20, 24, 29, 39
 
 // GPIO pin that we will put our led strip on. 
-#define LED_STRIP_GPIO 14
+#define LED_STRIP_GPIO 1
 
 // For us on our prototyping board. 
 #define NUM_MATRIX_LEDS 12
