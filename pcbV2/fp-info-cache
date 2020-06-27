@@ -1,4 +1,4 @@
-16982506704557533
+16990473128719445
 Battery
 BatteryHolder_Bulgin_BX0036_1xC
 Bulgin Battery Holder, BX0036, Battery Type C (https://www.bulgin.com/products/pub/media/bulgin/data/Battery_holders.pdf)
@@ -75256,6 +75256,41 @@ varistor SIOV
 0
 2
 2
+custom
+BTN_B3S-1000P
+
+
+0
+4
+4
+custom
+DIP3_219-3MSTR
+
+
+0
+6
+6
+custom
+USB_C
+USB TYPE C, RA RCPT PCB, Hybrid, https://www.amphenolcanada.com/StockAvailabilityPrice.aspx?From=&PartNum=12401548E4%7e2A
+USB C Type-C Receptacle Hybrid
+0
+28
+25
+custom
+USB_C_REDUCED_PINS
+USB TYPE C, RA RCPT PCB, Hybrid, https://www.amphenolcanada.com/StockAvailabilityPrice.aspx?From=&PartNum=12401548E4%7e2A
+USB C Type-C Receptacle Hybrid
+0
+16
+13
+custom
+USB_C_REDUCED_UJ31-CH-G2
+
+
+0
+22
+19
 keyswitches
 Kailh_socket_MX
 MX-style keyswitch with Kailh socket mount
