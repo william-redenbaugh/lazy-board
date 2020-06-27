@@ -1,4 +1,4 @@
-16990473128719445
+16992066429285350
 Battery
 BatteryHolder_Bulgin_BX0036_1xC
 Bulgin Battery Holder, BX0036, Battery Type C (https://www.bulgin.com/products/pub/media/bulgin/data/Battery_holders.pdf)
@@ -75473,6 +75473,13 @@ Teensy40
 0
 44
 44
+teensy
+Teensy40_REDUCED_PINS
+
+
+0
+33
+33
 teensy
 Teensy40_SMT
 
