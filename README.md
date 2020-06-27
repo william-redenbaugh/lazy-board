@@ -7,3 +7,5 @@
 - Keycaps TBD
 - Keyswitches TBD
 - PCB TBD
+
+![Picture of prototype zero](/photos/proto0.jpg)
