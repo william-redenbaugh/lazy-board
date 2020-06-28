@@ -1,7 +1,7 @@
 (export (version D)
   (design
     (source C:\Users\jonathan\Desktop\lazy-board\pcbV2\keypadV2.sch)
-    (date "6/28/2020 1:54:59 AM")
+    (date "6/28/2020 12:36:43 PM")
     (tool "Eeschema (5.1.5)-3")
     (sheet (number 1) (name /) (tstamps /)
       (title_block
