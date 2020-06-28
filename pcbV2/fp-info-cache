@@ -1,4 +1,4 @@
-16992066429285350
+16995253088823213
 Battery
 BatteryHolder_Bulgin_BX0036_1xC
 Bulgin Battery Holder, BX0036, Battery Type C (https://www.bulgin.com/products/pub/media/bulgin/data/Battery_holders.pdf)
@@ -75291,6 +75291,20 @@ USB_C_REDUCED_UJ31-CH-G2
 0
 22
 19
+custom
+Waveshare_LCD_mount V2
+
+
+0
+4
+4
+custom
+Waveshare_lcd_mount
+
+
+0
+4
+4
 keyswitches
 Kailh_socket_MX
 MX-style keyswitch with Kailh socket mount
