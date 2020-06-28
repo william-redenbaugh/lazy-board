@@ -1248,7 +1248,7 @@ Wire Wire Line
 Wire Wire Line
 	6250 10000 7250 10000
 Wire Wire Line
-	7250 10000 7250 9450
+	7250 10000 7250 9700
 Text Notes 6000 10250 0    50   ~ 0
 *Option to put 220-470ohm (close to DIN)
 $Comp
@@ -1829,8 +1829,6 @@ F 3 "~" H 9350 9250 50  0001 C CNN
 	1    9350 9250
 	1    0    0    -1  
 $EndComp
-Text GLabel 9550 9250 2    50   Input ~ 0
-RGB_DIN
 Wire Wire Line
 	9550 9150 9800 9150
 Wire Wire Line
@@ -1859,4 +1857,13 @@ F 3 "" H 9800 9350 50  0001 C CNN
 $EndComp
 NoConn ~ 1400 14450
 NoConn ~ 15000 6600
+Text GLabel 9550 9250 2    50   Input ~ 0
+RGB_DIN
+Wire Wire Line
+	7250 9700 7650 9700
+Connection ~ 7250 9700
+Wire Wire Line
+	7250 9700 7250 9450
+Text GLabel 7650 9700 2    50   Input ~ 0
+RGB_DIN
 $EndSCHEMATC
