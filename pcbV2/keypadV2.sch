@@ -19,7 +19,7 @@ U 1 1 5EF69E1E
 P 10950 4650
 F 0 "U1" H 10950 6265 50  0000 C CNN
 F 1 "Teensy4.0" H 10950 6174 50  0000 C CNN
-F 2 "teensy:Teensy40" H 10550 4850 50  0001 C CNN
+F 2 "teensy:Teensy40_REDUCED_PINS" H 10550 4850 50  0001 C CNN
 F 3 "" H 10550 4850 50  0001 C CNN
 	1    10950 4650
 	1    0    0    -1  
@@ -85,7 +85,7 @@ U 1 1 5EF7852D
 P 16350 3050
 F 0 "SW1" H 16350 3335 50  0000 C CNN
 F 1 "SW_Push" H 16350 3244 50  0000 C CNN
-F 2 "keyswitches:Kailh_socket_MX" H 16350 3250 50  0001 C CNN
+F 2 "keyswitches:Kailh_socket_MX_RGB_cutout" H 16350 3250 50  0001 C CNN
 F 3 "~" H 16350 3250 50  0001 C CNN
 	1    16350 3050
 	1    0    0    -1  
@@ -1248,7 +1248,7 @@ Wire Wire Line
 Wire Wire Line
 	6250 10000 7250 10000
 Wire Wire Line
-	7250 10000 7250 9450
+	7250 10000 7250 9700
 Text Notes 6000 10250 0    50   ~ 0
 *Option to put 220-470ohm (close to DIN)
 $Comp
@@ -1427,7 +1427,7 @@ U 1 1 5F365A21
 P 17450 3050
 F 0 "SW2" H 17450 3335 50  0000 C CNN
 F 1 "SW_Push" H 17450 3244 50  0000 C CNN
-F 2 "keyswitches:Kailh_socket_MX" H 17450 3250 50  0001 C CNN
+F 2 "keyswitches:Kailh_socket_MX_RGB_cutout" H 17450 3250 50  0001 C CNN
 F 3 "~" H 17450 3250 50  0001 C CNN
 	1    17450 3050
 	1    0    0    -1  
@@ -1449,7 +1449,7 @@ U 1 1 5F36F13A
 P 18550 3050
 F 0 "SW3" H 18550 3335 50  0000 C CNN
 F 1 "SW_Push" H 18550 3244 50  0000 C CNN
-F 2 "keyswitches:Kailh_socket_MX" H 18550 3250 50  0001 C CNN
+F 2 "keyswitches:Kailh_socket_MX_RGB_cutout" H 18550 3250 50  0001 C CNN
 F 3 "~" H 18550 3250 50  0001 C CNN
 	1    18550 3050
 	1    0    0    -1  
@@ -1471,7 +1471,7 @@ U 1 1 5F36F14E
 P 19650 3050
 F 0 "SW4" H 19650 3335 50  0000 C CNN
 F 1 "SW_Push" H 19650 3244 50  0000 C CNN
-F 2 "keyswitches:Kailh_socket_MX" H 19650 3250 50  0001 C CNN
+F 2 "keyswitches:Kailh_socket_MX_RGB_cutout" H 19650 3250 50  0001 C CNN
 F 3 "~" H 19650 3250 50  0001 C CNN
 	1    19650 3050
 	1    0    0    -1  
@@ -1493,7 +1493,7 @@ U 1 1 5F379A4B
 P 16350 3850
 F 0 "SW5" H 16350 4135 50  0000 C CNN
 F 1 "SW_Push" H 16350 4044 50  0000 C CNN
-F 2 "keyswitches:Kailh_socket_MX" H 16350 4050 50  0001 C CNN
+F 2 "keyswitches:Kailh_socket_MX_RGB_cutout" H 16350 4050 50  0001 C CNN
 F 3 "~" H 16350 4050 50  0001 C CNN
 	1    16350 3850
 	1    0    0    -1  
@@ -1515,7 +1515,7 @@ U 1 1 5F379A5F
 P 17450 3850
 F 0 "SW6" H 17450 4135 50  0000 C CNN
 F 1 "SW_Push" H 17450 4044 50  0000 C CNN
-F 2 "keyswitches:Kailh_socket_MX" H 17450 4050 50  0001 C CNN
+F 2 "keyswitches:Kailh_socket_MX_RGB_cutout" H 17450 4050 50  0001 C CNN
 F 3 "~" H 17450 4050 50  0001 C CNN
 	1    17450 3850
 	1    0    0    -1  
@@ -1537,7 +1537,7 @@ U 1 1 5F379A73
 P 18550 3850
 F 0 "SW7" H 18550 4135 50  0000 C CNN
 F 1 "SW_Push" H 18550 4044 50  0000 C CNN
-F 2 "keyswitches:Kailh_socket_MX" H 18550 4050 50  0001 C CNN
+F 2 "keyswitches:Kailh_socket_MX_RGB_cutout" H 18550 4050 50  0001 C CNN
 F 3 "~" H 18550 4050 50  0001 C CNN
 	1    18550 3850
 	1    0    0    -1  
@@ -1559,7 +1559,7 @@ U 1 1 5F379A87
 P 19650 3850
 F 0 "SW8" H 19650 4135 50  0000 C CNN
 F 1 "SW_Push" H 19650 4044 50  0000 C CNN
-F 2 "keyswitches:Kailh_socket_MX" H 19650 4050 50  0001 C CNN
+F 2 "keyswitches:Kailh_socket_MX_RGB_cutout" H 19650 4050 50  0001 C CNN
 F 3 "~" H 19650 4050 50  0001 C CNN
 	1    19650 3850
 	1    0    0    -1  
@@ -1581,7 +1581,7 @@ U 1 1 5F38543E
 P 16350 4650
 F 0 "SW9" H 16350 4935 50  0000 C CNN
 F 1 "SW_Push" H 16350 4844 50  0000 C CNN
-F 2 "keyswitches:Kailh_socket_MX" H 16350 4850 50  0001 C CNN
+F 2 "keyswitches:Kailh_socket_MX_RGB_cutout" H 16350 4850 50  0001 C CNN
 F 3 "~" H 16350 4850 50  0001 C CNN
 	1    16350 4650
 	1    0    0    -1  
@@ -1603,7 +1603,7 @@ U 1 1 5F385452
 P 17450 4650
 F 0 "SW10" H 17450 4935 50  0000 C CNN
 F 1 "SW_Push" H 17450 4844 50  0000 C CNN
-F 2 "keyswitches:Kailh_socket_MX" H 17450 4850 50  0001 C CNN
+F 2 "keyswitches:Kailh_socket_MX_RGB_cutout" H 17450 4850 50  0001 C CNN
 F 3 "~" H 17450 4850 50  0001 C CNN
 	1    17450 4650
 	1    0    0    -1  
@@ -1625,7 +1625,7 @@ U 1 1 5F385466
 P 18550 4650
 F 0 "SW11" H 18550 4935 50  0000 C CNN
 F 1 "SW_Push" H 18550 4844 50  0000 C CNN
-F 2 "keyswitches:Kailh_socket_MX" H 18550 4850 50  0001 C CNN
+F 2 "keyswitches:Kailh_socket_MX_RGB_cutout" H 18550 4850 50  0001 C CNN
 F 3 "~" H 18550 4850 50  0001 C CNN
 	1    18550 4650
 	1    0    0    -1  
@@ -1647,7 +1647,7 @@ U 1 1 5F38547A
 P 19650 4650
 F 0 "SW12" H 19650 4935 50  0000 C CNN
 F 1 "SW_Push" H 19650 4844 50  0000 C CNN
-F 2 "keyswitches:Kailh_socket_MX" H 19650 4850 50  0001 C CNN
+F 2 "keyswitches:Kailh_socket_MX_RGB_cutout" H 19650 4850 50  0001 C CNN
 F 3 "~" H 19650 4850 50  0001 C CNN
 	1    19650 4650
 	1    0    0    -1  
@@ -1829,8 +1829,6 @@ F 3 "~" H 9350 9250 50  0001 C CNN
 	1    9350 9250
 	1    0    0    -1  
 $EndComp
-Text GLabel 9550 9250 2    50   Input ~ 0
-RGB_DIN
 Wire Wire Line
 	9550 9150 9800 9150
 Wire Wire Line
@@ -1859,4 +1857,13 @@ F 3 "" H 9800 9350 50  0001 C CNN
 $EndComp
 NoConn ~ 1400 14450
 NoConn ~ 15000 6600
+Text GLabel 9550 9250 2    50   Input ~ 0
+RGB_DIN
+Wire Wire Line
+	7250 9700 7650 9700
+Connection ~ 7250 9700
+Wire Wire Line
+	7250 9700 7250 9450
+Text GLabel 7650 9700 2    50   Input ~ 0
+RGB_DIN
 $EndSCHEMATC
