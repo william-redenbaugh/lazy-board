@@ -2329,7 +2329,7 @@
   )
 
   (module Connector_PinHeader_2.00mm:PinHeader_1x02_P2.00mm_Vertical (layer B.Cu) (tedit 59FED667) (tstamp 5EF83DB8)
-    (at 129.413 114.173 270)
+    (at 129.413 113.792 270)
     (descr "Through hole straight pin header, 1x02, 2.00mm pitch, single row")
     (tags "Through hole pin header THT 1x02 2.00mm single row")
     (path /5F17D824)
@@ -2760,7 +2760,7 @@
   )
 
   (module custom:DIP3_219-3MSTR (layer B.Cu) (tedit 5EF78F16) (tstamp 5EF8413A)
-    (at 126.111 122.2375 180)
+    (at 126.238 121.412 180)
     (path /5EF7EA1C)
     (attr smd)
     (fp_text reference SW17 (at -4.605 0 270) (layer B.SilkS)
