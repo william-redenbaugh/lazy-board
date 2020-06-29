@@ -1,4 +1,4 @@
-update=6/28/2020 4:24:11 PM
+update=6/28/2020 5:14:43 PM
 version=1
 last_client=kicad
 [general]
@@ -73,7 +73,7 @@ OthersTextUpright=1
 SolderMaskClearance=0.051
 SolderMaskMinWidth=0.25
 SolderPasteClearance=0
-SolderPasteRatio=0
+SolderPasteRatio=-0
 [pcbnew/Layer.F.Cu]
 Name=F.Cu
 Type=0
@@ -258,6 +258,17 @@ Clearance=0.135
 TrackWidth=0.135
 ViaDiameter=0.55
 ViaDrill=0.3
+uViaDiameter=0.3
+uViaDrill=0.1
+dPairWidth=0.2
+dPairGap=0.25
+dPairViaGap=0.25
+[pcbnew/Netclasses/2]
+Name=Trace_edge
+Clearance=0.25
+TrackWidth=0.25
+ViaDiameter=0.8
+ViaDrill=0.4
 uViaDiameter=0.3
 uViaDrill=0.1
 dPairWidth=0.2
