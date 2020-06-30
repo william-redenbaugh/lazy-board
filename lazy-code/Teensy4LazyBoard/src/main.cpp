@@ -8,7 +8,7 @@
 #include "spi_display_runtime.hpp"
 #include "led_matrix_runtime.hpp"
 #include "message_management_thread.hpp"
-
+#include "lwip_thread.hpp"
 /**************************************************************************/
 /*!
     @brief Where we call our chibiOS initialization functions. d 
@@ -21,6 +21,7 @@ void chibiSetup(void){
   start_keyboard_runtime_thread();
   start_led_strip_thread();
   start_spi_display_thread();
+  setup_lwip_thread();
 }
 
 /**************************************************************************/
