@@ -10,3 +10,12 @@
 [submodule "lazy-code/Teensy4LazyBoard/lib/Adafruit-SSD1351-library"]
 	path = lazy-code/Teensy4LazyBoard/lib/Adafruit-SSD1351-library
 	url = git@github.com:william-redenbaugh/Adafruit-SSD1351-library.git
+[submodule "pcb v2/keypadV2/lib/footprints/keyswitches.pretty"]
+	path = pcb v2/keypadV2/lib/footprints/keyswitches.pretty
+	url = git@github.com:daprice/keyswitches.pretty.git
+[submodule "pcb v2/keypadV2/lib/footprints/teensy.pretty"]
+	path = pcb v2/keypadV2/lib/footprints/teensy.pretty
+	url = git@github.com:XenGi/teensy.pretty.git
+[submodule "pcb v2/keypadV2/lib/symbols/teensy_library"]
+	path = pcb v2/keypadV2/lib/symbols/teensy_library
+	url = git@github.com:XenGi/teensy_library.git

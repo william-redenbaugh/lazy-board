@@ -10,10 +10,13 @@
 // Teensy 4.0:  1, 8, 14, 17, 20, 24, 29, 39
 
 // GPIO pin that we will put our led strip on. 
-#define LED_STRIP_GPIO 1
+#define LED_MATRIX_GPIO 1
+// GPIO pin that we will put our underglow on strip on. 
+#define UNDERGLOW_STRIP_GPIO 14
 
 // For us on our prototyping board. 
 #define NUM_MATRIX_LEDS 12
+#define UNDERGLOW_NUM_LEDS 4
 
 enum led_rows_t{
     LED_ROW_0 = 0, 
@@ -59,5 +62,14 @@ extern void _set_ws2812b_macro_hsv(led_macro_t led_macro, uint8_t h, uint8_t s, 
 
 extern void _set_ws2812b_led_all(uint8_t r, uint8_t g, uint8_t b);
 extern void _set_ws2812b_led_all_hsv(uint8_t h, uint8_t s, uint8_t v);
+
+extern void _start_ws2812b_underglow(void);
+extern void _update_ws2812b_underglow(void);
+
+extern void _set_ws2812b_underglow_led(uint16_t led, uint8_t r, uint8_t g, uint8_t b);
+extern void _set_ws2812b_underglow_led_hsv(uint16_t led, uint8_t h, uint8_t s, uint8_t v);
+
+extern void _set_ws2812b_underglow_all(uint8_t r, uint8_t g, uint8_t b);
+extern void _set_ws2812b_underglow_all_hsv(uint8_t h, uint8_t s, uint8_t v);
 
 #endif 
