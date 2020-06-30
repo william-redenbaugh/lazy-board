@@ -15,7 +15,7 @@
 #define UNDERGLOW_STRIP_GPIO 11
 
 // For us on our prototyping board. 
-#define NUM_MATRIX_LEDS 12
+#define NUM_MATRIX_LEDS 16
 #define UNDERGLOW_NUM_LEDS 4
 
 enum led_rows_t{
