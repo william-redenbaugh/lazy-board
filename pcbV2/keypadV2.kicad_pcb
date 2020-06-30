@@ -2916,7 +2916,7 @@
   (module "custom:Waveshare_LCD_mount V2" (layer F.Cu) (tedit 5EF847F7) (tstamp 5EFB1489)
     (at 181.864 68.0085 270)
     (path /5F161619)
-    (fp_text reference H5 (at 0 20.3374 90) (layer F.SilkS)
+    (fp_text reference H5 (at 0.8763 -1.0414 180) (layer F.SilkS)
       (effects (font (size 1 1) (thickness 0.15)))
     )
     (fp_text value "Display Mount" (at 0 19.3374 90) (layer F.Fab)
