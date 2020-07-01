@@ -11,23 +11,42 @@
 #include "lwip_thread.hpp"
 #include "button_gpio.hpp"
 
+void setup_application_threads(void);
+void setup_lp_threads(void);
+
 /**************************************************************************/
 /*!
-    @brief Where we call our chibiOS initialization functions. d 
+    @brief Where we call our chibiOS initialization functions.
 */
 /**************************************************************************/
 void chibiSetup(void){
-  // Setting up message managment with the computer
-  start_message_management();
-  
-  // Starting up our runtime threads
-  //start_keyboard_runtime_thread();
-  //start_led_strip_thread();
-  //start_spi_display_thread();
-
   // This is technically a runtime thread but it holds a bunch of subthreads to do work 
   setup_lwip_thread();
 
+  // Setting up message managment with the computer
+  start_message_management();
+  setup_application_threads();
+  setup_lp_threads();
+}
+
+/**************************************************************************/
+/*!
+    @brief Where we call the initialization of our chibiOS application level threads. 
+*/
+/**************************************************************************/
+void setup_application_threads(void){
+  // Starting up our runtime threads
+  start_keyboard_runtime_thread();
+  start_led_strip_thread();
+  start_spi_display_thread();
+}
+
+/**************************************************************************/
+/*!
+    @brief Where we call the initialization of our low priority threads
+*/
+/**************************************************************************/
+void setup_lp_threads(void){
   // Starting up our low priority work threads:
   setup_dip_button();
 }

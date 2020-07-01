@@ -9,6 +9,11 @@
 // Maximum number of low priority work threads available
 #define NUM_MAX_LPWTHREADS 256
 
+/**************************************************************************/
+/*!
+    @brief Enumerated Status for thread initialization
+*/
+/**************************************************************************/
 enum LPThreadInitStatus_t{
     LP_THREAD_INIT_SUCCESS, 
     LP_THREAD_INIT_FAILIURE_UNKOWN,
@@ -20,6 +25,11 @@ enum LPThreadInitStatus_t{
     LP_THREAD_INIT_FAILIURE_MAX_THREAD
 };
 
+/**************************************************************************/
+/*!
+    @brief Returned status for Low priority thread creation
+*/
+/**************************************************************************/
 struct LPThreadInitReturn{
     uint32_t thread_handle = 0; 
     LPThreadInitStatus_t init_status; 

@@ -17,10 +17,13 @@ struct LwipThread{
     uint32_t handle = 0; 
 };
 
+// Prevent thread manipulation errors during  or using threads. 
+MUTEX_DECL(lwip_mutex);
+
 // Number of low priority threads available
-uint16_t num_lwip_threads = 0;
-uint32_t handle_increment = 0;  
-systime_t lowest_interval = 0; 
+volatile uint16_t num_lwip_threads = 0;
+volatile uint32_t handle_increment = 0;  
+volatile systime_t lowest_interval = 0; 
 
 // List of low priority functions and parameters, with exectution time.
 std::vector<LwipThread> thread_list;  
@@ -41,6 +44,7 @@ static THD_FUNCTION(lwip_thread, arg){
             // Minimum ticks until we need to circle back around and get to all the lwip threads
             systime_t min_tick = thread_list[0].next_exec_time; 
 
+            chMtxLock(&lwip_mutex);
             // run through entire list of functions and execute
             for(uint16_t num = 0; num < num_lwip_threads; num++){
                 // If it's about time to run the function. 
@@ -59,7 +63,9 @@ static THD_FUNCTION(lwip_thread, arg){
                 // priority thread to work in, decreate time for next thread sleep. 
                 if(min_tick > thread_list[num].next_exec_time)
                     min_tick = thread_list[num].next_exec_time; 
+                
             }
+            chMtxUnlock(&lwip_mutex);
             
             // Just in case timer restarted or other issue that hangs a lwip thread, then we don't wait for a sleep command just in case things take longer than we want them to. 
             // We opt out of sleeping. 
@@ -105,6 +111,7 @@ extern LPThreadInitReturn add_lwip_task(void (*func)(void *ptr),  void *args, sy
         return lp_return; 
     }
     else{        
+        chMtxLock(&lwip_mutex);
         thread_list.push_back(LwipThread());
 
         // Pass in function arguments and interval speed
@@ -125,7 +132,7 @@ extern LPThreadInitReturn add_lwip_task(void (*func)(void *ptr),  void *args, sy
 
         // Increment number of threads currently
         num_lwip_threads++;
-
+        chMtxUnlock(&lwip_mutex);
         return lp_return; 
     }
 }
