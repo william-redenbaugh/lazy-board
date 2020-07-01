@@ -20,5 +20,5 @@ extern void setup_dip_button(void){
 
     // Every second we read the dip switches
     void *args = NULL;
-    add_lwip_task(&dip_read_task, args, chTimeS2I(1));
+    add_lwip_task(&dip_read_task, args, chTimeMS2I(900));
 }
