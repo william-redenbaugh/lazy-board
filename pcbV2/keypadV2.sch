@@ -47,17 +47,6 @@ F 3 "~" H 14050 10200 50  0001 C CNN
 	-1   0    0    1   
 $EndComp
 $Comp
-L Switch:SW_SPDT SW13
-U 1 1 5EF765BD
-P 13900 9000
-F 0 "SW13" H 13900 9285 50  0000 C CNN
-F 1 "SW_SPDT" H 13900 9194 50  0000 C CNN
-F 2 "Connector_PinHeader_2.54mm:PinHeader_1x03_P2.54mm_Vertical" H 13900 9000 50  0001 C CNN
-F 3 "~" H 13900 9000 50  0001 C CNN
-	1    13900 9000
-	1    0    0    -1  
-$EndComp
-$Comp
 L Device:D D1
 U 1 1 5EF7707E
 P 16850 3050
@@ -100,17 +89,6 @@ F 2 "custom:BTN_B3S-1000P" H 13900 12150 50  0001 C CNN
 F 3 "~" H 13900 12150 50  0001 C CNN
 	1    13900 11950
 	1    0    0    -1  
-$EndComp
-$Comp
-L Connector:USB_C_Receptacle J2
-U 1 1 5EF7AA75
-P 18650 11500
-F 0 "J2" H 18220 11197 50  0000 R CNN
-F 1 "USB_C_Receptacle" H 18220 11288 50  0000 R CNN
-F 2 "custom:USB_C_REDUCED_UJ31-CH-G2" H 18800 11500 50  0001 C CNN
-F 3 "https://www.usb.org/sites/default/files/documents/usb_type-c.zip" H 18800 11500 50  0001 C CNN
-	1    18650 11500
-	-1   0    0    1   
 $EndComp
 $Comp
 L Switch:SW_DIP_x03 SW17
@@ -335,98 +313,6 @@ F 3 "" H 9150 11650 50  0001 C CNN
 	1    9150 11650
 	0    1    1    0   
 $EndComp
-NoConn ~ 18050 10200
-NoConn ~ 18050 10300
-$Comp
-L Device:R R4
-U 1 1 5F08CE6B
-P 19400 9600
-F 0 "R4" V 19193 9600 50  0000 C CNN
-F 1 "R_SHIELD" V 19284 9600 50  0000 C CNN
-F 2 "Resistor_SMD:R_1206_3216Metric_Pad1.42x1.75mm_HandSolder" V 19330 9600 50  0001 C CNN
-F 3 "~" H 19400 9600 50  0001 C CNN
-	1    19400 9600
-	0    1    1    0   
-$EndComp
-Wire Wire Line
-	19250 9600 18950 9600
-Wire Wire Line
-	18950 9600 18950 9900
-$Comp
-L power:GND #PWR0125
-U 1 1 5F092F41
-P 18650 9600
-F 0 "#PWR0125" H 18650 9350 50  0001 C CNN
-F 1 "GND" H 18655 9427 50  0000 C CNN
-F 2 "" H 18650 9600 50  0001 C CNN
-F 3 "" H 18650 9600 50  0001 C CNN
-	1    18650 9600
-	-1   0    0    1   
-$EndComp
-Wire Wire Line
-	18650 9900 18650 9600
-NoConn ~ 18050 11400
-NoConn ~ 18050 11500
-NoConn ~ 18050 11100
-NoConn ~ 18050 11200
-NoConn ~ 18050 10800
-NoConn ~ 18050 10900
-NoConn ~ 18050 10500
-NoConn ~ 18050 10600
-NoConn ~ 18050 12200
-NoConn ~ 18050 12300
-$Comp
-L power:GND #PWR0126
-U 1 1 5F0BF5B3
-P 19750 9600
-F 0 "#PWR0126" H 19750 9350 50  0001 C CNN
-F 1 "GND" H 19755 9427 50  0000 C CNN
-F 2 "" H 19750 9600 50  0001 C CNN
-F 3 "" H 19750 9600 50  0001 C CNN
-	1    19750 9600
-	-1   0    0    1   
-$EndComp
-Wire Wire Line
-	19750 9600 19550 9600
-Text GLabel 17800 11700 0    50   Input ~ 0
-USB_DATA+
-Text GLabel 17800 11800 0    50   Input ~ 0
-USB_DATA+
-Text GLabel 17800 11900 0    50   Input ~ 0
-USB_DATA-
-Text GLabel 17800 12000 0    50   Input ~ 0
-USB_DATA-
-Text GLabel 17800 12500 0    50   Input ~ 0
-USB_VBUS
-Wire Wire Line
-	18050 11700 17800 11700
-Wire Wire Line
-	18050 11800 17800 11800
-Wire Wire Line
-	18050 11900 17800 11900
-Wire Wire Line
-	18050 12000 17800 12000
-Wire Wire Line
-	18050 12500 17800 12500
-Text Notes 19250 9850 0    50   ~ 0
-*Optional to connect shield to GND
-Wire Wire Line
-	14100 8900 14400 8900
-$Comp
-L power:+5V #PWR0127
-U 1 1 5F0D8397
-P 14400 8900
-F 0 "#PWR0127" H 14400 8750 50  0001 C CNN
-F 1 "+5V" V 14415 9028 50  0000 L CNN
-F 2 "" H 14400 8900 50  0001 C CNN
-F 3 "" H 14400 8900 50  0001 C CNN
-	1    14400 8900
-	0    1    1    0   
-$EndComp
-Wire Wire Line
-	13700 9000 13550 9000
-Text GLabel 13550 9000 0    50   Input ~ 0
-USB_VBUS
 Text GLabel 8750 4850 0    50   Input ~ 0
 ON_OFF
 Text GLabel 13600 9650 0    50   Input ~ 0
@@ -638,25 +524,6 @@ Wire Wire Line
 Wire Wire Line
 	3600 9250 3400 9250
 Connection ~ 3400 9250
-$Comp
-L Connector:Conn_01x02_Female J1
-U 1 1 5F17D824
-P 18550 7900
-F 0 "J1" H 18578 7876 50  0000 L CNN
-F 1 "Conn_01x02_Female" H 18578 7785 50  0000 L CNN
-F 2 "Connector_PinHeader_2.00mm:PinHeader_1x02_P2.00mm_Vertical" H 18550 7900 50  0001 C CNN
-F 3 "~" H 18550 7900 50  0001 C CNN
-	1    18550 7900
-	1    0    0    -1  
-$EndComp
-Text GLabel 18200 7900 0    50   Input ~ 0
-USB_DATA+
-Text GLabel 18200 8000 0    50   Input ~ 0
-USB_DATA-
-Wire Wire Line
-	18350 7900 18200 7900
-Wire Wire Line
-	18350 8000 18200 8000
 Wire Wire Line
 	5650 11350 6050 11350
 Wire Wire Line
@@ -767,14 +634,10 @@ Text Notes 13550 10900 0    118  ~ 0
 User IO
 Text Notes 13300 8400 0    118  ~ 0
 Power Controls
-Text Notes 17650 7650 0    118  ~ 0
-USB Data Breakouts
 Text Notes 3650 3500 0    118  ~ 0
 Display
 Text Notes 4850 7600 0    118  ~ 0
 Addressable RGBs
-Text Notes 18050 9100 0    118  ~ 0
-USB-C Port
 Text Notes 2500 8350 0    79   ~ 0
 RGB Data Logic Level Shifter \n(Individual Backlighting)
 $Comp
@@ -1221,7 +1084,6 @@ F 3 "" H 3250 11150 50  0001 C CNN
 	0    -1   -1   0   
 $EndComp
 NoConn ~ 5050 11350
-NoConn ~ 14100 9100
 Text GLabel 3000 11050 2    50   Input ~ 0
 RGB_DIN
 Wire Wire Line
