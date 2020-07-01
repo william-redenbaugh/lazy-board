@@ -3,6 +3,7 @@
 
 #include "Arduino.h"
 #include "ChRt.h"
+#include "lwip_thread.hpp"
 
 #define DIP1 17
 #define DIP2 16
