@@ -8,6 +8,8 @@
 #include "spi_display_runtime.hpp"
 #include "led_matrix_runtime.hpp"
 #include "message_management_thread.hpp"
+#include "lwip_thread.hpp"
+#include "button_gpio.hpp"
 
 /**************************************************************************/
 /*!
@@ -15,12 +17,19 @@
 */
 /**************************************************************************/
 void chibiSetup(void){
-  
-  // Starting our different threads for dealing with communication. 
+  // Setting up message managment with the computer
   start_message_management();
-  start_keyboard_runtime_thread();
-  start_led_strip_thread();
-  start_spi_display_thread();
+  
+  // Starting up our runtime threads
+  //start_keyboard_runtime_thread();
+  //start_led_strip_thread();
+  //start_spi_display_thread();
+
+  // This is technically a runtime thread but it holds a bunch of subthreads to do work 
+  setup_lwip_thread();
+
+  // Starting up our low priority work threads:
+  setup_dip_button();
 }
 
 /**************************************************************************/
