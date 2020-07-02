@@ -145,6 +145,7 @@ extern LPThreadInitReturn add_lwip_task(void (*func)(void *ptr),  void *args, sy
 /**************************************************************************/
 extern LPThreadInitStatus_t disable_lwip_task(uint32_t thread_handle){
     if(thread_handle < num_lwip_threads){
+        chMtxLock(&lwip_mutex);
         for(uint16_t n = 0; n < num_lwip_threads; n++){
             // find and search for the specific thread handle
             if(thread_list[thread_handle].handle == thread_handle){
@@ -152,6 +153,7 @@ extern LPThreadInitStatus_t disable_lwip_task(uint32_t thread_handle){
                 return LP_THREAD_EN_SUCCESS; 
             }
         }
+        chMtxUnlock(&lwip_mutex);
     }
     return LP_THREAD_EN_UNDEFINED;
 }
@@ -164,12 +166,14 @@ extern LPThreadInitStatus_t disable_lwip_task(uint32_t thread_handle){
 /**************************************************************************/
 extern LPThreadInitStatus_t enable_lwip_task(uint32_t thread_handle){
     if(thread_handle < num_lwip_threads){
+        chMtxLock(&lwip_mutex);
         for(uint16_t n = 0; n < num_lwip_threads; n++){
             if(thread_list[n].handle == thread_handle){
                 thread_list[n].thread_en = true; 
                 return LP_THREAD_EN_SUCCESS; 
             }
         }
+        chMtxUnlock(&lwip_mutex);
     }
     return LP_THREAD_EN_UNDEFINED;
 }
@@ -182,12 +186,14 @@ extern LPThreadInitStatus_t enable_lwip_task(uint32_t thread_handle){
 /**************************************************************************/
 extern LPThreadInitStatus_t del_lwip_task(uint32_t thread_handle){
     if(thread_handle < num_lwip_threads){
+        chMtxLock(&lwip_mutex);
         for(uint16_t n = 0; n < num_lwip_threads; n++){
             if(thread_list[n].handle == thread_handle){
                 thread_list.erase(thread_list.begin() + n);
                 return LP_THREAD_DELETE_SUCCESS; 
             }
         }
+        chMtxUnlock(&lwip_mutex);
     }
     return LP_THREAD_DELETE_UNDEFINED; 
 }
