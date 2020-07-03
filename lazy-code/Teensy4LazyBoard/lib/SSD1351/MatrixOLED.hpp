@@ -107,9 +107,6 @@ class MatrixOLED{
 
         // Buffers needed for async transfer.         
         uint8_t out_arr[32768];
-        // Currently biggest drawback to this, requires "dumb" array that is basically
-        // Wasted due to how current SPI async library works. Will fix in the future. 
-        uint8_t in_arr[32768];
         
         // DMA event responder.
         EventResponder dma_event;

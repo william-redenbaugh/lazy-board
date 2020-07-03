@@ -12,7 +12,7 @@
   }
 #endif
 
-static const uint8_t PROGMEM ssd1351_cmd_init_list[] = {
+static volatile const uint8_t ssd1351_cmd_init_list[] = {
     SSD1351_CMD_COMMANDLOCK,
     1, // Set command lock, 1 arg
     0x12,
@@ -141,7 +141,7 @@ void MatrixOLED::fill_screen(uint16_t color){
     this->set_address_window(0, 0, SSD1351WIDTH, SSD1351HEIGHT);
 
     // Start DMA transfer 
-    SPI.transfer(out_arr, in_arr, 32768, dma_event);
+    SPI.transfer(out_arr, NULL, 32768, dma_event);
 
     // Should take about this long to push up animation, so we can sleep the thread in the meantime. 
     chThdSleepMilliseconds(9);
@@ -527,7 +527,7 @@ void MatrixOLED::draw_queue(void){
   // so we know the size of the window, which is full size. 
   set_address_window(0, 0, SSD1351WIDTH, SSD1351HEIGHT);
   // Doing a DMA transfer. 
-  SPI.transfer(out_arr, in_arr, 32768, dma_event);
+  SPI.transfer(out_arr, NULL, 32768, dma_event);
 
   // Should take about this long to push up animation
   chThdSleepMilliseconds(9);
@@ -679,14 +679,14 @@ void MatrixOLED::set_address_window(uint16_t x1, uint16_t y1, uint16_t w, uint16
 
     out_arr[0] = x1; 
     out_arr[1] = x2; 
-    SPI.transfer(out_arr, in_arr, 2, dma_event);
+    SPI.transfer(out_arr, NULL, 2, dma_event);
     chThdSleepMicroseconds(2);
 
     write_command(SSD1351_CMD_SETROW); // Y range
 
     out_arr[0] = y1; 
     out_arr[1] = y2; 
-    SPI.transfer(out_arr,in_arr, 2, dma_event);
+    SPI.transfer(out_arr,NULL, 2, dma_event);
     chThdSleepMicroseconds(2);
 
     write_command(SSD1351_CMD_WRITERAM); // Begin write
