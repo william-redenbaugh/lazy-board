@@ -1,3 +1,8 @@
+/*
+Author: William Redenbaugh
+Last Edit Date: 7/3/2020
+*/
+
 #include "led_matrix_runtime.hpp"
 
 MUTEX_DECL(led_matrix_mutex);

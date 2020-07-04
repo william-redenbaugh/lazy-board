@@ -1,3 +1,8 @@
+/*
+Author: William Redenbaugh
+Last Edit Date: 7/3/2020
+*/
+
 #include "led_matrix_handler.hpp"
 
 // SERIAL DMA FOR LED MATRIX BEGIN // 

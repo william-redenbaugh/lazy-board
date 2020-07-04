@@ -1,3 +1,8 @@
+/*
+Author: William Redenbaugh
+Last Edit Date: 7/3/2020
+*/
+
 #ifndef _LED_STRIP_RUNTIME_HPP
 #define _LED_STRIP_RUNTIME_HPP
 

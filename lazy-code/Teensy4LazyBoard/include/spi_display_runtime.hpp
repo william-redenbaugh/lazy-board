@@ -1,3 +1,8 @@
+/*
+Author: William Redenbaugh
+Last Edit Date: 7/3/2020
+*/
+
 #ifndef _SPI_DISPLAY_RUNTIME_HPP
 #define _SPI_DISPLAY_RUNTIME_HPP
 

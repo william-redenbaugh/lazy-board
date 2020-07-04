@@ -1,3 +1,8 @@
+/*
+Author: William Redenbaugh
+Last Edit Date: 7/3/2020
+*/
+
 #include "keyboard_gpio.hpp"
 
 // Pinmap of all the gpio pins for reading the keyboard matrix, rows and columns
