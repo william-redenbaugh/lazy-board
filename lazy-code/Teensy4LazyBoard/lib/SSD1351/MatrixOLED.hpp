@@ -1,3 +1,8 @@
+/*
+Author: William Redenbaugh
+Last Edit Date: 7/3/2020
+*/
+
 #ifndef _MATRIX_OLED_HPP
 #define _MATRIX_OLED_HPP
 

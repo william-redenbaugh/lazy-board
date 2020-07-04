@@ -1,3 +1,8 @@
+/*
+Author: William Redenbaugh
+Last Edit Date: 7/3/2020
+*/
+
 #include "MatrixOLED.hpp"
 
 // GFX Font from AdafruitGFX Library, so I can do font stuff. 

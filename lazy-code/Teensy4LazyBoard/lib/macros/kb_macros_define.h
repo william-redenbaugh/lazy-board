@@ -1,3 +1,8 @@
+/*
+Author: William Redenbaugh
+Last Edit Date: 7/3/2020
+*/
+
 #ifndef _KB_MACROS_DEFINE_H
 #define _KB_MACROS_DEFINE_H
 
