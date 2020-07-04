@@ -19,3 +19,6 @@
 [submodule "pcb v2/keypadV2/lib/symbols/teensy_library"]
 	path = pcb v2/keypadV2/lib/symbols/teensy_library
 	url = git@github.com:XenGi/teensy_library.git
+[submodule "lazy-code/Teensy4LazyBoard/lib/chibi-lpwork"]
+	path = lazy-code/Teensy4LazyBoard/lib/chibi-lpwork
+	url = git@github.com:william-redenbaugh/chibi-lpwork.git
