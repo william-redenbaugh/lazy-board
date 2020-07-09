@@ -1,3 +1,8 @@
+/*
+Author: William Redenbaugh
+Last Edit Date: 7/3/2020
+*/
+
 #ifndef _MESSAGE_MANAGEMENT_THREAD_HPP
 #define _MESSAGE_MANAGEMENT_THREAD_HPP
 

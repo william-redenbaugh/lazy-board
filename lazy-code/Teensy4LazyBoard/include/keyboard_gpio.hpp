@@ -1,3 +1,8 @@
+/*
+Author: William Redenbaugh
+Last Edit Date: 7/3/2020
+*/
+
 #ifndef _KEYBOARD_GPIO_HPP
 #define _KEYBOARD_GPIO_HPP
 
@@ -6,21 +11,24 @@
 #include "ChRt.h"
 
 // Keyboard matrix pins.
+
+// Row pins
 #define KB_MATRIX_PIN_0 2
 #define KB_MATRIX_PIN_1 3
 #define KB_MATRIX_PIN_2 4
-#define KB_MATRIX_PIN_3 5
-#define KB_MATRIX_PIN_4 6
-#define KB_MATRIX_PIN_5 7
-#define KB_MATRIX_PIN_6 8
-#define KB_MATRIX_PIN_7 9
+
+// Column Pins
+#define KB_MATRIX_PIN_3 23
+#define KB_MATRIX_PIN_4 22
+#define KB_MATRIX_PIN_5 21
+#define KB_MATRIX_PIN_6 20
 
 /**************************************************************************/
 /*!
     @brief Size of our matrix array. 
 */
 /**************************************************************************/
-enum matrix_size_t {NUM_ROWS = 4, 
+enum matrix_size_t {NUM_ROWS = 3, 
                     NUM_COLS = 4
                     };                      
 
@@ -42,6 +50,8 @@ enum kb_macro_pos_t{
     KB_MACRO_9_POS = 9,   
     KB_MACRO_10_POS = 10,   
     KB_MACRO_11_POS = 11,   
+    
+    // Unused macros
     KB_MACRO_12_POS = 12,   
     KB_MACRO_13_POS = 13,   
     KB_MACRO_14_POS = 14,   

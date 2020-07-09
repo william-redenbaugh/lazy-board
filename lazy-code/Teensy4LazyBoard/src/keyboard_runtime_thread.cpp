@@ -1,3 +1,8 @@
+/*
+Author: William Redenbaugh
+Last Edit Date: 7/3/2020
+*/
+
 #include "keyboard_runtime_thread.hpp"
 #include "kb_macros_define.h"
 #include "led_matrix_runtime.hpp"

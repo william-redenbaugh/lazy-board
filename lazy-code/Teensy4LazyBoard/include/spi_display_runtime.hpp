@@ -1,3 +1,8 @@
+/*
+Author: William Redenbaugh
+Last Edit Date: 7/3/2020
+*/
+
 #ifndef _SPI_DISPLAY_RUNTIME_HPP
 #define _SPI_DISPLAY_RUNTIME_HPP
 
@@ -18,5 +23,4 @@
 extern void start_spi_display_thread(void);
 extern void trigger_new_char(char c);
 extern void trigger_char_release(char c);
-
 #endif

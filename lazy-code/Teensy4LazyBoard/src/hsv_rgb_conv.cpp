@@ -1,3 +1,8 @@
+/*
+Author: William Redenbaugh
+Last Edit Date: 7/3/2020
+*/
+
 #include "hsv_rgb_conv.hpp"
 
 HsvColor RgbToHsv(RgbColor rgb);

@@ -1,3 +1,8 @@
+/*
+Author: William Redenbaugh
+Last Edit Date: 7/3/2020
+*/
+
 #include "message_management_thread.hpp"
 
 // Message management handler, lets us deal with messaging stuff in another thread. 

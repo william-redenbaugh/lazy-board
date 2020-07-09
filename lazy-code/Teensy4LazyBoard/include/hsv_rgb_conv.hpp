@@ -1,3 +1,8 @@
+/*
+Author: William Redenbaugh
+Last Edit Date: 7/3/2020
+*/
+
 #ifndef _HSV_RGB_CONV_HPP
 #define _HSV_RGB_CONV_HPP
 

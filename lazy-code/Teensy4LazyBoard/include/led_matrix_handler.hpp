@@ -1,3 +1,8 @@
+/*
+Author: William Redenbaugh
+Last Edit Date: 7/3/2020
+*/
+
 #ifndef _LED_MATRIX_HANDLER_HPP
 #define _LED_MATRIX_HANDLER_HPP
 
@@ -10,12 +15,12 @@
 // Teensy 4.0:  1, 8, 14, 17, 20, 24, 29, 39
 
 // GPIO pin that we will put our led strip on. 
-#define LED_MATRIX_GPIO 14
+#define LED_MATRIX_GPIO 1
 // GPIO pin that we will put our underglow on strip on. 
-#define UNDERGLOW_STRIP_GPIO 11
+#define UNDERGLOW_STRIP_GPIO 14
 
 // For us on our prototyping board. 
-#define NUM_MATRIX_LEDS 16
+#define NUM_MATRIX_LEDS 12
 #define UNDERGLOW_NUM_LEDS 4
 
 enum led_rows_t{

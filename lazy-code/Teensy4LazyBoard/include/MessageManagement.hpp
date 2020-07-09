@@ -1,3 +1,8 @@
+/*
+Author: William Redenbaugh
+Last Edit Date: 7/3/2020
+*/
+
 #ifndef _MESSAGEMANAGEMENT_HPP
 #define _MESSAGEMANAGEMENT_HPP
 #include "Arduino.h"
