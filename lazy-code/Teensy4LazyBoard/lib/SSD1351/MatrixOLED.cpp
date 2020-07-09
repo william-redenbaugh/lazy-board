@@ -17,7 +17,7 @@ Last Edit Date: 7/3/2020
   }
 #endif
 
-static const uint8_t PROGMEM ssd1351_cmd_init_list[] = {
+static volatile const uint8_t ssd1351_cmd_init_list[] = {
     SSD1351_CMD_COMMANDLOCK,
     1, // Set command lock, 1 arg
     0x12,
