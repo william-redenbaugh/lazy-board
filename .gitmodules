@@ -22,3 +22,6 @@
 [submodule "lazy-code/Teensy4LazyBoard/lib/chibi-lpwork"]
 	path = lazy-code/Teensy4LazyBoard/lib/chibi-lpwork
 	url = git@github.com:william-redenbaugh/chibi-lpwork.git
+[submodule "lazy-code/Teensy4LazyBoard/lib/Adafruit-GFX-Library"]
+	path = lazy-code/Teensy4LazyBoard/lib/Adafruit-GFX-Library
+	url = git@github.com:william-redenbaugh/Adafruit-GFX-Library.git
