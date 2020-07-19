@@ -35,7 +35,7 @@ DMAMEM uint16_t ram_image[8][128][128];
 
 // 32 spaces for storing images in flash 
 // Which should result in "flash memory"
-PROGMEM uint16_t flash_image[32][128][128];
+PROGMEM uint16_t flash_image[50][128][128];
 
 // Counter for dealing with periodic stuff. 
 volatile uint32_t counter = 0;    
@@ -189,7 +189,7 @@ void process_image_flash(ImageFlash flash_config){
         for(uint8_t x = 0; x < flash_config.x_len; x++)
             for(uint8_t y = 0; y < flash_config.y_len; y++)
                 oled.queue_pixel(x, y, ram_image[flash_config.flash_space][x][y]);       
-        // So the image show up for a short period of time 
+        // So the image show up for a short period time
         reset_sleep_mode();
     }
 }
