@@ -28,8 +28,8 @@ Last Edit Date: 7/3/2020
     @brief Size of our matrix array. 
 */
 /**************************************************************************/
-enum matrix_size_t {NUM_ROWS = 3, 
-                    NUM_COLS = 4
+enum matrix_size_t {NUM_COLS = 3, 
+                    NUM_ROWS = 4
                     };                      
 
 /**************************************************************************/

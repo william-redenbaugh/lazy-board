@@ -29,6 +29,14 @@ struct {
     volatile bool mode = false; 
 }sleep;
 
+// 8 Ram memory spaces for us to store our images in ram. 
+// Which should result in "fast enough memory"
+DMAMEM uint16_t ram_image[8][128][128];
+
+// 32 spaces for storing images in flash 
+// Which should result in "flash memory"
+PROGMEM uint16_t flash_image[32][128][128];
+
 // Counter for dealing with periodic stuff. 
 volatile uint32_t counter = 0;    
 
@@ -50,7 +58,7 @@ static THD_FUNCTION(spi_display_thread, arg){
     oled.set_rotation(2);
     oled.queue_rect(0, 0, 127, 127, OLED_Color_Magenta);    
     oled.draw_queue();
-    
+
     for(;;){
         if(key_animations.new_char_available){
             if(sleep.mode == true)
@@ -142,7 +150,7 @@ extern void trigger_char_release(char c){
     @brief Allows us to wake the device. 
 */
 /**************************************************************************/
-void reset_sleep_mode(void){
+inline void reset_sleep_mode(void){
     sleep.mode = false; 
     oled.enable_display(true);
 }
@@ -152,8 +160,36 @@ void reset_sleep_mode(void){
     @brief allows us to sleep the device
 */
 /**************************************************************************/
-void enable_sleep_mode(void){
+inline void enable_sleep_mode(void){
     sleep.mode = true; 
     //oled.fill_screen(OLED_Color_Black);
     oled.enable_display(false);
+}
+
+/**************************************************************************/
+/*!
+    @brief Allows us to update flash with latest image. 
+    @param ImageFlash struct with image flash configuration data. 
+*/
+/**************************************************************************/
+void process_image_flash(ImageFlash flash_config){
+    for(uint8_t x = 0; x < flash_config.x_len; x++){
+        for(uint8_t y = 0; y < flash_config.y_len; y++){
+            if(flash_config.flash_space < 8){
+                ram_image[flash_config.flash_space][x][y] = Serial.read();
+            }
+            else{
+                flash_image[(flash_config.flash_space - 8)][x][y] = Serial.read();
+            }
+        }
+    }
+
+    // If the user wanted us to display the new image now. 
+    if(flash_config.display_now && flash_config.flash_space < 8){
+        for(uint8_t x = 0; x < flash_config.x_len; x++)
+            for(uint8_t y = 0; y < flash_config.y_len; y++)
+                oled.queue_pixel(x, y, ram_image[flash_config.flash_space][x][y]);       
+        // So the image show up for a short period of time 
+        reset_sleep_mode();
+    }
 }

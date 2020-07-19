@@ -217,11 +217,11 @@ void MatrixOLED::draw_char(int16_t x, int16_t y, unsigned char c, uint16_t color
     
     // NOTE ** TAKEN STRAIGHT FROM ADAFRUIT GFX LIBRARY! ** //
     
-    if((x >= _width)            || // Clip right
-           (y >= _height)           || // Clip bottom
-           ((x + 6 * size_x - 1) < 0) || // Clip left
-           ((y + 8 * size_y - 1) < 0))   // Clip top
-            return;
+    if((x >= _width)             || // Clip right
+      (y >= _height)             || // Clip bottom
+      ((x + 6 * size_x - 1) < 0) || // Clip left
+      ((y + 8 * size_y - 1) < 0))   // Clip top
+          return;
 
         if((c >= 176)) c++; // Handle 'classic' charset behavior
 

@@ -17,6 +17,9 @@ message MessageData{
 
         // Tells microcontroller to program latest Display setting information. 
         PROGRAM_DISPLAY = 3; 
+    
+        // Tell the microcontroller to accept an image. 
+        IMAGE_FLASH = 4; 
     }
 
     MessageType message_type = 2;

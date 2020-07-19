@@ -18,6 +18,7 @@ Last Edit Date: 7/3/2020
 #include "general_instructions.pb.h"
 #include "program_keybindings.pb.h"
 #include "general_rgb_instructions.pb.h"
+#include "image_flash.pb.h"
 
 class MessageManagement{
 public: 
@@ -48,6 +49,11 @@ public:
     void process_rgb_instructions(void);
     GeneralRGBData get_rgb_general_instructions(void);
 
+    // Allows us to unpack and understand what 
+    // our image data instructions are doing. 
+    void process_image_data(void);
+    ImageFlash image_data_instructions(void);
+
     // Test code for making sure that the protobuffers are
     // packing and unpacking properly
     bool testing_message_protobuffers(void);
@@ -73,6 +79,9 @@ private:
 
     // Latest RGB general instruction data; 
     GeneralRGBData latest_general_rgb_data; 
+
+    // Latest Image data
+    ImageFlash latest_image_flash_data; 
 };
 
 #endif 

@@ -26,7 +26,7 @@ void setup_lp_threads(void);
 /**************************************************************************/
 void chibiSetup(void){
   // This is technically a runtime thread but it holds a bunch of subthreads to do work 
-  setup_lwip_thread();
+  //setup_lwip_thread();
 
   // Setting up message managment with the computer
   start_message_management();

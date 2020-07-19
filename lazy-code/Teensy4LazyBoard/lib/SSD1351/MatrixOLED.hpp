@@ -52,8 +52,8 @@ Last Edit Date: 7/3/2020
 #define OLED_pin_scl_sck 13
 #define OLED_pin_sda_mosi 11
 #define OLED_pin_cs_ss 10
-#define OLED_pin_res_rst 17
-#define OLED_pin_dc_rs 16
+#define OLED_pin_res_rst 8
+#define OLED_pin_dc_rs 9
 
 class MatrixOLED{
     public: 

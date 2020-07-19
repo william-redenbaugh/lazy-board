@@ -1,0 +1,18 @@
+syntax = "proto3"; 
+
+// Used so 
+message ImageFlash{
+    // Define the size of the image. 
+    uint32 x_len = 1; 
+    uint32 y_len  = 2; 
+
+    // So we know how big the image is. 
+    uint32 image_size = 3; 
+    uint32 pixel_size = 4; 
+
+    // Which flash spot that we are flashing
+    uint32 flash_space = 5; 
+    
+    // If we want to display the image right now. 
+    bool display_now = 6; 
+}

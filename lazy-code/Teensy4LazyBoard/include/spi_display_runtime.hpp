@@ -11,6 +11,7 @@ Last Edit Date: 7/3/2020
 #include "ChRt.h"
 
 #include "Adafruit_GFX.h"
+#include "MessageManagement.hpp"
 
 // LCD SPI PIN DENOMINATIONS
 #define LCD_SPI_PIN_CS 10
@@ -23,4 +24,5 @@ Last Edit Date: 7/3/2020
 extern void start_spi_display_thread(void);
 extern void trigger_new_char(char c);
 extern void trigger_char_release(char c);
+extern void process_image_flash(ImageFlash flash_config);
 #endif

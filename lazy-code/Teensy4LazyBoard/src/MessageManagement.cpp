@@ -113,6 +113,31 @@ ProgramKeybindings MessageManagement::get_keybinding_information(void){
 
 /**************************************************************************/
 /*!
+    @returns latest image flash information. Should be called after the "process_image_data()" function
+*/
+/**************************************************************************/
+ImageFlash MessageManagement::image_data_instructions(void){
+    return this->latest_image_flash_data; 
+}
+
+/**************************************************************************/
+/*!
+    @brief processes our latest image instruction data. 
+    @note This does not process the actual image information, that data should still be in the Serial buffer. Might be changed later. 
+*/
+/**************************************************************************/
+void MessageManagement::process_image_data(void){
+    uint8_t image_data_buff [this->latest_message_data.message_size];
+    // Deserialize our instructions. 
+    for(uint8_t i = 0; i < this->latest_message_data.message_size; i++)
+        image_data_buff[i] = Serial.read();
+    
+    pb_istream_t msg_in = pb_istream_from_buffer(image_data_buff, this->latest_message_data.message_size);
+    pb_decode(&msg_in, ImageFlash_fields, &this->latest_image_flash_data);
+}
+
+/**************************************************************************/
+/*!
     @brief Processes rgb instructions
 */
 /**************************************************************************/

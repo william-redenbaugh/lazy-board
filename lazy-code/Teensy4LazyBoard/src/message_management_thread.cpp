@@ -16,6 +16,7 @@ extern void loop(void);
 
 void run_general_instructions(void);
 void run_keybinding_instructions(void);
+void run_image_flash(void);
 void run_rgb_instructions(void);
 
 /**************************************************************************/
@@ -52,6 +53,10 @@ extern void loop(void) {
         case(MessageData_MessageType_PROGRAM_DISPLAY):
         break;
 
+        case(MessageData_MessageType_IMAGE_FLASH):
+        run_image_flash();
+        break;
+
         default:
         break;
         }
@@ -69,7 +74,7 @@ extern void loop(void) {
     @brief Whenever we get new general instruction data, it should sit here. 
 */
 /**************************************************************************/
-void run_general_instructions(void){
+inline void run_general_instructions(void){
     
     switch(message_management.get_latest_general_instructions()){
     case(GeneralInstructions_MainInstrEnum_DO_NOTHING):
@@ -91,10 +96,22 @@ void run_general_instructions(void){
 
 /**************************************************************************/
 /*!
+    @brief Whenever we get new image information for flashing, we put that information here. 
+*/
+/**************************************************************************/
+inline void run_image_flash(void){
+    message_management.process_image_data();
+    ImageFlash latest_image_flash_data = message_management.image_data_instructions();
+    process_image_flash(latest_image_flash_data);
+   
+}
+
+/**************************************************************************/
+/*!
     @brief Whenever we get new rgb information, it should sit here. 
 */
 /**************************************************************************/
-void run_rgb_instructions(void){
+inline void run_rgb_instructions(void){
     message_management.process_rgb_instructions();
     GeneralRGBData rgb_data = message_management.get_rgb_general_instructions();
     if(!rgb_data.more_data){
@@ -127,7 +144,7 @@ void run_rgb_instructions(void){
     @brief Whenever we get new keybinding information, it should process here. 
 */
 /**************************************************************************/
-void run_keybinding_instructions(void){
+inline void run_keybinding_instructions(void){
     message_management.process_keybinding_information();
     ProgramKeybindings keybind_buff = message_management.get_keybinding_information(); 
     uint16_t keymap[16];
