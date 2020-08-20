@@ -13,7 +13,6 @@ eventmask_t event_mask;
 volatile bool interrupt_animation = false; 
 
 LEDMatrixConfiguration current_matrix_config; 
-
 RgbColor static_all_col = {100, 100, 100};
 RgbColor static_individual_col[NUM_MATRIX_LEDS];
 
@@ -91,72 +90,55 @@ bool matrix_keytrigger_reactive(void){
         if(keypress_trigger){
             keypress_trigger = false; 
             // Run through all of the matrix leds. 
-            for(uint8_t y = 0; y < 16; y++){
-                // IF said key has been triggered
+            for(uint8_t y = 0; y < 12; y++){
+                // If said key has been triggered
                 if(latest_key_press_map[y] == 0){
                     uint8_t x = 0; 
                     switch(y){
                     case(0):
-                        x = 8;
+                        x = 0;
                     break;
-
                     case(3):
-                        x = 0; 
-                    break;
-
-                    case(4):
-                        x = 9;
-                    break;
-                    
-                    
-                    case(7):
-                        x = 1;
-                    break;
-
-                    case(8):
-                        x = 10;
-                    break;
-
-                    case(9):
-                        x = 6;
-                    break;
-
-                    case(10):
-                        x = 4;
-                    break;
-
-                    case(11):
-                        x = 2;
-                    break;
-
-                    case(12):
-                        x = 11; 
-                    break;
-
-                    case(13):
-                        x = 7;
-                    break;
-
-                    case(14):
-                        x = 5; 
-                    break;
-                    
-                    case(15):
+                        x = 1;  
+                    break; 
+                    case(1):
+                        x = 2;  
+                    break; 
+                    case(2): 
                         x = 3;
+                    break; 
+                    case(4): 
+                        x = 4; 
                     break;
-
-                    case(16):
-                        x = 12;
-                    
-                    default: 
-                        x = 0; 
+                    case(5): 
+                        x = 5; 
+                    break; 
+                    case(7): 
+                        x = 6; 
+                    break; 
+                    case(8): 
+                        x = 7; 
+                    break;
+                    case(11): 
+                        x = 11;
+                    break; 
+                    case(9): 
+                        x = 8; 
+                    break; 
+                    case(10): 
+                        x = 10; 
+                    break; 
+                    case(6): 
+                        x = 9; 
+                    break;
+                    default:
+                        continue; 
                     break;
                     }
-
                     // We update the current hsv with latest keypress values. 
                     current_hsv[x].h = 194;
                     current_hsv[x].s = 170;
-                    current_hsv[x].v = 40;
+                    current_hsv[x].v = 200;
                     _set_ws2812b_macro_hsv((led_macro_t)x, current_hsv[x].h, current_hsv[x].s, current_hsv[x].v);
                 }
             }
@@ -242,6 +224,7 @@ static THD_FUNCTION(led_matrix_thread, arg){
     led_runtime_handler = chThdGetSelfX();
 
     _start_ws2812b_matrix();
+    _start_ws2812b_underglow();
     
     bool animation_changed = 0; 
     for(;;){

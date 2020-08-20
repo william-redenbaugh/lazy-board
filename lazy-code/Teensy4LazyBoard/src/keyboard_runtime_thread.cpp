@@ -68,57 +68,7 @@ static THD_FUNCTION(keyboard_runtime_thread, arg){
                 Keyboard.press(current_keymap[x]);
                 // Setting the previous key state to the next key_state
                 prev_key_state[x] = key_state[x];
-
-                switch(current_keymap[x]){
-                    case(DEFAULT_KB_MACRO_0):
-                        trigger_new_char('A');
-                    break;
-
-                    case(DEFAULT_KB_MACRO_3):
-                        trigger_new_char('D');
-                    break;
-
-                    case(DEFAULT_KB_MACRO_4):
-                        trigger_new_char('E');
-                    break;
-
-                    case(DEFAULT_KB_MACRO_7):
-                        trigger_new_char('H');
-                    break;
-
-                    case(DEFAULT_KB_MACRO_8):
-                        trigger_new_char('I');
-                    break;
-
-                    case(DEFAULT_KB_MACRO_9):
-                        trigger_new_char('U');
-                    break;
-
-                    case(DEFAULT_KB_MACRO_10):
-                        trigger_new_char('P');
-                    break;
-
-                    case(DEFAULT_KB_MACRO_11):
-                        trigger_new_char('M');
-                    break;
-
-                    case(DEFAULT_KB_MACRO_12):
-                        trigger_new_char('L');
-                    break;
-
-                    case(DEFAULT_KB_MACRO_13):
-                        trigger_new_char('D');
-                    break;
-
-                    case(DEFAULT_KB_MACRO_14):
-                        trigger_new_char('R');
-                    break;
-
-                    case(DEFAULT_KB_MACRO_15):
-                        trigger_new_char('Q');
-                    break;
-
-                }
+                trigger_color(random(64000));
             }
             if((key_state[x] == 1) && !(key_state[x] == prev_key_state[x])){
                 new_click = true; 
@@ -126,59 +76,10 @@ static THD_FUNCTION(keyboard_runtime_thread, arg){
                 // Setting the previous key state to the next key_state
                 prev_key_state[x] = key_state[x];
                 key_state[x] = 0; 
-
-                switch(current_keymap[x]){
-                    case(DEFAULT_KB_MACRO_0):
-                        trigger_char_release('A');
-                    break;
-
-                    case(DEFAULT_KB_MACRO_3):
-                        trigger_char_release('D');
-                    break;
-
-                    case(DEFAULT_KB_MACRO_4):
-                        trigger_char_release('E');
-                    break;
-
-                    case(DEFAULT_KB_MACRO_7):
-                        trigger_char_release('H');
-                    break;
-
-                    case(DEFAULT_KB_MACRO_8):
-                        trigger_char_release('I');
-                    break;
-
-                    case(DEFAULT_KB_MACRO_9):
-                        trigger_char_release('U');
-                    break;
-
-                    case(DEFAULT_KB_MACRO_10):
-                        trigger_char_release('P');
-                    break;
-
-                    case(DEFAULT_KB_MACRO_11):
-                        trigger_char_release('M');
-                    break;
-
-                    case(DEFAULT_KB_MACRO_12):
-                        trigger_char_release('L');
-                    break;
-
-                    case(DEFAULT_KB_MACRO_13):
-                        trigger_char_release('D');
-                    break;
-
-                    case(DEFAULT_KB_MACRO_14):
-                        trigger_char_release('R');
-                    break;
-
-                    case(DEFAULT_KB_MACRO_15):
-                        trigger_char_release('Q');
-                    break;
-
-                }
+                trigger_color(random(64000));
             }
         }
+
         chMtxUnlock(&keymap_mutx);
         // END OF KEYSTROKE KEYBOARD OUTPUT // 
 
@@ -187,6 +88,7 @@ static THD_FUNCTION(keyboard_runtime_thread, arg){
             trigger_keymap((volatile uint8_t*)key_state);
             new_click = false; 
         }
+        
         // we sleep the remainder of the time for the keyboard. 
         kb_thread_end_tick = kb_thread_begin_tick + TIME_I2MS(33);
         if(kb_thread_end_tick > chVTGetSystemTimeX())
@@ -237,10 +139,6 @@ void reset_keymap(void){
     current_keymap[9] = DEFAULT_KB_MACRO_9; 
     current_keymap[10] = DEFAULT_KB_MACRO_10; 
     current_keymap[11] = DEFAULT_KB_MACRO_11; 
-    current_keymap[12] = DEFAULT_KB_MACRO_12; 
-    current_keymap[13] = DEFAULT_KB_MACRO_13; 
-    current_keymap[14] = DEFAULT_KB_MACRO_14; 
-    current_keymap[15] = DEFAULT_KB_MACRO_15; 
 }
 
 /**************************************************************************/

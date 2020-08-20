@@ -23,6 +23,8 @@ struct {
     volatile bool new_char_available = false; 
     volatile bool char_release = false; 
     volatile char new_char = 'c'; 
+    volatile bool new_col = false; 
+
 }key_animations;
 
 struct {
@@ -74,6 +76,14 @@ static THD_FUNCTION(spi_display_thread, arg){
             key_animations.char_release = false; 
         }
 
+        if(key_animations.new_col){
+            if(sleep.mode == true)
+                reset_sleep_mode(); 
+            
+            oled.draw_queue(); 
+            key_animations.new_col = false; 
+        }
+
         // Where we can do periodic stuff!
         counter++; 
         switch(counter){
@@ -123,6 +133,21 @@ extern void trigger_new_char(char c){
     
     key_animations.new_char = c; 
     key_animations.new_char_available = true;
+}
+
+/**************************************************************************/
+/*!
+    @brief Allows us to trigger a new char that was released onto the OLED display. 
+    @param uint16_t color that we want to trigger onto the display. 
+*/
+/**************************************************************************/
+extern void trigger_color(uint16_t col){
+    // If sleep mode is enabled, gotta turn it off!
+    if(sleep.mode == true)
+        reset_sleep_mode();
+
+    oled.queue_rect_fill(0, 0, 127, 127, col);
+    key_animations.char_release = true;    
 }
 
 /**************************************************************************/

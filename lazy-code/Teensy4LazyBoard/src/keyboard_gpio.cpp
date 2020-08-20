@@ -47,15 +47,8 @@ extern void read_keyboard_gpio(void){
             pinMode(matrix_col_gpio[col], INPUT_PULLUP);
             chThdSleepMilliseconds(1);
             key_state[x] = (uint8_t)digitalReadFast(matrix_col_gpio[col]);
-            if(!key_state[x]){
-                Serial.print("Row: ");
-                Serial.print(row);
-                Serial.print(" Col: ");
-                Serial.println(col);
-            }
             x++;
             pinMode(matrix_col_gpio[col], INPUT);
-            
         }
         pinMode(matrix_row_gpio[row], INPUT);
     }
