@@ -25,3 +25,12 @@
 [submodule "lazy-code/Teensy4LazyBoard/lib/Adafruit-GFX-Library"]
 	path = lazy-code/Teensy4LazyBoard/lib/Adafruit-GFX-Library
 	url = git@github.com:william-redenbaugh/Adafruit-GFX-Library.git
+[submodule "lazy-code/LazyBoardWill-OS/lib/TeensyOS"]
+	path = lazy-code/LazyBoardWill-OS/lib/TeensyOS
+	url = git@github.com:william-redenbaugh/TeensyOS.git
+[submodule "lazy-code/LazyBoardWill-OS/lib/SSD1351-OLED-DMA"]
+	path = lazy-code/LazyBoardWill-OS/lib/SSD1351-OLED-DMA
+	url = git@github.com:william-redenbaugh/SSD1351-OLED-DMA.git
+[submodule "lazy-code/LazyBoardWill-OS/lib/nanopb"]
+	path = lazy-code/LazyBoardWill-OS/lib/nanopb
+	url = git@github.com:william-redenbaugh/nanopb.git
