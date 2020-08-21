@@ -22,7 +22,6 @@ Last Edit Date: 7/20/2020
 //#include "spi_display_runtime.hpp"
 #include "EEPROM.h"
 
-
 void keyboard_runtime_func(); 
 extern void start_keyboard_runtime_thread(void); 
 extern void reprogram_key(uint16_t map[], size_t map_size);

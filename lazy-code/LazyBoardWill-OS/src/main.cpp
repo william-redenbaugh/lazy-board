@@ -18,6 +18,7 @@
 #include "MODULES/LPWORK/lp_work_thread.h"
 #include "MODULES/PROTOCALLBACKS/teensy_coms.h"
 
+// Keyboard GPIO stuff. 
 #include "keyboard_runtime_thread.hpp"
 
 void setup() {

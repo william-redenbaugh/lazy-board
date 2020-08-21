@@ -41,11 +41,15 @@ static uint32_t last_millis;
 static MutexLock keyboard_mutex; 
 
 void keyboard_runtime_func(void); 
-// Helper functions for the keyboad runtime. 
 __attribute__((always_inline)) static void check_new_press(uint8_t x); 
 __attribute__((always_inline)) static void check_new_release(uint8_t x); 
 __attribute__((always_inline)) static void sleep_keyboard_thread(void); 
 __attribute__((always_inline)) static void check_new_press(void); 
+extern void reprogram_key(uint16_t map[], size_t map_size); 
+void reset_keymap(void); 
+void save_keymap_eeprom(void); 
+void load_keymap_eeprom(void); 
+uint16_t convert_proto_keymap(ProgramKeybindings_KeyType proto_key); 
 
 /**************************************************************************/
 /*!
@@ -146,8 +150,10 @@ __attribute__((always_inline)) static void check_new_press(void){
 */
 /**************************************************************************/
 extern void reprogram_key(uint16_t map[], size_t map_size){
+    keyboard_mutex.lockWaitIndefinite(); 
     for(size_t i = 0; i < map_size; i++)
         current_keymap[i] = convert_proto_keymap(ProgramKeybindings_KeyType(map[i]));
+    keyboard_mutex.unlock(); 
 }
 
 /**************************************************************************/
@@ -156,6 +162,7 @@ extern void reprogram_key(uint16_t map[], size_t map_size){
 */
 /**************************************************************************/
 void reset_keymap(void){
+    keyboard_mutex.lockWaitIndefinite();
     current_keymap[0] = DEFAULT_KB_MACRO_0;
     current_keymap[1] = DEFAULT_KB_MACRO_1; 
     current_keymap[2] = DEFAULT_KB_MACRO_2; 
@@ -168,6 +175,7 @@ void reset_keymap(void){
     current_keymap[9] = DEFAULT_KB_MACRO_9; 
     current_keymap[10] = DEFAULT_KB_MACRO_10; 
     current_keymap[11] = DEFAULT_KB_MACRO_11; 
+    keyboard_mutex.unlock(); 
 }
 
 /**************************************************************************/
@@ -177,12 +185,14 @@ void reset_keymap(void){
 /**************************************************************************/
 void save_keymap_eeprom(void){
     uint8_t x = 0; 
+    keyboard_mutex.lockWaitIndefinite();
     for(uint8_t i = 0; i < 16; i++){
         EEPROM.write(x, current_keymap[i] >> 8);
         x++;
         EEPROM.write(x, current_keymap[i]);
         x++; 
     }
+    keyboard_mutex.unlock(); 
 }
 
 /**************************************************************************/
@@ -191,9 +201,11 @@ void save_keymap_eeprom(void){
 */
 /**************************************************************************/
 void load_keymap_eeprom(void){
+   keyboard_mutex.lockWaitIndefinite(); 
    for(uint8_t i = 0; i < 16; i++){
        current_keymap[i] = (EEPROM.read(i * 2) << 8) | EEPROM.read(i*2 + 1);
    } 
+   keyboard_mutex.unlock(); 
 }
 
 /**************************************************************************/
