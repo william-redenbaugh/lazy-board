@@ -4,13 +4,6 @@ Last Edit Date: 7/20/2020
 */
 
 #include "keyboard_runtime_thread.hpp"
-#include "kb_macros_define.h"
-#include "Keyboard.h"
-
-//#include "led_matrix_runtime.hpp"
-#include "program_keybindings.pb.h"
-//#include "spi_display_runtime.hpp"
-#include "EEPROM.h"
 
 extern void start_keyboard_runtime_thread(void);
 extern void reprogram_key(uint16_t map[], size_t map_size);
@@ -20,68 +13,131 @@ void reset_keymap(void);
 uint16_t convert_proto_keymap(ProgramKeybindings_KeyType proto_key);
 
 // Setting up the current keymap information. 
-volatile uint16_t current_keymap[NUM_ROWS * NUM_COLS];
+static volatile uint16_t current_keymap[NUM_ROWS * NUM_COLS];
 
-// Checking if there is a new click.
-bool new_click = false; 
+/*
+*   @brief Whether a new click has been triggered 
+*/
+static bool new_click = false; 
+
+/*
+* @brief Current key state information
+*/
+static KeyState key_state; 
+
+/*
+*   @brief key state information
+*/
+static KeyState prev_key_state;
+
+/*
+*   @brief Millis timestamp of start of subroutine. 
+*/
+static uint32_t last_millis; 
+
+/*
+*   @brief Mutex that deals with any thread "unsafe" operarations
+*/
+static MutexLock keyboard_mutex; 
+
+void keyboard_runtime_func(void); 
+// Helper functions for the keyboad runtime. 
+__attribute__((always_inline)) static void check_new_press(uint8_t x); 
+__attribute__((always_inline)) static void check_new_release(uint8_t x); 
+__attribute__((always_inline)) static void sleep_keyboard_thread(void); 
+__attribute__((always_inline)) static void check_new_press(void); 
 
 /**************************************************************************/
 /*!
     @brief Thread function and stack space for dealing the keyboard runtime stuff. 
 */
 /**************************************************************************/
-void keyboard_runtime_func(){
+void keyboard_runtime_func(void){
 
+    // Setup the keyboard gpio stuff. 
     start_keyboard_gpio();
-    
-    Keyboard.begin();
-    
+    // Clean up the keymaps. 
     reset_keymap();
-   
-   // Latest keystate information. 
-    KeyState key_state; 
 
-    // previous key state information information
-    KeyState prev_key_state;
+    // Set all of the previous key states to (1)
+    memset((void*)prev_key_state, 1, sizeof(prev_key_state));
+    
+    // Setup the keyboard 
+    Keyboard.begin();
 
-    for(uint8_t i = 0; i < NUM_ROWS * NUM_COLS; i++)
-        prev_key_state[i] = 1; 
-
- 
     while(1){
+        last_millis = millis(); 
+
         // Reads in the keyboard data from the matrix. 
         read_keyboard_gpio();
         get_keyboard_values(key_state);   
 
+        // All shared thread resources are touched right here. 
+        keyboard_mutex.lockWaitIndefinite(); 
         // Run through 2D array, check which keys are pressed and which arent. 
         for(uint8_t x = 0; x < NUM_ROWS * NUM_COLS; x++){
-            
-            if((key_state[x] == 0) && !(key_state[x] == prev_key_state[x])){
-                new_click = true; 
-                Keyboard.press(current_keymap[x]);
-                // Setting the previous key state to the next key_state
-                prev_key_state[x] = key_state[x];
-                //trigger_color(random(64000));
-            }
-            if((key_state[x] == 1) && !(key_state[x] == prev_key_state[x])){
-                new_click = true; 
-                Keyboard.release(current_keymap[x]);
-                // Setting the previous key state to the next key_state
-                prev_key_state[x] = key_state[x];
-                key_state[x] = 0; 
-                //trigger_color(random(64000));
-            }
+            check_new_press(x);
+            check_new_release(x);
         }
+        keyboard_mutex.unlock(); 
 
         // END OF KEYSTROKE KEYBOARD OUTPUT // 
 
-        if(new_click){
-            // Send keystroke information to the LED strip thread, casts to volatile unsigned 8 bit integer. 
-            //trigger_keymap((volatile uint8_t*)key_state);
-            new_click = false; 
-        }
-        os_thread_delay_ms(10);
+        // Checking if there are any new clicks 
+        check_new_press();
+        // Sleep thread for remainder of 14 milliseconds 
+        sleep_keyboard_thread(); 
     }   
+}
+
+/*
+*   @brief Checking to see if there is a new press on the keyboard 
+*   @params uint8_t x which key are we looking at? 
+*/
+__attribute__((always_inline)) static void check_new_press(uint8_t x){
+    if((key_state[x] == 0) && !(key_state[x] == prev_key_state[x])){
+        new_click = true; 
+        Keyboard.press(current_keymap[x]);
+        // Setting the previous key state to the next key_state
+        prev_key_state[x] = key_state[x];
+        //trigger_color(random(64000));
+    }
+}
+
+/*
+*   @brief Checking to see if there is a new key release on the keyboard 
+*   @params uint8_t x which key are we looking at. 
+*/
+__attribute__((always_inline)) static void check_new_release(uint8_t x){
+    if((key_state[x] == 1) && !(key_state[x] == prev_key_state[x])){
+        new_click = true; 
+        Keyboard.release(current_keymap[x]);
+        // Setting the previous key state to the next key_state
+        prev_key_state[x] = key_state[x];
+        key_state[x] = 0; 
+        //trigger_color(random(64000));
+    }
+}
+
+/*
+*   @brief Sleeps the keyboard thread for the remainder of the time. 
+*/
+__attribute__((always_inline)) static void sleep_keyboard_thread(void){
+    // How much time has passed
+    uint32_t millis_calc = millis() - last_millis; 
+    if(millis_calc < 14)
+        os_thread_delay_ms(14 - millis_calc);
+}
+
+/*
+*   @brief Checking to see if there are a new presses to send to LED strip thread, might move this into one of theo other functions. 
+*/
+__attribute__((always_inline)) static void check_new_press(void){
+    if(new_click){
+        // Send keystroke information to the LED strip thread, casts to volatile unsigned 8 bit integer. 
+        //trigger_keymap((volatile uint8_t*)key_state);
+        new_click = false; 
+    }
 }
 
 /**************************************************************************/
