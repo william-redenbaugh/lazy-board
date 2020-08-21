@@ -21,6 +21,9 @@
 // Keyboard GPIO stuff. 
 #include "keyboard_runtime_thread.hpp"
 
+// RGB Matrix stuff 
+#include "led_matrix_runtime.hpp"
+
 void setup() {
   // Starting up our RTOS. 
   os_init(); 
@@ -30,6 +33,9 @@ void setup() {
 
   // Sets up our message callback thread. 
   message_callbacks_begin(); 
+
+  // Starts up our LED strip thread. 
+  start_led_strip_thread();   
 }
 
 void loop() {

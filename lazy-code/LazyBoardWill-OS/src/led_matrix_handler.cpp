@@ -83,7 +83,7 @@ extern void _start_ws2812b_matrix(void){
     @param uint8_t blue
 */
 /**************************************************************************/
-extern void _set_ws2812b_led(uint8_t x, uint8_t y, uint8_t r, uint8_t g, uint8_t b){
+__attribute__((always_inline)) extern void _set_ws2812b_led(uint8_t x, uint8_t y, uint8_t r, uint8_t g, uint8_t b){
     switch(x){
     case(LED_ROW_0):
         switch(y){
@@ -178,7 +178,7 @@ extern void _set_ws2812b_led(uint8_t x, uint8_t y, uint8_t r, uint8_t g, uint8_t
     @param uint8_t(blue)
 */
 /**************************************************************************/
-extern void _set_ws2812b_macro(led_macro_t led_macro,  uint8_t r, uint8_t g, uint8_t b){
+__attribute__((always_inline))extern void _set_ws2812b_macro(led_macro_t led_macro,  uint8_t r, uint8_t g, uint8_t b){
     switch (led_macro){
     case(LED_MACRO_0_POS):
         matrix_leds.setPixelColor(0, r, g, b);
@@ -231,7 +231,7 @@ extern void _set_ws2812b_macro(led_macro_t led_macro,  uint8_t r, uint8_t g, uin
     @param uint8_t(value)
 */
 /**************************************************************************/
-extern void _set_ws2812b_led_hsv(uint8_t x, uint8_t y, uint8_t h, uint8_t s, uint8_t v){
+__attribute__((always_inline))extern void _set_ws2812b_led_hsv(uint8_t x, uint8_t y, uint8_t h, uint8_t s, uint8_t v){
     HsvColor hsv; 
     hsv.h = h; 
     hsv.s = s; 
@@ -250,7 +250,7 @@ extern void _set_ws2812b_led_hsv(uint8_t x, uint8_t y, uint8_t h, uint8_t s, uin
     @param uint8_t(value)
 */
 /**************************************************************************/
-extern void _set_ws2812b_macro_hsv(led_macro_t led_macro, uint8_t h, uint8_t s, uint8_t v){
+__attribute__((always_inline))extern void _set_ws2812b_macro_hsv(led_macro_t led_macro, uint8_t h, uint8_t s, uint8_t v){
     HsvColor hsv; 
     hsv.h = h; 
     hsv.s = s; 
@@ -268,7 +268,7 @@ extern void _set_ws2812b_macro_hsv(led_macro_t led_macro, uint8_t h, uint8_t s, 
     @param uint8_t(blue)
 */
 /**************************************************************************/
-extern void _set_ws2812b_led_all(uint8_t r, uint8_t g, uint8_t b){
+__attribute__((always_inline))extern void _set_ws2812b_led_all(uint8_t r, uint8_t g, uint8_t b){
     for(uint8_t i = 0; i < NUM_MATRIX_LEDS; i++)
         _set_ws2812b_macro((led_macro_t)i, r, g, b);
 }
@@ -281,7 +281,7 @@ extern void _set_ws2812b_led_all(uint8_t r, uint8_t g, uint8_t b){
     @param uint8_t(value)
 */
 /**************************************************************************/
-extern void _set_ws2812b_led_all_hsv(uint8_t h, uint8_t s, uint8_t v){
+__attribute__((always_inline))extern void _set_ws2812b_led_all_hsv(uint8_t h, uint8_t s, uint8_t v){
     for(uint8_t i = 0; i < NUM_MATRIX_LEDS; i++)
         _set_ws2812b_macro_hsv((led_macro_t)i, h, s, v);
 }
@@ -291,7 +291,7 @@ extern void _set_ws2812b_led_all_hsv(uint8_t h, uint8_t s, uint8_t v){
     @brief We have to update our ws2812b matrix leds
 */
 /**************************************************************************/
-extern void _update_ws2812b_matrix(void){
+__attribute__((always_inline))extern void _update_ws2812b_matrix(void){
     matrix_leds.show();
 }
 
@@ -300,7 +300,7 @@ extern void _update_ws2812b_matrix(void){
     @brief Setup our underglow lighting. 
 */
 /**************************************************************************/
-extern void _start_ws2812b_underglow(void){
+__attribute__((always_inline))extern void _start_ws2812b_underglow(void){
     underglow_leds.begin();
     underglow_leds.show();
 }
@@ -310,7 +310,7 @@ extern void _start_ws2812b_underglow(void){
     @brief We have to update our ws2812b underglow leds
 */
 /**************************************************************************/
-extern void _update_ws2812b_underglow(void){
+__attribute__((always_inline))extern void _update_ws2812b_underglow(void){
     underglow_leds.show();
 }
 
@@ -323,10 +323,8 @@ extern void _update_ws2812b_underglow(void){
     @param uint8_t(blue)
 */
 /**************************************************************************/
-extern void _set_ws2812b_underglow_led(uint16_t led, uint8_t r, uint8_t g, uint8_t b){
-    if(led < num_underglow_led){
-        underglow_leds.setPixel(led, r, g, b);
-    }
+__attribute__((always_inline))extern void _set_ws2812b_underglow_led(uint16_t led, uint8_t r, uint8_t g, uint8_t b){
+    underglow_leds.setPixel(led, r, g, b);
 }
 
 /**************************************************************************/
@@ -338,7 +336,7 @@ extern void _set_ws2812b_underglow_led(uint16_t led, uint8_t r, uint8_t g, uint8
     @param uint8_t(value)
 */
 /**************************************************************************/
-extern void _set_ws2812b_underglow_led_hsv(uint16_t led, uint8_t h, uint8_t s, uint8_t v){
+__attribute__((always_inline))extern void _set_ws2812b_underglow_led_hsv(uint16_t led, uint8_t h, uint8_t s, uint8_t v){
     if(led < num_underglow_led){
         HsvColor hsv = {h, s, v}; 
         RgbColor rgb = HsvToRgb(hsv);
@@ -354,7 +352,7 @@ extern void _set_ws2812b_underglow_led_hsv(uint16_t led, uint8_t h, uint8_t s, u
     @param uint8_t(blue)
 */
 /**************************************************************************/
-extern void _set_ws2812b_underglow_all(uint8_t r, uint8_t g, uint8_t b){
+__attribute__((always_inline))extern void _set_ws2812b_underglow_all(uint8_t r, uint8_t g, uint8_t b){
     for(uint16_t i = 0; i < num_underglow_led; i++){
         underglow_leds.setPixel(i, r, g, b);
     }
@@ -368,7 +366,7 @@ extern void _set_ws2812b_underglow_all(uint8_t r, uint8_t g, uint8_t b){
     @param uint8_t(value)
 */
 /**************************************************************************/
-extern void _set_ws2812b_underglow_all_hsv(uint8_t h, uint8_t s, uint8_t v){
+__attribute__((always_inline))extern void _set_ws2812b_underglow_all_hsv(uint8_t h, uint8_t s, uint8_t v){
     HsvColor hsv = {h, s, v}; 
     RgbColor rgb = HsvToRgb(hsv);
 
