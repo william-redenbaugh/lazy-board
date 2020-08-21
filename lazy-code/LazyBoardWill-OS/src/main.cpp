@@ -14,13 +14,23 @@
 // #include our Serial interfacing drivers 
 #include "HAL/OSSerial.h"
 
+// Including our Operating system modules 
 #include "MODULES/LPWORK/lp_work_thread.h"
 #include "MODULES/PROTOCALLBACKS/teensy_coms.h"
 
+#include "keyboard_runtime_thread.hpp"
+
 void setup() {
-  // put your setup code here, to run once:
+  // Starting up our RTOS. 
+  os_init(); 
+  
+  // Setup our Low priority work thread. 
+  setup_lwip_thread(); 
+
+  // Sets up our message callback thread. 
+  message_callbacks_begin(); 
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
+  keyboard_runtime_func();
 }
