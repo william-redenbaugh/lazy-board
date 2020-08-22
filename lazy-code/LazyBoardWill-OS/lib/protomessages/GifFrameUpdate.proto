@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+message GIFMessage{
+    // X and Y pixel amounts. 
+    int32 x_size = 1; 
+    int32 y_size = 2; 
+
+    // Enumated Message that defines the color space/bit space. 
+    enum ColorSpace{
+        BIT_24_RGB = 0;
+        BIT_16_RGB = 1;
+        BIT_48_RGB = 2;
+        BIT_8_RGB = 3;
+    }
+
+    // Enumerated Color Space instance. 
+    ColorSpace color_space = 3; 
+
+    // How long the image data message is(in bytes). 
+    int32 message_size = 4; 
+}; 

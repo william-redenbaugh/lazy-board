@@ -6,10 +6,13 @@ Last Edit Date: 7/20/2020
 #ifndef _KEYBOARD_RUNTIME_THREAD_HPP
 #define _KEYBOARD_RUNTIME_THREAD_HPP
 
-// Arduino and ChibiOS Libraries 
+// Arduino and Will-OS Libraries 
 #include "Arduino.h"
 #include "OS/OSThreadKernel.h"
 #include "OS/OSMutexKernel.h"
+
+// Callback for dealing with my communication stuff. 
+#include "MODULES/PROTOCALLBACKS/teensy_coms.h"
 
 // Keyboard gpio reading module. 
 #include "keyboard_gpio.hpp"

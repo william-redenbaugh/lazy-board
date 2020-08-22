@@ -5,13 +5,6 @@ Last Edit Date: 7/20/2020
 
 #include "keyboard_runtime_thread.hpp"
 
-extern void start_keyboard_runtime_thread(void);
-extern void reprogram_key(uint16_t map[], size_t map_size);
-
-// Allows us to reset the current keymap. 
-void reset_keymap(void);
-uint16_t convert_proto_keymap(ProgramKeybindings_KeyType proto_key);
-
 // Setting up the current keymap information. 
 static volatile uint16_t current_keymap[NUM_ROWS * NUM_COLS];
 
@@ -40,6 +33,8 @@ static uint32_t last_millis;
 */
 static MutexLock keyboard_mutex; 
 
+static void keyboard_message_callback(MessageReq *msg); 
+
 void keyboard_runtime_func(void); 
 __attribute__((always_inline)) static void check_new_press(uint8_t x); 
 __attribute__((always_inline)) static void check_new_release(uint8_t x); 
@@ -49,7 +44,11 @@ extern void reprogram_key(uint16_t map[], size_t map_size);
 void reset_keymap(void); 
 void save_keymap_eeprom(void); 
 void load_keymap_eeprom(void); 
-uint16_t convert_proto_keymap(ProgramKeybindings_KeyType proto_key); 
+uint16_t convert_proto_keymap(ProgramKeybindings_KeyType proto_key);
+
+void keyboard_message_callback(MessageReq *msg){
+
+}
 
 /**************************************************************************/
 /*!
@@ -68,6 +67,8 @@ void keyboard_runtime_func(void){
     
     // Setup the keyboard 
     Keyboard.begin();
+
+    add_message_callback(MessageData_MessageType_UPDATE_KEYBINDINGS, keyboard_message_callback); 
 
     while(1){
         last_millis = millis(); 

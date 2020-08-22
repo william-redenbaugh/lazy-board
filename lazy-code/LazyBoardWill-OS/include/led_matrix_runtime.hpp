@@ -15,6 +15,9 @@ Last Edit Date: 7/3/2020
 // Our LED matrix handler library. 
 #include "led_matrix_handler.hpp"
 
+// Our teensy messaging callbacks
+#include "MODULES/PROTOCALLBACKS/teensy_coms.h"
+
 enum LEDMatrixAnimation{
     MATRIX_CYCLE_INDIVIDUAL, 
     MATRIX_CYCLE_ALL, 
