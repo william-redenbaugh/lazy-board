@@ -1,6 +1,6 @@
 /*
 Author: William Redenbaugh
-Last Edit Date: 7/20/2020
+Last Edit Date: 7/24/2020
 */
 
 #include "keyboard_runtime_thread.hpp"
@@ -8,33 +8,39 @@ Last Edit Date: 7/20/2020
 // Setting up the current keymap information. 
 static volatile uint16_t current_keymap[NUM_ROWS * NUM_COLS];
 
-/*
+/*!
 *   @brief Whether a new click has been triggered 
 */
 static bool new_click = false; 
 
-/*
+/*!
 * @brief Current key state information
 */
 static KeyState key_state; 
 
-/*
+/*!
 *   @brief key state information
+*   @note Used so we don't double unpress/depress a key. 
 */
 static KeyState prev_key_state;
 
-/*
+/*!
+*   @brief Key State information for latest changes. 
+*   @note Whenever there are any changes in button presses the program, they are saved in this array 
+*/
+static KeyState pressed_changed_key_states; 
+
+/*!
 *   @brief Millis timestamp of start of subroutine. 
 */
 static uint32_t last_millis; 
 
-/*
+/*!
 *   @brief Mutex that deals with any thread "unsafe" operarations
 */
 static MutexLock keyboard_mutex; 
 
 static void keyboard_message_callback(MessageReq *msg); 
-
 void keyboard_runtime_func(void); 
 __attribute__((always_inline)) static void check_new_press(uint8_t x); 
 __attribute__((always_inline)) static void check_new_release(uint8_t x); 
@@ -50,11 +56,9 @@ void keyboard_message_callback(MessageReq *msg){
 
 }
 
-/**************************************************************************/
 /*!
     @brief Thread function and stack space for dealing the keyboard runtime stuff. 
 */
-/**************************************************************************/
 void keyboard_runtime_func(void){
 
     // Setup the keyboard gpio stuff. 
@@ -64,7 +68,9 @@ void keyboard_runtime_func(void){
 
     // Set all of the previous key states to (1)
     memset((void*)prev_key_state, 1, sizeof(prev_key_state));
-    
+    // Sets all of the animation states to (1) 
+    memset((void*)pressed_changed_key_states, 1, sizeof(pressed_changed_key_states));
+
     // Setup the keyboard 
     Keyboard.begin();
 
@@ -95,12 +101,13 @@ void keyboard_runtime_func(void){
     }   
 }
 
-/*
+/*!
 *   @brief Checking to see if there is a new press on the keyboard 
-*   @params uint8_t x which key are we looking at? 
+*   @param uint8_t x which key are we looking at? 
 */
 __attribute__((always_inline)) static void check_new_press(uint8_t x){
     if((key_state[x] == 0) && !(key_state[x] == prev_key_state[x])){
+        pressed_changed_key_states[x] = 0; 
         new_click = true; 
         Keyboard.press(current_keymap[x]);
         // Setting the previous key state to the next key_state
@@ -109,9 +116,9 @@ __attribute__((always_inline)) static void check_new_press(uint8_t x){
     }
 }
 
-/*
+/*!
 *   @brief Checking to see if there is a new key release on the keyboard 
-*   @params uint8_t x which key are we looking at. 
+*   @param uint8_t x which key are we looking at. 
 */
 __attribute__((always_inline)) static void check_new_release(uint8_t x){
     if((key_state[x] == 1) && !(key_state[x] == prev_key_state[x])){
@@ -124,7 +131,7 @@ __attribute__((always_inline)) static void check_new_release(uint8_t x){
     }
 }
 
-/*
+/*!
 *   @brief Sleeps the keyboard thread for the remainder of the time. 
 */
 __attribute__((always_inline)) static void sleep_keyboard_thread(void){
@@ -134,22 +141,21 @@ __attribute__((always_inline)) static void sleep_keyboard_thread(void){
         os_thread_delay_ms(14 - millis_calc);
 }
 
-/*
+/*!
 *   @brief Checking to see if there are a new presses to send to LED strip thread, might move this into one of theo other functions. 
 */
 __attribute__((always_inline)) static void check_new_press(void){
     if(new_click){
         // Send keystroke information to the LED strip thread, casts to volatile unsigned 8 bit integer. 
-        //trigger_keymap((volatile uint8_t*)key_state);
+        trigger_keymap((volatile uint8_t*)pressed_changed_key_states);
         new_click = false; 
+        memset((void*)pressed_changed_key_states, 1, sizeof(pressed_changed_key_states));
     }
 }
 
-/**************************************************************************/
 /*!
-   @brief  Allows us to reprogram the current keymap. 
+   @brief Allows us to reprogram the current keymap. 
 */
-/**************************************************************************/
 extern void reprogram_key(uint16_t map[], size_t map_size){
     keyboard_mutex.lockWaitIndefinite(); 
     for(size_t i = 0; i < map_size; i++)
@@ -157,11 +163,9 @@ extern void reprogram_key(uint16_t map[], size_t map_size){
     keyboard_mutex.unlock(); 
 }
 
-/**************************************************************************/
 /*!
-   @brief    Allows us to reset our keymap to the default preloaded values at compile time. 
+   @brief Allows us to reset our keymap to the default preloaded values at compile time. 
 */
-/**************************************************************************/
 void reset_keymap(void){
     keyboard_mutex.lockWaitIndefinite();
     current_keymap[0] = DEFAULT_KB_MACRO_0;
@@ -179,11 +183,9 @@ void reset_keymap(void){
     keyboard_mutex.unlock(); 
 }
 
-/**************************************************************************/
 /*!
-   @brief    Allows us to save our current keymap configuration into eeprome
+   @brief Allows us to save our current keymap configuration into eeprome
 */
-/**************************************************************************/
 void save_keymap_eeprom(void){
     uint8_t x = 0; 
     keyboard_mutex.lockWaitIndefinite();
@@ -196,11 +198,9 @@ void save_keymap_eeprom(void){
     keyboard_mutex.unlock(); 
 }
 
-/**************************************************************************/
 /*!
-   @brief    Allows us to load our current keypmap from eeprome into memeory so we can use it. 
+   @brief Allows us to load our current keypmap from eeprome into memeory so we can use it. 
 */
-/**************************************************************************/
 void load_keymap_eeprom(void){
    keyboard_mutex.lockWaitIndefinite(); 
    for(uint8_t i = 0; i < 16; i++){
@@ -209,11 +209,9 @@ void load_keymap_eeprom(void){
    keyboard_mutex.unlock(); 
 }
 
-/**************************************************************************/
 /*!
-   @brief    Converts the protobuffer messages into actual keymap values. 
+   @brief Converts the protobuffer messages into actual keymap values. 
 */
-/**************************************************************************/
 uint16_t convert_proto_keymap(ProgramKeybindings_KeyType proto_key){
     switch(proto_key){
         case(ProgramKeybindings_KeyType_CTRL):

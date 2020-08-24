@@ -1,20 +1,24 @@
 /*
 Author: William Redenbaugh
-Last Edit Date: 7/3/2020
+Last Edit Date: 7/20/2020
 */
 
 #include "keyboard_gpio.hpp"
 
-// Pinmap of all the gpio pins for reading the keyboard matrix, rows and columns
+/*
+* @brief Pinmap of all the gpio pins for reading the keyboard matrix, rows and columns
+*/ 
 uint8_t matrix_col_gpio[] = {KB_MATRIX_PIN_0, 
                              KB_MATRIX_PIN_1, 
                              KB_MATRIX_PIN_2};
-
 uint8_t matrix_row_gpio[] = {KB_MATRIX_PIN_3, 
                              KB_MATRIX_PIN_4, 
                              KB_MATRIX_PIN_5, 
                              KB_MATRIX_PIN_6};  
 
+/*
+*   @brief Current state of the keys. 
+*/
 KeyState key_state;
 
 extern void start_keyboard_gpio(void);

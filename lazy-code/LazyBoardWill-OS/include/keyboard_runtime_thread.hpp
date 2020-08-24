@@ -20,7 +20,7 @@ Last Edit Date: 7/20/2020
 #include "kb_macros_define.h"
 // USB Keyboard Handler from Teensy. 
 #include "Keyboard.h"
-//#include "led_matrix_runtime.hpp"
+#include "led_matrix_runtime.hpp"
 #include "program_keybindings.pb.h"
 //#include "spi_display_runtime.hpp"
 #include "EEPROM.h"

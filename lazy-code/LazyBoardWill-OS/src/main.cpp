@@ -38,6 +38,10 @@ void setup() {
   start_led_strip_thread();   
 }
 
+/*
+* @brief This is just playing into the Arduino's functions.
+* @notes The keyboard runtime function never returns. 
+*/
 void loop() {
   keyboard_runtime_func();
 }
