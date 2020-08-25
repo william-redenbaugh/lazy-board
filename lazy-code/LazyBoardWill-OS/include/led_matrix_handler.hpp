@@ -59,6 +59,7 @@ extern void _start_ws2812b_matrix(void);
 extern void _update_ws2812b_matrix(void);
 
 extern void _set_ws2812b_led(uint8_t x, uint8_t y, uint8_t r, uint8_t g, uint8_t b);
+extern void _set_ws2812b_led(uint32_t led, uint8_t r, uint8_t g, uint8_t b); 
 extern void _set_ws2812b_macro(led_macro_t led_macro,  uint8_t r, uint8_t g, uint8_t b);
 
 extern void _set_ws2812b_led_hsv(uint8_t x, uint8_t y, uint8_t h, uint8_t s, uint8_t v);
@@ -66,6 +67,10 @@ extern void _set_ws2812b_macro_hsv(led_macro_t led_macro, uint8_t h, uint8_t s, 
 
 extern void _set_ws2812b_led_all(uint8_t r, uint8_t g, uint8_t b);
 extern void _set_ws2812b_led_all_hsv(uint8_t h, uint8_t s, uint8_t v);
+extern void _set_ws2812b_hsv(uint32_t led, uint8_t h, uint8_t s, uint8_t v); 
+
+extern HsvColor _get_ws2812b_led_hsv(uint32_t led); 
+extern RgbColor _get_ws2812b_led_rgb(uint32_t led); 
 
 extern void _start_ws2812b_underglow(void);
 extern void _update_ws2812b_underglow(void);
@@ -75,5 +80,8 @@ extern void _set_ws2812b_underglow_led_hsv(uint16_t led, uint8_t h, uint8_t s, u
 
 extern void _set_ws2812b_underglow_all(uint8_t r, uint8_t g, uint8_t b);
 extern void _set_ws2812b_underglow_all_hsv(uint8_t h, uint8_t s, uint8_t v);
+
+extern RgbColor _get_ws2812b_underglow_led_rgb(uint32_t led); 
+extern HsvColor _get_ws2812b_underglow_led_hsv(uint32_t led); 
 
 #endif 

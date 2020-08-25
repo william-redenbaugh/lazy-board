@@ -171,6 +171,19 @@ __attribute__((always_inline)) extern void _set_ws2812b_led(uint8_t x, uint8_t y
 
 /**************************************************************************/
 /*!
+    @brief LED matrix function that converts x and y corridinates into LED strip values since matrix is actually a strip
+    @param uint32_t led
+    @param uint8_t red
+    @param uint8_t green
+    @param uint8_t blue
+*/
+/**************************************************************************/
+__attribute__((always_inline)) extern void _set_ws2812b_led(uint32_t led, uint8_t r, uint8_t g, uint8_t b){
+    matrix_leds.setPixelColor(led, r, g, b); 
+}
+
+/**************************************************************************/
+/*!
     @brief Allows us to set all of our matrix leds to a specific HSV value
     @param led_macro_t (which led are we controlling)
     @param uint8_t(red)
@@ -263,6 +276,25 @@ __attribute__((always_inline))extern void _set_ws2812b_macro_hsv(led_macro_t led
 /**************************************************************************/
 /*!
     @brief Allows us to set all of our matrix leds to a specific HSV value
+    @param uint32_t (which LED are we controlling. )
+    @param uint8_t(hue)
+    @param uint8_t(saturation)
+    @param uint8_t(value)
+*/
+/**************************************************************************/
+__attribute__((always_inline))extern void _set_ws2812b_hsv(uint32_t led, uint8_t h, uint8_t s, uint8_t v){
+    HsvColor hsv; 
+    hsv.h = h; 
+    hsv.s = s; 
+    hsv.v = v; 
+    RgbColor rgb = HsvToRgb(hsv);
+
+    matrix_leds.setPixelColor(led, rgb.r, rgb.g, rgb.b); 
+}
+
+/**************************************************************************/
+/*!
+    @brief Allows us to set all of our matrix leds to a specific HSV value
     @param uint8_t(blue)
     @param uint8_t(green)
     @param uint8_t(blue)
@@ -284,6 +316,34 @@ __attribute__((always_inline))extern void _set_ws2812b_led_all(uint8_t r, uint8_
 __attribute__((always_inline))extern void _set_ws2812b_led_all_hsv(uint8_t h, uint8_t s, uint8_t v){
     for(uint8_t i = 0; i < NUM_MATRIX_LEDS; i++)
         _set_ws2812b_macro_hsv((led_macro_t)i, h, s, v);
+}
+
+/*!
+*   @brief Gets the current pixel value of the drawing memory as an HSV value
+*   @param uint32_t led(current HSV value of desired LED)
+*   @returns HsvColor the current HSV color of that LED. 
+*/
+extern HsvColor _get_ws2812b_led_hsv(uint32_t led){
+    HsvColor col;     
+    // Get the color and convert to hsv. 
+    col = RgbToHsv(_get_ws2812b_led_rgb(led));
+    return col;  
+}
+
+/*!
+*   @brief Gets the current pixel value of the drawing memory as an HSV value
+*   @param uint32_t led(current HSV value of desired LED)
+*   @returns RgbColor the current HSV color of that LED. 
+*/
+__attribute__((always_inline))extern RgbColor _get_ws2812b_led_rgb(uint32_t led){
+    RgbColor col; 
+    if(led > NUM_MATRIX_LEDS)
+        return col;
+    // Since we are looking @ RGB values. 
+    led*=3; 
+    // Saved into the struct. 
+    col = {matrix_drawing_memory[led], matrix_drawing_memory[led+1], matrix_drawing_memory[led+2]};   
+    return col;   
 }
 
 /**************************************************************************/
@@ -373,4 +433,32 @@ __attribute__((always_inline))extern void _set_ws2812b_underglow_all_hsv(uint8_t
     for(uint16_t i = 0; i < num_underglow_led; i++){
         underglow_leds.setPixel(i, rgb.r, rgb.g, rgb.b);
     }
+}
+
+/*!
+*   @brief Gets the current pixel value of the drawing memory as an HSV value
+*   @param uint32_t led(current HSV value of desired LED)
+*   @returns HsvColor the current HSV color of that LED. 
+*/
+extern HsvColor _get_ws2812b_underglow_led_hsv(uint32_t led){
+    HsvColor col;     
+    // Get the color and convert to hsv. 
+    col = RgbToHsv(_get_ws2812b_led_rgb(led));
+    return col;  
+}
+
+/*!
+*   @brief Gets the current pixel value of the drawing memory as an HSV value
+*   @param uint32_t led(current HSV value of desired LED)
+*   @returns RgbColor the current HSV color of that LED. 
+*/
+__attribute__((always_inline))extern RgbColor _get_ws2812b_underglow_led_rgb(uint32_t led){
+    RgbColor col; 
+    if(led > num_underglow_led)
+        return col;
+    // Since we are looking @ RGB values. 
+    led*=3; 
+    // Saved into the struct. 
+    col = {underglow_drawing_memory[led], underglow_drawing_memory[led+1], underglow_drawing_memory[led+2]};   
+    return col;   
 }

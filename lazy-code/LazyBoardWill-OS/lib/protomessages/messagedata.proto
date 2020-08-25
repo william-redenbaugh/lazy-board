@@ -14,7 +14,7 @@ message MessageData{
 
         // If we are changing the Underglow animation on the bottom of the macropad(not used currently)
         CHANGE_RGB_UNDERGLOW_ANIMATION = 2; 
-        \
+        
         // If we are changing the OLED animation. 
         CHANGE_OLED_ANIMATION = 3; 
 

@@ -24,6 +24,8 @@
 // RGB Matrix stuff 
 #include "led_matrix_runtime.hpp"
 
+#include "OLED_display_runtime.hpp"
+
 void setup() {
   // Starting up our RTOS. 
   os_init(); 
@@ -36,6 +38,9 @@ void setup() {
 
   // Starts up our LED strip thread. 
   start_led_strip_thread();   
+
+  // Starts up our display thread
+  start_display_thread();
 }
 
 /*

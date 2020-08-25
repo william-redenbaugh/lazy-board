@@ -40,11 +40,13 @@ static volatile bool keypress_trigger = false;
 *   @brief Current animation that the system is taking. 
 *   @defaults to a simple cycle program.
 */
-static LEDMatrixAnimation current_animation = MATRIX_REACTIVE; 
+static volatile RGBMatrixChange_RGBAnimationType current_animation = RGBMatrixChange_RGBAnimationType_REACTIVE_PULSE; 
 
 static void led_strip_message_callback(MessageReq *msg); 
+extern void change_led_matrix_animation(RGBMatrixChange_RGBAnimationType animation); 
 extern void start_led_strip_thread(void); 
 __attribute__((always_inline))void select_animation(void); 
+static void matrix_fade_to_black(void); 
 static void led_strip_thread(void *parameters); 
 static bool matrix_cycle_individual(void); 
 __attribute__((always_inline))static void matrix_cycle_individual_fillframe(uint8_t h); 
@@ -58,7 +60,18 @@ __attribute__((always_inline)) static void decrement_reactive_keytrigger(void);
 *   @brief Whenever we get a message regarding our LED strip, it's handled here. 
 */
 static void led_strip_message_callback(MessageReq *msg){
-
+    // Unpack our matrix data. 
+    //RGBMatrixChange matrix_data = unpack_rgb_matrix_data(msg->data_ptr, msg->data_len); 
+    // Changing the current animation. 
+    //current_animation = matrix_data.animation; 
+    if(current_animation == RGBMatrixChange_RGBAnimationType_PULSE_INDIVIDUUAL)
+        current_animation = RGBMatrixChange_RGBAnimationType_REACTIVE_PULSE; 
+    else if(current_animation == RGBMatrixChange_RGBAnimationType_REACTIVE_PULSE)
+        current_animation = RGBMatrixChange_RGBAnimationType_PULSE_INDIVIDUUAL;     
+    
+    if(!led_runtime_trigger.check(THREAD_SIGNAL_0))
+        // Signals to the RGB thread that we are changing the LED animation. 
+        led_runtime_trigger.signal(THREAD_SIGNAL_0); 
 }
 
 /*!
@@ -92,16 +105,55 @@ static void led_strip_thread(void *parameters){
 *   @note Keeps switch/case statements in it's own inline function
 */
 __attribute__((always_inline))void select_animation(void){
+    // Clears out the animation change signal. 
+    led_runtime_trigger.clear(THREAD_SIGNAL_0); 
+    matrix_fade_to_black(); 
+
     switch(current_animation){
-    case(MATRIX_CYCLE_INDIVIDUAL):
+    case(RGBMatrixChange_RGBAnimationType_PULSE_INDIVIDUUAL):
         matrix_cycle_individual(); 
     break; 
 
-    case(MATRIX_REACTIVE):
+    case(RGBMatrixChange_RGBAnimationType_REACTIVE_PULSE):
         matrix_keytrigger_reactive();
     break; 
     default: 
     break; 
+    }
+}
+
+/*!
+*   @brief Takes whatever values the LED matrix is and fades the matrix to zero. 
+*/
+static void matrix_fade_to_black(void){
+    // Get the current HSV values. 
+    HsvColor current_led_vals[NUM_MATRIX_LEDS];
+    for(uint8_t i = 0; i < NUM_MATRIX_LEDS; i++)
+        current_led_vals[i] = _get_ws2812b_led_hsv(i); 
+    
+    while(1){
+        uint8_t x = 0; 
+        for(uint8_t i = 0; i < NUM_MATRIX_LEDS; i++){
+            if(current_led_vals[i].v > 2)
+                current_led_vals[i].v -= 2; 
+            else{
+                current_led_vals[i].v = 0; 
+                x++; 
+            }
+            _set_ws2812b_hsv(i, current_led_vals[i].h, current_led_vals[i].s, current_led_vals[i].v); 
+        }
+        os_thread_delay_ms(15);
+        _update_ws2812b_matrix(); 
+        
+        // If all the matrix leds are clear we exit out
+        switch (x)
+        {
+        case(NUM_MATRIX_LEDS):
+            return; 
+        break;
+        default:
+        break;
+        }
     }
 }
 
@@ -117,7 +169,7 @@ static bool matrix_cycle_individual(void){
         matrix_cycle_individual_fillframe(h);  
 
         // Checking to see if there was a signal trigger.     
-        //os_thread_delay_ms(30);
+        //os_thread_delay_ms(30)
         if(led_runtime_trigger.wait(THREAD_SIGNAL_0, 30))
             return true; 
         
@@ -210,6 +262,14 @@ static uint8_t current_hue[NUM_MATRIX_LEDS];
 static uint8_t current_saturation[NUM_MATRIX_LEDS]; 
 static uint8_t current_value[NUM_MATRIX_LEDS]; 
 
+typedef struct{
+    uint8_t decrement_amount = 4; 
+    uint8_t brightness = 100; 
+    uint8_t decrease_speed = 20; 
+}keytrigger_reactive_config_t; 
+
+static keytrigger_reactive_config_t keytrigger_reactive; 
+
 /*!
     @brief Reactive LED pattern. 
     @return animation was interrupted. 
@@ -220,7 +280,7 @@ static bool matrix_keytrigger_reactive(void){
 
     while(1){
         // Waiting for a thread interrupt 
-        if(led_runtime_trigger.wait(THREAD_SIGNAL_0, 10))
+        if(led_runtime_trigger.wait(THREAD_SIGNAL_0, 15))
             return true; 
 
         check_reactive_keytrigger(); 
@@ -257,7 +317,9 @@ __attribute__((always_inline)) static void check_reactive_keytrigger(void){
             // We update the current hsv with latest keypress values. 
             current_hue[x] = random(255);
             current_saturation[x] = 255;
-            current_value[x] = 80;
+            current_value[x] = keytrigger_reactive.brightness;
+            // Doesn't make any sense to put this here.
+            //keytrigger_reactive.decrement_amount = current_value[x]/keytrigger_reactive.decrease_speed; 
             _set_ws2812b_macro_hsv((led_macro_t)x, current_hue[x], current_saturation[x], current_value[x]);
         }
     }
@@ -269,7 +331,11 @@ __attribute__((always_inline)) static void check_reactive_keytrigger(void){
 __attribute__((always_inline)) static void decrement_reactive_keytrigger(void){
     for(uint8_t x = 0; x < NUM_MATRIX_LEDS; x++){
         if(!(current_value[x] == 0)){
-            current_value[x] = current_value[x] - 1; 
+            if(current_value[x] >=  keytrigger_reactive.decrement_amount)
+                current_value[x] = current_value[x] - keytrigger_reactive.decrement_amount; 
+            else
+                current_value[x] = 0; 
+
             _set_ws2812b_macro_hsv((led_macro_t)x, current_hue[x], current_saturation[x], current_value[x]);
         }
     }

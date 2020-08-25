@@ -34,3 +34,6 @@
 [submodule "lazy-code/LazyBoardWill-OS/lib/nanopb"]
 	path = lazy-code/LazyBoardWill-OS/lib/nanopb
 	url = git@github.com:william-redenbaugh/nanopb.git
+[submodule "lazy-code/LazyBoardWill-OS/lib/Adafruit-GFX-Library"]
+	path = lazy-code/LazyBoardWill-OS/lib/Adafruit-GFX-Library
+	url = git@github.com:william-redenbaugh/Adafruit-GFX-Library.git
