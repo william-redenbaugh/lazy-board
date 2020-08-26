@@ -53,7 +53,7 @@ __attribute__((always_inline))static void matrix_cycle_individual_fillframe(uint
 __attribute__((always_inline)) static uint8_t convert_keymap_led(uint8_t y); 
  bool matrix_keytrigger_reactive(void); 
 __attribute__((always_inline)) void clear_hsv(void); 
-__attribute__((always_inline)) static void check_reactive_keytrigger(void); 
+static void check_reactive_keytrigger(void); 
 __attribute__((always_inline)) static void decrement_reactive_keytrigger(void); 
 
 /*!
@@ -61,17 +61,13 @@ __attribute__((always_inline)) static void decrement_reactive_keytrigger(void);
 */
 static void led_strip_message_callback(MessageReq *msg){
     // Unpack our matrix data. 
-    //RGBMatrixChange matrix_data = unpack_rgb_matrix_data(msg->data_ptr, msg->data_len); 
+    RGBMatrixChange matrix_data = unpack_rgb_matrix_data(msg->data_ptr, msg->data_len); 
     // Changing the current animation. 
-    //current_animation = matrix_data.animation; 
-    if(current_animation == RGBMatrixChange_RGBAnimationType_PULSE_INDIVIDUUAL)
-        current_animation = RGBMatrixChange_RGBAnimationType_REACTIVE_PULSE; 
-    else if(current_animation == RGBMatrixChange_RGBAnimationType_REACTIVE_PULSE)
-        current_animation = RGBMatrixChange_RGBAnimationType_PULSE_INDIVIDUUAL;     
-    
+    current_animation = matrix_data.animation; 
+
     if(!led_runtime_trigger.check(THREAD_SIGNAL_0))
         // Signals to the RGB thread that we are changing the LED animation. 
-        led_runtime_trigger.signal(THREAD_SIGNAL_0); 
+        led_runtime_trigger.signal(THREAD_SIGNAL_0);    
 }
 
 /*!
@@ -162,20 +158,20 @@ static void matrix_fade_to_black(void){
     @return animation was interrupted. 
 */
 static bool matrix_cycle_individual(void){
+    while(1){
+        // Looping runtime. 
+        for(uint8_t h = 0; h < 255; h++){
+            // Fills in each individual keyframe 
+            matrix_cycle_individual_fillframe(h);  
 
-    // Looping runtime. 
-    for(uint8_t h = 0; h < 255; h++){
-        // Fills in each individual keyframe 
-        matrix_cycle_individual_fillframe(h);  
-
-        // Checking to see if there was a signal trigger.     
-        //os_thread_delay_ms(30)
-        if(led_runtime_trigger.wait(THREAD_SIGNAL_0, 30))
-            return true; 
-        
-        _update_ws2812b_matrix(); 
-    }    
-
+            // Checking to see if there was a signal trigger.     
+            //os_thread_delay_ms(30)
+            if(led_runtime_trigger.wait(THREAD_SIGNAL_0, 30))
+                return true; 
+            
+            _update_ws2812b_matrix(); 
+        }    
+    }
     // There was no need to interrupt 
     return false; 
 }
@@ -196,6 +192,14 @@ __attribute__((always_inline)) static void matrix_cycle_individual_fillframe(uin
     @brief Sends a map of the triggered keys to the LED matrix thread. 
 */
 extern void trigger_keymap(volatile uint8_t key_pressed_map[]){
+    // If we aren't doing any of the reactive 
+    switch(current_animation){
+        case(RGBMatrixChange_RGBAnimationType_REACTIVE_PULSE): 
+        break; 
+        default: 
+        return; 
+    }
+
     // Run through the key press map
     for(uint8_t i = 0; i < 12; i++) 
         latest_key_press_map[i] = key_pressed_map[i];
@@ -304,7 +308,7 @@ __attribute__((always_inline)) static void clear_hsv(void){
 /*!
 *   @brief Checking if there are any keypress updates, and if so, for us to process said key updates. 
 */
-__attribute__((always_inline)) static void check_reactive_keytrigger(void){
+static void check_reactive_keytrigger(void){
     if(!keypress_trigger)
         return; 
 

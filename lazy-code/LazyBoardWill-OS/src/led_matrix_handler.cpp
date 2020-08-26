@@ -1,6 +1,6 @@
 /*
 Author: William Redenbaugh
-Last Edit Date: 7/20/2020
+Last Edit Date: 7/25/2020
 */
 
 #include "led_matrix_handler.hpp"
