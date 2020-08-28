@@ -35,6 +35,9 @@ static volatile bool sleep_mode = false;
 // Whenever we get new frame data, we update the device. 
 static volatile bool new_frame = false; 
 
+/*!
+* @brief we use this is take care of the sleep counting.   
+*/
 static volatile uint32_t sleep_counter = 0;
 
 // If the system tick is 15 milliseconds, this should happen roughly every 10 seconds.  
@@ -45,11 +48,28 @@ static void sleep_display(void);
 static void display_thread(void *parameters);
 __attribute__((always_inline))void display_loop(void); 
 
+static void oled_frame_callback(MessageReq *msg){
+    // If there isn't any other frames that we need to deal with(first man wins style)
+    if(new_frame == false){
+        // Array pointer and size. 
+        uint8_t *ptr = display.out_array_ptr(); 
+        uint8_t data_len = display.out_array_size(); 
+
+        // Read in data from the serial bus and into display buffer. 
+        os_usb_serial_read(ptr, data_len); 
+        new_frame = true; 
+    }
+    else{
+        // Get rid of that data buffer. 
+        usb_serial_flush_input(); 
+    }
+}
 /*!
 *   @brief Initializes the Display runtime thread. 
 */
 void start_display_thread(void){
     os_add_thread(&display_thread, NULL, sizeof(display_thread_stack), display_thread_stack); 
+    //add_message_callback(MessageData_MessageType_OLED_FRAME_UPDATE, &oled_frame_callback); 
 }
 
 /*!
@@ -58,6 +78,15 @@ void start_display_thread(void){
 static void sleep_display(void){
     display.enable_display(false); 
     sleep_mode = true; 
+}
+
+/*!
+*   @brief Turn's on the display and enables sleep mode boolean, also resets sleep timer. 
+*/
+static void wake_display(void){
+    display.enable_display(true); 
+    sleep_mode = false; 
+    sleep_counter = 0; 
 }
 
 /*!
@@ -84,7 +113,7 @@ static void display_thread(void *parameters){
 }
 
 /*! 
-*   @brief Where are display application code sits. 
+*   @brief Thread that deals with pushing data up to the display.
 */
 __attribute__((always_inline))void display_loop(void){
     sleep_counter++; 
@@ -102,6 +131,8 @@ __attribute__((always_inline))void display_loop(void){
     }
 
     // Update the frame whenever new data is available. 
-    if(new_frame)
+    if(new_frame){
+        wake_display(); 
         display.draw_queue(); 
+    }
 }

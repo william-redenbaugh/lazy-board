@@ -12,6 +12,7 @@ Last Edit Date: 7/24/2020
 // Our OS Linker files. 
 #include "OS/OSThreadKernel.h"
 #include "OS/OSMutexKernel.h"
+#include "MODULES/PROTOCALLBACKS/teensy_coms.h"
 
 // Our OLED drivers
 #include "MatrixOLED.hpp"

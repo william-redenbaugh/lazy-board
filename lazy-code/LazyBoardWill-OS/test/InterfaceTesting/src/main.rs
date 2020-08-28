@@ -23,4 +23,6 @@ fn main() {
     let port_ref = Rc::new(RefCell::new(p));
     let mut board_control = lazy_control::new_teensy_control(port_ref); 
     board_control.cycle_matrix_animations();   
+    //board_control.send_white_image();     
+
 }

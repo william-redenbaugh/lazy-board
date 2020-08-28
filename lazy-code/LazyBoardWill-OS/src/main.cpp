@@ -24,6 +24,7 @@
 // RGB Matrix stuff 
 #include "led_matrix_runtime.hpp"
 
+// The display runtime for our system 
 #include "OLED_display_runtime.hpp"
 
 void setup() {
@@ -45,7 +46,7 @@ void setup() {
 
 /*
 * @brief This is just playing into the Arduino's functions.
-* @notes The keyboard runtime function never returns. 
+* @notes The keyboard runtime function never returns, so it's not really a loop
 */
 void loop() {
   keyboard_runtime_func();
