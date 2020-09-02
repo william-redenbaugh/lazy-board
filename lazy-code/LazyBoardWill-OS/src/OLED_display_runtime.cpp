@@ -98,7 +98,7 @@ static void display_thread(void *parameters){
     display.set_rotation(2); 
     // Sometimes we get digital noise during bootup. 
     display.draw_queue(); 
-    
+        
     // Used so we can ensure that data get's as close to 15 milliseconds as possible. 
     uint32_t interval_counter; 
     for(;;){
