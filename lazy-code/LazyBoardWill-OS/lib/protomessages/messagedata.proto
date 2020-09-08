@@ -1,0 +1,32 @@
+syntax = "proto3";
+
+message MessageData{
+    // Size of message that we are going to send after this. 
+    uint32 message_size = 1; 
+    // Enumerated Type of message that we are going to send after this. 
+    enum MessageType {
+
+        // If there are any "typical" instructions like  rebooting the microcontroller and whatnot, they are called here.         
+        GENERAL_INSTRUCTIONS = 0; 
+
+        // If we are changing the RGB Matrix animation on the top of the macropad. 
+        CHANGE_RGB_MATRIX_ANIMATION = 1; 
+
+        // If we are changing the Underglow animation on the bottom of the macropad(not used currently)
+        CHANGE_RGB_UNDERGLOW_ANIMATION = 2; 
+        
+        // If we are changing the OLED animation. 
+        CHANGE_OLED_ANIMATION = 3; 
+
+        // GIF Frame update. If sent, this will overide the current oled animation, and only display a frame through the oled. 
+        OLED_FRAME_UPDATE = 10; 
+
+        // If we want to changes the keys that the macropad are set to, we can do that here. 
+        UPDATE_KEYBINDINGS = 11; 
+    }
+
+    MessageType message_type = 2;
+    
+    // Whether or not we want a return message
+    bool return_message = 3;
+}
