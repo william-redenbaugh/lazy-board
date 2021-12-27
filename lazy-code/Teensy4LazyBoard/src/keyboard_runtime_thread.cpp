@@ -1,6 +1,6 @@
 /*
 Author: William Redenbaugh
-Last Edit Date: 7/3/2020
+Last Edit Date: 12/21/2021
 */
 
 #include "keyboard_runtime_thread.hpp"
@@ -127,18 +127,18 @@ extern void reprogram_key(uint16_t map[], size_t map_size){
 */
 /**************************************************************************/
 void reset_keymap(void){
-    current_keymap[0] = DEFAULT_KB_MACRO_0;
-    current_keymap[1] = DEFAULT_KB_MACRO_1; 
-    current_keymap[2] = DEFAULT_KB_MACRO_2; 
-    current_keymap[3] = DEFAULT_KB_MACRO_3;
-    current_keymap[4] = DEFAULT_KB_MACRO_4; 
-    current_keymap[5] = DEFAULT_KB_MACRO_5; 
-    current_keymap[6] = DEFAULT_KB_MACRO_6; 
-    current_keymap[7] = DEFAULT_KB_MACRO_7; 
-    current_keymap[8] = DEFAULT_KB_MACRO_8; 
-    current_keymap[9] = DEFAULT_KB_MACRO_9; 
-    current_keymap[10] = DEFAULT_KB_MACRO_10; 
-    current_keymap[11] = DEFAULT_KB_MACRO_11; 
+    current_keymap[0] = DEFAULT_KB_MACRO_10;
+    current_keymap[1] = DEFAULT_KB_MACRO_4; 
+    current_keymap[2] = DEFAULT_KB_MACRO_0; 
+    current_keymap[3] = DEFAULT_KB_MACRO_8;
+    current_keymap[4] = DEFAULT_KB_MACRO_5; 
+    current_keymap[5] = DEFAULT_KB_MACRO_1; 
+    current_keymap[6] = DEFAULT_KB_MACRO_9; 
+    current_keymap[7] = DEFAULT_KB_MACRO_6; 
+    current_keymap[8] = DEFAULT_KB_MACRO_2; 
+    current_keymap[9] = DEFAULT_KB_MACRO_11; 
+    current_keymap[10] = DEFAULT_KB_MACRO_7; 
+    current_keymap[11] = DEFAULT_KB_MACRO_3; 
 }
 
 /**************************************************************************/
