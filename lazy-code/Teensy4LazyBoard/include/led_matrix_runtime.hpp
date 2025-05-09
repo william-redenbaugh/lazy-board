@@ -25,13 +25,7 @@ enum LEDMatrixAnimation{
     MATRIX_STATIC_INDIVIDUAL
 };
 
-struct LEDMatrixConfiguration{
-    uint32_t interval_speed = 17; 
-    LEDMatrixAnimation matrix_animation_enum = MATRIX_REACTIVE;  
-};
-
 extern void start_led_strip_thread(void);
-extern void change_led_config(LEDMatrixConfiguration config);
 extern void change_led_animation(LEDMatrixAnimation animation);
 extern void trigger_keymap(volatile uint8_t key_pressed_map[]);
 

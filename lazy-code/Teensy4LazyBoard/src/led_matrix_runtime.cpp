@@ -138,7 +138,7 @@ bool matrix_keytrigger_reactive(void){
                     // We update the current hsv with latest keypress values. 
                     current_hsv[x].h = 194;
                     current_hsv[x].s = 170;
-                    current_hsv[x].v = 200;
+                    current_hsv[x].v = 80;
                     _set_ws2812b_macro_hsv((led_macro_t)x, current_hsv[x].h, current_hsv[x].s, current_hsv[x].v);
                 }
             }

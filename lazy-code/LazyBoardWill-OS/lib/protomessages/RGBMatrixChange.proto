@@ -1,0 +1,10 @@
+syntax = "proto3";
+
+message RGBMatrixChange{
+    enum Type {
+        REACTIVE_PULSE = 0; 
+        REACTIVE_RIPPLE = 1; 
+        PULSE_INDIVIDUUAL = 2; 
+    }
+    Type animation = 1; 
+};
